@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main class="form-signin">
+    <form method="post">
+      {% csrf_token %}
+      <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+      <h1 class="h3 mb-3 fw-normal">Зарегистрироваться</h1>
+  
+      <div class="form-floating">
+        <input type="login" class="form-control" id="id_username" placeholder="Логин" name="username"> 
+        <label for="floatingInput">Логин</label>
+      </div>
+      <div class="form-floating">
+        <input type="login" class="form-control" id="id_first_name" placeholder="Имя" name="first_name"> 
+        <label for="floatingInput">Имя</label>
+      </div>
+      <div class="form-floating">
+        <input type="login" class="form-control" id="id_email" placeholder="email@mail.ru" name="email"> 
+        <label for="floatingInput">Почта</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="id_password1" placeholder="Пароль" name="password">
+        <label for="floatingPassword">Пароль</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="id_password2" placeholder="Пароль" name="password2">
+        <label for="floatingPassword">Подтверждение пароля</label>
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+      <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Войти</a>
+      <p class="mt-5 mb-3 text-muted">Загородома © 2017–2021</p>
+    </form>
+  </main>
+{% endblock content %}

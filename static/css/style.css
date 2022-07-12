@@ -1,0 +1,129 @@
+body {
+  font-family: 'Rubik', sans-serif !important ;
+  background-color: #f7f7f7 !important;
+}
+.bg-light {
+background-color: white !important;
+}
+
+a {
+  text-decoration: none !important; /* Отменяем подчеркивание у ссылки */
+}
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.username {
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #1faf6c !important ;
+  border-color: #1faf6c !important ;
+  box-shadow: 0 0 10px rgb(0 0 0 / 30%) !important;
+}
+
+.card {
+  border: 0px !important;
+  max-width: 1248px;
+  margin-top: 30px;
+  background-color: #ffffff00 !important;
+}
+.card-min {
+  border: 1px solid rgb(0 0 0 / 5%) !important;
+  box-shadow: 0 7px 14px 0 rgba(65,69,88,0.1),0 3px 6px 0 rgba(0,0,0,0.07) !important;
+}
+
+.card-body_post {
+  display: flex;
+  justify-content: center;
+}
+
+li {
+  display:inline-block !important;
+}
+
+.form-floating {
+  margin-bottom: 5px !important;
+}
+
+.success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+    position: relative;
+    padding: 1rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.error {
+  color: #842029;
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+  position: relative;
+  padding: 1rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+.price-card {
+  float: right;
+  display: flex;
+  margin-top: -42px;
+  font-size: 25px;
+}
+.sidebar-card {
+  flex: none;
+  margin-left: 20px;
+  max-width: 400px;
+  max-height: 150px;
+  background: white;
+  padding: 35px;
+}
+
+.post-entry{
+  flex: none;
+  margin-left: 20px;
+  background: white;
+  padding: 35px;
+  flex-direction: column;
+}
+.post-adress {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.all_info {
+  
+}

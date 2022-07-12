@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body_post">
+  <div class="post-entry">
+    <h4>{{ post.status }}: {{ post.type_object}}, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}}</h4>
+    <div class="price-card">{{post.price}} ₽</div>
+    <hr style="color:#e3e0e0;">
+    <small class="text-muted">{{post.created_at}}</small>
+    <div class="post-adress">{{ post.adress }}</div>
+    <div class="slider" style="max-width: 600px;">
+      {% for all_images in post.all_images.all %}
+        <img src="{{ all_images.image_data_link.url }}" class="rounded"  alt="продукт" >
+      {% endfor %}     
+    </div>
+    <div id="body"> <b style="font-size: 18px;">Описание</b>
+      <p>{{ post.body}}</p>
+    </div>
+    <div class="all_info"> <b style="font-size: 18px;">Общая информация</b>
+      <div><b>Участок</b>
+        <p>Статус участка</p>
+        <p>Площадь участка</p>
+      </div>
+      <div><b>Дом</b>
+        <p>Материал Дома</p>
+        <p>Этажей в доме</p>
+        <p>Площадь дома</p>
+        <p>Год постройки</p>
+        <p>Высота потолков</p>
+      </div>  
+    </div>
+    
+    <p>{{ post.house_material|default_if_none:"" }}</p>
+
+  </div>
+  
+  <div class="sidebar-card">
+    <p>{{ post.author }}</p>
+    <p>{{ post.phone }}</p>
+  </div>
+  </div>
+</div>
+<script type="text/javascript">
+ 
+  $('.slider').slick({
+    accessibility: true,
+    arrows: true,
+    prevArrow: '<div class="carousel-control-prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></div>',
+    nextArrow: '<div class="carousel-control-next"><span class="carousel-control-next-icon" aria-hidden="true"></span></div>',
+    dots: true,
+    autoplay: false,
+  });
+
+
+  $('.price-card').text((i, text) => {
+  const [ price, currency ] = text.split(' ');
+  return `${(+price).toLocaleString()} ${currency}`;
+});
+</script>
+{% endblock content %}

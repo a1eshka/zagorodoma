@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card" style="max-width: 550px;margin-left: auto;margin-right: auto;margin-top: 20px;">
+  <div class="card-body" style="float: left;">
+      {% if user.id == profile.user.id %}
+    <div class="header-bar" style="margin-bottom: 30px;">
+    <div><h3 style="float: left;
+      margin-right: 10px;
+      margin-top: -5px;">Профиль</h3> <span class="badge bg-secondary" style="font-size: 15px;">{{ user.username }}</span></div>
+    </div>
+      <img src="{{ profile.photo.url }}" height=150 width=150 class="rounded-circle">
+      <div class="card-body" style="float: right;">
+      <p><strong>ФИО:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+      <p><strong>Телефон:</strong> {{ profile.phone }}</p>
+      <p><strong>E-mail:</strong> {{ user.email }}</p>
+      <p><strong>Дата рождения:</strong> {{ profile.date_of_birth }}</p>
+      </div>
+  </div>
+  <a href="{% url 'edit' %}"><button class="btn btn-secondary" style="margin: 15px;float: right;">Изменить</button></a>
+      {% endif %}
+</div>
+
+
+{% endblock content %}

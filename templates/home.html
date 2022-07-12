@@ -1,0 +1,44 @@
+    {% extends 'base.html' %}
+    {% block content %}
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" style="max-width: 1000px;margin: 15px;">
+  {% for post in object_list %}
+    <div class="advert">
+      <div class="card-min">
+        
+        <div class="slider">
+        {% for all_images in post.all_images.all %}
+          <img src="{{ all_images.image_data_link.url }}" class="rounded"  alt="продукт">
+        {% endfor %}     
+      </div>      
+        
+        <div class="card-body">
+          <h5 class="card-title"><a href="{% url 'post_detail' post.pk %}">{{ post.type_object}} · {% if post.square %} {{post.square|default_if_none:""}} м² ·{% endif %} {{post.land_area }} сот. · {{post.land_status}}</a></h5>
+          <h4 class="price">{{ post.price }} ₽</h4>
+          <p class="card-text">{{ post.body }}</p>
+        </div>
+        <div class="card-footer"> 
+          <small class="text-muted">{{post.created_at}}</small>
+        </div>
+      </div>
+      
+    </div>
+  {% endfor %}
+</div>
+<script type="text/javascript">
+ 
+  $('.slider').slick({
+    accessibility: true,
+    arrows: true,
+    prevArrow: '<div class="carousel-control-prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></div>',
+    nextArrow: '<div class="carousel-control-next"><span class="carousel-control-next-icon" aria-hidden="true"></span></div>',
+    dots: true,
+    autoplay: false,
+  });
+
+
+  $('.price').text((i, text) => {
+  const [ price, currency ] = text.split(' ');
+  return `${(+price).toLocaleString()} ${currency}`;
+});
+</script>
+{% endblock content %}

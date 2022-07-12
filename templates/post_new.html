@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container-sm px-4 py-5" id="featured-3" style="max-width: 700px;">
+<h1>Добавить Объявление</h1>
+<form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-floating">
+      {{ form.as_p }}
+      </div>
+      
+<input class="btn btn-success" type="submit" value="Разместить объявление" />
+</form>
+</div>
+{% else %}
+<button type="button" class="btn btn-outline-secondary" onclick="window.location.href = '{% url 'login' %}';">Войти</button>
+{% endif %}
+<script>
+  $(document).ready(function(){
+    $('#id_adress').hide();
+    $('label[for="id_adress"]').hide();
+
+    $('#id_body').hide();
+    $('label[for="id_body"]').hide();
+
+    $('#id_year_of_construction').hide();
+    $('label[for="id_year_of_construction"]').hide();
+
+    $('#id_house_material').hide();
+    $('label[for="id_house_material"]').hide();
+
+    $('#id_square').hide();
+    $('label[for="id_square"]').hide();
+
+    $('#id_floors').hide();
+    $('label[for="id_floors"]').hide();
+
+    $('#id_land_area').hide();
+    $('label[for="id_land_area"]').hide();
+
+    $('#id_land_status').hide();
+    $('label[for="id_land_status"]').hide();
+
+    $('#id_heating').hide();
+    $('label[for="id_heating"]').hide();
+
+    $('#id_price').hide();
+    $('label[for="id_price"]').hide();
+})
+  $('#id_type_object').change(function () {
+  var optionSelected = $("option:selected", this);
+  var valueSelected = $(this).val();
+
+  if (valueSelected === '2'){
+     
+      $('#id_year_of_construction').show().prop('required', true);;
+      $('label[for="id_year_of_construction"]').show();
+      $('#id_house_material').show().prop('required', true);
+      $('label[for="id_house_material"]').show();
+      $('#id_square').show().prop('required', true);
+      $('label[for="id_square"]').show();
+      $('#id_floors').show().prop('required', true);
+      $('label[for="id_floors"]').show();
+      $('#id_heating').show().prop('required', true);
+      $('label[for="id_heating"]').show();
+      $('#id_body').show().prop('required', true);
+      $('label[for="id_body"]').show();
+      $('#id_price').show().prop('required', true);
+      $('label[for="id_price"]').show();
+      $('#id_land_area').show().prop('required', true);
+      $('label[for="id_land_area"]').show();
+      $('#id_land_status').show().prop('required', true);
+      $('label[for="id_land_status"]').show();
+      $('#id_adress').show().prop('required', true);
+      $('label[for="id_adress"]').show();
+  } else {
+      $('#id_adress').show().prop('required', true);
+      $('label[for="id_adress"]').show();
+      $('#id_body').show().prop('required', true);
+      $('label[for="id_body"]').show();
+      $('#id_price').show().prop('required', true);
+      $('label[for="id_price"]').show();
+      $('#id_land_area').show().prop('required', true);
+      $('label[for="id_land_area"]').show();
+      $('#id_land_status').show().prop('required', true);
+      $('label[for="id_land_status"]').show();
+      $('#id_year_of_construction').hide().prop('required', false);;
+      $('label[for="id_year_of_construction"]').hide();
+      $('#id_house_material').hide().prop('required', false);
+      $('label[for="id_house_material"]').hide();
+      $('#id_square').hide().prop('required', false);
+      $('label[for="id_square"]').hide();
+      $('#id_floors').hide().prop('required', false);
+      $('label[for="id_floors"]').hide();
+      $('#id_heating').hide().prop('required', false);
+      $('label[for="id_heating"]').hide();
+
+  }  
+});
+</script>
+
+<script>
+  $("#id_adress").suggestions({
+      token: "ca1baaf48c3a1e4e5d234d45772c702accd1ccdc",
+      type: "ADDRESS",
+      /* Вызывается, когда пользователь выбирает одну из подсказок */
+      onSelect: function(suggestion) {
+          console.log(suggestion);
+      }
+  });
+</script> 
+
+{% endblock content %}
