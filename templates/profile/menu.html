@@ -1,0 +1,62 @@
+
+<div class="container">
+  <div class="row" style="margin-top: 10px;">
+
+    <!-- Sidenav START -->
+    <div class="col-lg-3">
+
+      <!-- Advanced filter responsive toggler START -->
+      <!-- Divider -->
+      <div class="d-flex align-items-center mb-4 d-lg-none">
+        <button class="border-0 bg-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+          <i class="btn btn-primary fw-bold fa-solid fa-sliders"></i>
+          <span class="h6 mb-0 fw-bold d-lg-none ms-2">Settings</span>
+        </button>
+      </div>
+      <!-- Advanced filter responsive toggler END -->
+
+      <nav class="navbar navbar-light navbar-expand-lg mx-0">
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">
+          <!-- Offcanvas header -->
+          <div class="offcanvas-header">
+            <button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+
+          <!-- Offcanvas body -->
+          <div class="offcanvas-body p-0">
+            <!-- Card START -->
+            <div class="card-profile w-100">
+              <!-- Card body START -->
+              <div class="card-body">
+
+              <!-- Side Nav START -->
+              <ul class="nav nav-tabs nav-pills nav-pills-soft flex-column fw-bold gap-2 border-0">
+                <li class="nav-item" data-bs-dismiss="offcanvas">
+                  <a class="nav-link d-flex mb-0" href="{% url 'user_profile' user.id %}"> <img class="me-2 h-20px fa-fw" src="assets/images/icon/person-outline-filled.svg" alt=""><span>Аккаунт </span></a>
+                </li>
+                <li class="nav-item" data-bs-dismiss="offcanvas">
+                  <a class="nav-link d-flex mb-0" href="{% url 'my_posts' %}"> <img class="me-2 h-20px fa-fw" src="assets/images/icon/notification-outlined-filled.svg" alt=""><span>Мои объявления </span></a>
+                </li>
+                <li class="nav-item" data-bs-dismiss="offcanvas">
+                  <a class="nav-link d-flex mb-0" href="{% url 'favourite_list' %}"> <img class="me-2 h-20px fa-fw" src="assets/images/icon/shield-outline-filled.svg" alt=""><span>Избранное </span></a>
+                </li>
+                <li class="nav-item" data-bs-dismiss="offcanvas">
+                  <a class="nav-link d-flex mb-0" href="#nav-setting-tab-4" data-bs-toggle="tab"> <img class="me-2 h-20px fa-fw" src="assets/images/icon/handshake-outline-filled.svg" alt=""><span>Уведомления </span></a>
+                </li>
+                <li class="nav-item" data-bs-dismiss="offcanvas">
+                  <a class="nav-link d-flex mb-0" href="#nav-setting-tab-5" data-bs-toggle="tab" onclick="window.location.href = '{% url 'logout' %}';"> <img class="me-2 h-20px fa-fw" src="assets/images/icon/chat-alt-outline-filled.svg" alt=""><span>Выйти </span></a>
+                </li>
+              </ul>
+              <!-- Side Nav END -->
+
+            </div>
+            <!-- Card body END -->
+            <!-- Card footer -->
+            </div>
+          <!-- Card END -->
+          </div>
+          <!-- Offcanvas body -->        
+        </div>
+      </nav>
+    </div>
+    <!-- Sidenav END -->

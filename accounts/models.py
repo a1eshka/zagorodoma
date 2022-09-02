@@ -10,3 +10,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return 'Profile for user {}'.format(self.user.username)
+    
+    @property
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image_url
+        else:
+            return "/media/users/profile/default/default-icon.png"

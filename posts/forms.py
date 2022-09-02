@@ -1,16 +1,28 @@
 from django import forms
 from django.forms import CheckboxSelectMultiple,ClearableFileInput
-from .models import Post_sale,Status, Land_status, Heating, House_material, Water
+from .models import Post_sale,Status, Land_status, Heating, House_material, Water, HouseAdditional, Rent_amenities
 
 
 class PostForm(forms.ModelForm):
 
     all_images = forms.ImageField(label=u'Фотографии', widget=forms.FileInput(attrs={'multiple': 'multiple'}))
+    houseAdditional = forms.ModelMultipleChoiceField(
+        label='Благоустройтво',
+        widget=forms.CheckboxSelectMultiple, 
+        queryset=HouseAdditional.objects.all(),
+        required=False, 
+        )
+    rent_amenities = forms.ModelMultipleChoiceField(
+        label='Удобства',
+        widget=forms.CheckboxSelectMultiple, 
+        queryset=Rent_amenities.objects.all(),
+        required=False, 
+        )
 
     class Meta:
         model = Post_sale
         exclude = ['author']
-        fields = ['status', 'type_object','adress','body', 'year_of_construction', 'house_material' ,'square', 'floors', 'water', 'ceiling_height', 'land_area', 'land_status', 'heating', 'price', 'phone']
+        fields = ['status', 'type_object','adress','body', 'year_of_construction', 'house_material' ,'square', 'floors', 'water', 'ceiling_height', 'land_area', 'land_status', 'heating', 'price', 'rent_price' ,'phone', 'houseAdditional', 'rent_amenities' ]
         widgets = {
             'type_object': forms.Select(attrs={'class': 'form-control'}),
             'adress':forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Адрес участка'}),
@@ -26,11 +38,12 @@ class PostForm(forms.ModelForm):
             'land_status': forms.Select(attrs={'class': 'form-control'}),
             'heating': forms.Select(attrs={'class': 'form-control'}),
             'price': forms.TextInput(attrs={'class': 'form-control'}),
+            'rent_price': forms.TextInput(attrs={'class': 'form-control'}),
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
 
 
         }
-
+  
     #title = forms.CharField(max_length=200, label='Заголовок')
     #status = forms.ModelChoiceField(empty_label='Не выбрано', queryset=Status.objects.all(), label='Тип сделки')
     #body = forms.CharField(label='Описание')

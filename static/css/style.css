@@ -11,9 +11,15 @@ a {
 }
 .form-signin {
   width: 100%;
-  max-width: 330px;
+  max-width: 530px;
   padding: 15px;
   margin: auto;
+  background: white;
+  margin-top: 50px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a;
+  padding: 28px 40px;
+}
 }
 
 .form-signin .checkbox {
@@ -49,23 +55,49 @@ a {
   color: #fff;
   background-color: #1faf6c !important ;
   border-color: #1faf6c !important ;
-  box-shadow: 0 0 10px rgb(0 0 0 / 30%) !important;
+  /*box-shadow: 0 0 10px rgb(0 0 0 / 30%) !important;*/
 }
 
 .card {
   border: 0px !important;
   max-width: 1248px;
   margin-top: 30px;
+  margin-bottom: 30px;
   background-color: #ffffff00 !important;
 }
 .card-min {
-  border: 1px solid rgb(0 0 0 / 5%) !important;
-  box-shadow: 0 7px 14px 0 rgba(65,69,88,0.1),0 3px 6px 0 rgba(0,0,0,0.07) !important;
+  /*border: 1px solid rgb(0 0 0 / 5%) !important;*/
+  box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a !important;
+  background: white;
 }
 
 .card-body_post {
   display: flex;
   justify-content: center;
+}
+
+.min-card-text {
+  margin-bottom: 0;
+  font-size: 11px;
+}
+.phone-card {
+  text-align: center;
+  color: #ececec !important;
+	font-size: 16px;
+	font-weight: 900;
+  background-color: #2f2f2f;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.phone-card a {
+	color: #ececec;
+  text-align: center;
+	font-size: 16px;
+	font-weight: 900;
+  background-color: #2f2f2f;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 li {
@@ -107,9 +139,11 @@ li {
   flex: none;
   margin-left: 20px;
   max-width: 400px;
-  max-height: 150px;
+  max-height: 300px;
   background: white;
   padding: 35px;
+  box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a;
+  border-radius: 3px;
 }
 
 .post-entry{
@@ -118,6 +152,9 @@ li {
   background: white;
   padding: 35px;
   flex-direction: column;
+  box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a;
+  border-radius: 3px;
+  width: 800px;
 }
 .post-adress {
   margin-bottom: 10px;
@@ -126,4 +163,129 @@ li {
 
 .all_info {
   
+}
+
+.dots {
+  border-bottom: 1px dotted #4b545b;
+  content: "";
+  flex-grow: 1;
+  margin: 0 6px 0 2px;
+  opacity: .25;
+}
+.li-card-info {
+  align-items: baseline;
+    break-inside: avoid !important;;
+    display: flex !important;;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+}
+.ul-card-info{
+  margin: 0;
+  padding: 0;
+  column-count: 2;
+  column-gap: 30px;
+}
+.span-title{
+  color: #7a7a7a;
+}
+
+.photo-user-main {
+  margin-left: 10px;
+}
+
+.min-card-main-info {
+  background: -webkit-linear-gradient(45deg, rgb(166, 207, 154), rgb(82, 182, 103));
+  padding: 10px;
+  border-radius: 3px;
+  width: 250px;
+  height: 120px;
+  display: inline-block;
+  box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a !important;
+}
+
+.min-card-main-info-rent {
+  background: -webkit-linear-gradient(45deg, rgb(154, 207, 198), rgb(82, 111, 182));
+  padding: 10px;
+  border-radius: 3px;
+  width: 250px;
+  height: 120px;
+  display: inline-block;
+  box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a !important;
+}
+
+.min-card-main-info-cottage-postcards {
+  background: -webkit-linear-gradient(45deg, rgb(207, 168, 154), rgb(182, 117, 82));
+  padding: 10px;
+  border-radius: 3px;
+  width: 250px;
+  height: 120px;
+  display: inline-block;
+  box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a !important;
+}
+
+.min-card-main-text{
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+}
+
+.min-card-all-sale {
+  color: rgb(255 255 255 / 66%);
+  padding: 10px;
+  font-size: 13px;
+}
+
+.price-main-card {
+  color: #313131;
+}
+
+.pagination {
+  padding-left: 2rem !important;
+}
+
+.card-profile {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border-radius: 0.4rem;
+  box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a;
+}
+
+.card-profile-header {
+  padding: 1.25rem 1.25rem;
+  margin-bottom: 0;
+  background-color: #fff;
+  border-radius: 0.4rem;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: #0f6fec;;
+  background-color: rgba(15, 111, 236, 0.1);
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #545454;
+  text-decoration: none;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+.btn-danger-soft {
+  color: #d6293e;
+  background-color: rgba(214, 41, 62, 0.1);
+}
+
+.buttons-post {
+  display: flex;
 }

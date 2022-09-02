@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 
 class Post_sale(models.Model): 
     type_object = models.ForeignKey('Type_object', on_delete=models.CASCADE, verbose_name='Тип объекта', blank=True, null=True)
-    status = models.ForeignKey('Status', on_delete=models.CASCADE, verbose_name='Тип сделки', blank=False, default=1)
+    status = models.ForeignKey('Status', on_delete=models.CASCADE, verbose_name='Тип сделки', blank=False, default=1, related_name='status_st')
     adress = models.TextField(verbose_name='Адрес', max_length=1000)
     body = models.TextField(verbose_name='Описание', max_length=5000)
     square = models.CharField(blank=True, null=True, verbose_name='Площадь дома', max_length=4)
@@ -26,13 +26,20 @@ class Post_sale(models.Model):
     price = models.CharField(verbose_name='Цена', max_length=30)
     phone = models.CharField('Телефон', max_length=30, blank=True)
     created_at = models.DateTimeField (auto_now_add=True, verbose_name='Опубликовано')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
-        
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', related_name='user_post')
+    published = models.BooleanField(verbose_name='Опубликован', default=True)
+    views = models.IntegerField(default=0)
+    houseAdditional = models.ManyToManyField('HouseAdditional', verbose_name='Благоустройство', blank=True)
+    rent_amenities = models.ManyToManyField('Rent_amenities', verbose_name='Аренда удобства', blank=True)
+    rent_price = models.CharField(verbose_name='Арендная плата', max_length=30)
+    favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
+
     def __str__(self):
         return self.body
-        
+
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={"pk": self.pk})
+
 
     class Meta :
         verbose_name = 'Объявление'
@@ -87,7 +94,30 @@ class Type_object(models.Model):
     
     class Meta :
         verbose_name = 'Тип объекта'
-        verbose_name_plural = 'Тип объекта'
+        verbose_name_plural = 'Типы объекта'
+
+class Rent_amenities(models.Model):
+    title = models.TextField(max_length=50, db_index=True , verbose_name='Аренда удобства')
+    slug = models.SlugField(max_length=50, unique=True, verbose_name='URL объекта')
+       
+    def __str__(self):
+        return self.title
+    
+    class Meta :
+        verbose_name = 'Аренда удобства'
+        verbose_name_plural = 'Аренда удобства'
+
+
+class HouseAdditional(models.Model):
+    title = models.TextField(max_length=50, db_index=True , verbose_name='Благоустройство')
+    slug = models.SlugField(max_length=50, unique=True, verbose_name='URL объекта')
+       
+    def __str__(self):
+        return self.title
+    
+    class Meta :
+        verbose_name = 'Благоустройство'
+        verbose_name_plural = 'Благоустройства'
 
 class Water(models.Model):
     title = models.TextField(max_length=50, db_index=True , verbose_name='Водоснабжение')
@@ -122,9 +152,10 @@ class PostImage(models.Model):
             self.image_data_link.save(f'photo_{self.pk}.jpg', File(image_temp))
         self.save()
 
+class Ip(models.Model): # наша таблица где будут айпи адреса
+    ip = models.CharField(max_length=100)
 
-
-
-
+    def __str__(self):
+        return self.ip
 
 

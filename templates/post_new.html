@@ -2,8 +2,13 @@
  
 {% block content %}
 {% if user.is_authenticated %}
-<div class="container-sm px-4 py-5" id="featured-3" style="max-width: 700px;">
-<h1>Добавить Объявление</h1>
+<div class="container-sm px-4 py-5" id="featured-3" style="max-width: 700px;margin-top: 30px;
+margin-bottom: 30px;
+background-color: #ffffff !important;
+box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a;
+border-radius: 5px;">
+<h3 style="text-align: center;">Добавить Объявление</h3>
+<hr style="color:#e3e0e0;">
 <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="form-floating">

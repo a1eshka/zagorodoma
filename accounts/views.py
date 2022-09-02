@@ -1,7 +1,10 @@
+from http.client import HTTPResponse
+from multiprocessing import context
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
+from requests import request
 from .forms import UserRegistrationForm
 from .models import Profile
 from .forms import UserEditForm, ProfileEditForm
@@ -9,7 +12,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
 from django.contrib import messages
 from posts.models import Post_sale
- 
 
 
 class SignUpView(generic.CreateView):
@@ -35,6 +37,22 @@ def register(request):
     return render(request, 'signup.html', {'user_form': user_form})
 
 @login_required
+def favourite_list(request):
+    new = Post_sale.objects.filter(favourites=request.user)
+    return render(request, 'profile/favourites.html', {'new': new})
+
+
+@login_required
+def favourite_add(request, pk):
+    post=get_object_or_404(Post_sale, pk=pk)
+    if post.favourites.filter(pk=request.user.id).exists():
+        post.favourites.remove(request.user)
+    else:
+        post.favourites.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+@login_required
 
 def edit(request):
     if request.method == 'POST':
@@ -52,13 +70,13 @@ def edit(request):
         profile_form = ProfileEditForm(instance=request.user.profile)
         
         return render(request,
-                      'edit.html',
+                      'profile/edit.html',
                       {'user_form': user_form,
                        'profile_form': profile_form})
 
 class ShowProfilePageView(DetailView):
     model = Profile
-    template_name = 'user_profile.html'
+    template_name = 'profile/user_profile.html'
 
     def get_context_data(self, *args, **kwargs):
         users = Profile.objects.all()
@@ -66,4 +84,3 @@ class ShowProfilePageView(DetailView):
         page_user = get_object_or_404(Profile, id=self.kwargs['pk'])
         context['page_user'] = page_user
         return context
-
