@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{% if user.id == user.id %}
+{% if user.id == profile.user.id %}
 {% include 'profile/menu.html' %}
 
       <!-- Main content START -->
@@ -35,34 +35,34 @@
                   <!-- First name -->
                   <div class="col-sm-6 col-lg-4">
                     <label class="form-label" style="color: #7f7f7f;">Имя</label>
-                    <input type="text" class="form-control" placeholder="" value="{{ user.first_name }}" readonly>
+                    <input type="text" class="form-control" style="border: none;" placeholder="" value="{{ user.first_name }}" readonly>
                   </div>
                   <!-- Last name -->
                   <div class="col-sm-6 col-lg-4">
                     <label class="form-label" style="color: #7f7f7f;">Фамилия</label>
-                    <input type="text" class="form-control" placeholder="" value="{{ user.last_name }}" readonly>
+                    <input type="text" class="form-control" style="border: none;" placeholder="" value="{{ user.last_name }}" readonly>
                   </div>
                   <!-- Additional name -->
                   <!-- User name -->
                   <div class="col-sm-6">
                     <label class="form-label" style="color: #7f7f7f;">Логин</label>
-                    <input type="text" class="form-control" placeholder="" value="{{ user.username }}" readonly>
+                    <input type="text" class="form-control" style="border: none;" placeholder="" value="{{ user.username }}" readonly>
                   </div>
                   <!-- Birthday -->
                   <div class="col-lg-6">
                     <label class="form-label" style="color: #7f7f7f;">Дата рождения </label>
-                    <input type="text" class="form-control flatpickr flatpickr-input" value="{{ profile.date_of_birth }}" readonly="readonly">
+                    <input type="text" class="form-control flatpickr flatpickr-input" style="border: none;"  value="{{ profile.date_of_birth }}" readonly="readonly">
                   </div>
                   <!-- Phone number -->
                   <div class="col-sm-6">
                     <label class="form-label" style="color: #7f7f7f;">Телефон</label>
-                    <input type="text" class="form-control" placeholder="Добавьте номер телефона" value="{{ profile.phone }}" readonly>
+                    <input type="text" class="form-control" style="border: none;" placeholder="Добавьте номер телефона" value="{{ profile.phone }}" readonly>
                     <!-- Add new number -->
                   </div>
                   <!-- Phone number -->
                   <div class="col-sm-6">
                     <label class="form-label" style="color: #7f7f7f;">Почта</label>
-                    <input type="text" class="form-control" placeholder="" value="{{ user.email }}" readonly>
+                    <input type="text" class="form-control" style="border: none;" placeholder="" value="{{ user.email }}" readonly>
                     <!-- Add new email -->
                   </div>
                   <a href="{% url 'edit' %}" ><button class="btn btn-danger-soft" style="margin: 15px;float: right;" type="button"><i class="bi bi-pencil-fill"></i> Изменить</button></a>

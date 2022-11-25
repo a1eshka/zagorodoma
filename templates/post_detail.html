@@ -1,24 +1,36 @@
 {% extends 'base.html' %}
-
+{% block title %}
+{{ post.status }} {{ post.type_object}}а, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}} по адресу: {{ post.adress }} - Zagorodoma.ru
+{% endblock %}
+{% block description %}
+{% endblock %}
+{% block keywords %}
+{% endblock %}
 {% block content %}
+{% load mathfilters %}
 <div class="card">
   <div class="card-body_post">
   <div class="post-entry">
     <h4>{{ post.type_object}}, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}}</h4>
-    <div class="price-card">{{post.price}} ₽</div><div class="price-card">{{post.price}} ₽</div>
+    <div class="price-card" id="Price">{{post.price}} ₽</div>
+    <div class="price-m2">{{ post.price|intdiv:post.land_area }} ₽/сот.</div>
     <div class="buttons-post">
-      {% if user.is_authenticated %}
+      {% if request.user.is_authenticated %}
       {% if fav %}
-      <a href="{% url 'favourite_list' %}"><i class="bi bi-bookmark-heart"></i> Убрать Избранное</a>
+      <a href="{% url 'favourite_add' post.id %}" class=""> <i class="bi bi-heart-fill" style="font-size: 25px;color: #ff0808;margin-right: 10px;"></i></a>
       {% else %}
-      <a href="{% url 'favourite_add' post.pk %}"><i class="bi bi-bookmark-heart"></i> Избранное</a>
+      <a href="{% url 'favourite_add' post.id %}" class=""><i class="bi bi-heart" style="font-size: 25px;color: #7a7a7a;margin-right: 10px;"></i></a>
       {% endif %}
       {% else %}
-      <a href="{% url 'login' %}"><i class="bi bi-bookmark-heart"></i> Избранное</a>
+      <a href="{% url 'login' %}"><i class="bi bi-heart" style="font-size: 25px;color: #7a7a7a;margin-right: 10px;"></i></a>
       {% endif %}
-    <p><a href="#" onClick="window.print()"><i class="bi bi-printer"></i> Печать</a></p>
-    <p><i class="bi bi-reply-all"></i> Поделиться</p>
+    <p><a href="#" onClick="window.print()"><i class="bi bi-printer" style="font-size: 25px;color: #7a7a7a;margin-right: 10px;"></i></a></p>
+    <p><a id=vk_share_button>
+    </a></p>
+ 
+    
   </div>
+  
     <hr style="color:#e3e0e0;">
     <small class="text-muted">{{post.created_at}}  <div style="float:right"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
       <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
@@ -30,7 +42,7 @@
         <img src="{{ all_images.image_data_link.url }}" class="rounded"  alt="продукт" >
       {% endfor %}     
     </div>
-    <div id="body"> <div style="font-size: 18px;">Описание</div>
+    <div id="body"> <div style="font-size: 18px;font-weight: bold;margin-bottom: 16px;">Описание</div>
       <p>{{ post.body}}</p>
 
 
@@ -119,7 +131,8 @@
       <ul class="ul-card-info">
         {% for user in post.houseAdditional.all %}
         <li class="li-card-info">
-          {{ user.title }} <svg style="color: #198754;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+          
+          {{ user.title }} <span class="dots"></span><svg style="color: #198754;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
             <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
           </svg>
         </li>
@@ -131,7 +144,7 @@
       {% endif %} 
     </div>
   </div>
-  
+        <div class="left-sidebar">
   <div class="sidebar-card">
   {% if post.author.profile.photo %}
     <center>
@@ -142,33 +155,52 @@
     <img src="\media\users\profile\default\default-icon.png" height=100 width=100 class="rounded-circle">
     </center>
   {% endif %}
-    <p style="text-align: center;margin-top: 15px;">{{ post.author }}</p>
-    
-    <button id="btn" class="phone-card" type="button" onClick="klik()">Показать номер</button>
+  {% if post.author.first_name != '' %}
+    <p style="text-align: center;margin-top: 15px;">{{ post.author.first_name }} {{ post.author.last_name.0 }}.</p>
+  {% endif %}
+  {% if post.author.first_name == '' %}
+    <p style="text-align: center;margin-top: 15px;">{{ post.author.username }}</p>
+  {% endif %}
+    <button id="btn" class="phone-card" type="button" onClick="klik()" style="width: 200px;border: 0;"> Показать номер</button>
   </div>
+
+  <div class="sidebar-adv">
+  
+      <p style="text-align: center;margin-top: 15px;">РЕКЛАМА</p>
+      
+    </div>
+    <div class="sidebar-adv">
+  
+      <p style="text-align: center;margin-top: 15px;">РЕКЛАМА</p>
+      
+    </div>
+      </div>
   </div>
+
 </div>
 <script type="text/javascript">
- 
-  $('.slider').slick({
-    accessibility: true,
-    arrows: true,
-    prevArrow: '<div class="carousel-control-prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></div>',
-    nextArrow: '<div class="carousel-control-next"><span class="carousel-control-next-icon" aria-hidden="true"></span></div>',
-    dots: true,
-    autoplay: false,
-  });
-
 
   $('.price-card').text((i, text) => {
+  const [ price, currency ] = text.split(' ');
+  return `${(+price).toLocaleString()} ${currency}`;
+});
+$('.price-m2').text((i, text) => {
   const [ price, currency ] = text.split(' ');
   return `${(+price).toLocaleString()} ${currency}`;
 });
 
 function klik() {
   document.getElementById('btn').innerHTML = `
-  <div><a href="tel:{{ post.phone }}">{{ post.phone }}</a></div>
+  <div><a href="tel:{{ post.phone }}" style="border: 0;">{{ post.phone }}</a></div>
   `;
 }
+
+document.getElementById('vk_share_button').innerHTML = VK.Share.button(
+  {url:'http://127.0.0.1:8000{{ post.get_absolute_url }}',
+  title: '{{ post.status }} {{ post.type_object}}, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}}', },
+  {type: 'custom', 
+  text: '<i class="bi bi-reply-all" style="font-size: 25px;color: #0d6efd;margin-right: 10px;"></i>', 
+  });
+  
 </script>
 {% endblock content %}

@@ -28,10 +28,32 @@
             <div class="card-body">
 
                 <form action="" method="post" enctype="multipart/form-data">
-                    {{ user_form.as_p }}
-                    {{ profile_form.as_p }}
+                  <div class="mb-3">
+                    <label class="form-label">Имя: </label>
+                    {{user_form.first_name}}
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Фамилия: </label>
+                    {{user_form.last_name}}
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Почта: </label>
+                    {{user_form.email}}
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Дата рождения: </label>
+                    {{ profile_form.date_of_birth }}
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Телефон: </label>
+                    {{ profile_form.phone }}
+                  </div>
+                 
+                  {{ profile_form.photo }}
+                    <img src="{{ user.profile.photo.url }}" height=150 width=150 class="rounded-circle">
+                 
                     {% csrf_token %}
-                    <p style="text-align: center;margin-top: 30px;"><input type="submit" class="btn btn-success" value="Сохранить изминения"></p>
+                    <p style="text-align: center;margin-top: 30px;"><input type="submit" class="btn btn-success" value="Сохранить "></p>
                 </form>
 
             </div>

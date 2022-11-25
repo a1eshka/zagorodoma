@@ -14,6 +14,24 @@ from django.contrib import messages
 from posts.models import Post_sale
 
 
+
+@ login_required
+def favourite_list(request):
+    new = Post_sale.newmanager.filter(favourites=request.user)
+    return render(request,
+                  'profile/favourites.html',
+                  {'new': new})
+
+
+@ login_required
+def favourite_add(request, id):
+    post = get_object_or_404(Post_sale, id=id)
+    if post.favourites.filter(id=request.user.id).exists():
+        post.favourites.remove(request.user)
+    else:
+        post.favourites.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
@@ -35,21 +53,6 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, 'signup.html', {'user_form': user_form})
-
-@login_required
-def favourite_list(request):
-    new = Post_sale.objects.filter(favourites=request.user)
-    return render(request, 'profile/favourites.html', {'new': new})
-
-
-@login_required
-def favourite_add(request, pk):
-    post=get_object_or_404(Post_sale, pk=pk)
-    if post.favourites.filter(pk=request.user.id).exists():
-        post.favourites.remove(request.user)
-    else:
-        post.favourites.add(request.user)
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 @login_required

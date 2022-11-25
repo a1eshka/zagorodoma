@@ -1,0 +1,80 @@
+{% load static %}
+{% for post in object_list %}
+<div class="advert post-box">
+  <div class="card-min">
+    <div class="slider slider2">
+    {% for all_images in post.all_images.all %}
+      <img src="{{ all_images.image_data_link.url }}" class="rounded" style="height: 220px;" alt="продукт">
+    {% endfor %}     
+  </div>
+  <span class="badge bg-success" {% if post.status.id == 2 %} style="background-color: #27CB58 !important;border-radius: 0% 5px 5px 0%;" {% endif %} {% if post.status.id == 3 %} style="background-color: #53687E !important;border-radius: 0% 5px 5px 0%;" {% endif %}>{{post.status}}</span>
+    <div class="card-body">
+      <h5 class="card-title"><a style="color:#3A4454;" href="{% url 'post_detail' post.pk %}" target="_blank">{{ post.type_object}} · {% if post.square %} {{post.square|default_if_none:""}} м² ·{% endif %} {{post.land_area }} сот. · {{post.land_status}}</a></h5>
+      <h4 class="price-main-card">{{ post.price }} ₽</h4>
+      <p class="min-card-text">{{ post.body|slice:":100" }}...<a href="{% url 'post_detail' post.pk %}" target="_blank">Читать далее</a></p>
+    </div>
+    {% if post.todaytime %}
+    <div class="card-footer" style="background: white;"> 
+      <small class="text-muted"><i class="bi bi-clock-history"></i> Сегодня</small>
+    </div>
+  {% else %}
+    <div class="card-footer" style="background: white;"> 
+      <small class="text-muted">{{post.created_at}}</small>
+    </div>
+{% endif %}
+  </div>
+</div>
+{% endfor %}
+
+<script type="text/javascript">
+      $('.slider2').not('.slick-initialized').slick({
+        accessibility: true,
+        arrows: true,
+        prevArrow: '<div class="carousel-control-prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></div>',
+        nextArrow: '<div class="carousel-control-next"><span class="carousel-control-next-icon" aria-hidden="true"></span></div>',
+        dots: true,
+        autoplay: false,
+      });
+
+  $('.price-main-card').text((i, text) => {
+    const [ price, currency ] = text.split(' ');
+    if (price>=0)
+    {
+    return `${(+price).toLocaleString()} ${currency}`;
+    }
+  });
+
+  $(".dropdown dt a").on('click', function() {
+    $(".dropdown dd ul").slideToggle('fast');
+  });
+  
+  $(".dropdown dd ul li a").on('click', function() {
+    $(".dropdown dd ul").hide();
+  });
+  
+  function getSelectedValue(id) {
+    return $("#" + id).find("dt a span.value").html();
+  }
+  
+  $(document).bind('click', function(e) {
+    var $clicked = $(e.target);
+    if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
+  });
+  
+  $('.mutliSelect input[type="checkbox"]').on('click', function() {
+  
+    var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+      title = $(this).val() + ",";
+  
+    if ($(this).is(':checked')) {
+      var html = '<span title="' + title + '">' + title + '</span>';
+      $('.multiSel').append(html);
+      $(".hida").hide();
+    } else {
+      $('span[title="' + title + '"]').remove();
+      var ret = $(".hida");
+      $('.dropdown dt a').append(ret);
+  
+    }
+  });
+  </script>

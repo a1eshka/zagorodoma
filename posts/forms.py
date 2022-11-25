@@ -22,9 +22,10 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post_sale
         exclude = ['author']
-        fields = ['status', 'type_object','adress','body', 'year_of_construction', 'house_material' ,'square', 'floors', 'water', 'ceiling_height', 'land_area', 'land_status', 'heating', 'price', 'rent_price' ,'phone', 'houseAdditional', 'rent_amenities' ]
+        fields = ['status', 'type_object','adress','body', 'year_of_construction', 'house_material' ,'square', 'floors', 'water', 'ceiling_height', 'land_area', 'land_status', 'heating', 'price', 'rent_price' ,'phone', 'houseAdditional', 'rent_amenities', 'all_images' ]
         widgets = {
             'type_object': forms.Select(attrs={'class': 'form-control'}),
+            'all_images':forms.FileInput(attrs={'multiple': 'multiple'}),
             'adress':forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Адрес участка'}),
             'status': forms.RadioSelect(attrs={'class': 'payment-methods'}),
             'body': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),

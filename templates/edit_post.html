@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if author.id == author.id %}
+<center>
+      <!-- Main content START -->
+      <div class="col-lg-6 vstack gap-4">
+        <!-- Setting Tab content START -->
+        <div class="tab-content py-0 mb-0">
+
+          <!-- Account setting tab START -->
+          <div class="tab-pane show active fade" id="nav-setting-tab-1">
+            <!-- Account settings START -->
+            <div class="card-profile mb-4" style="margin-top: 8px;box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a;">
+              
+              <!-- Title START -->
+              <div class="card-profile-header border-0 pb-0">
+                <h1 class="h5 card-title" style="font-weight: 700;">Изменить данные профиля</h1>
+                <p class="mb-0"></p>
+              </div>
+              <hr style="color:#e3e0e0;">
+              <!-- Card header START -->
+              <!-- Card body START -->
+            <div class="card-body">
+
+                <form method="post" enctype="multipart/form-data">
+                    {{form.as_p}}
+                    {% for all_images in get_post.all_images.all %}
+                    <img src="{{ all_images.image_data_link.url }}" class="rounded" style="width: 200px; height: 150px;"alt="продукт" >
+                    {% endfor %}  
+                    {% csrf_token %}
+                    <p style="text-align: center;margin-top: 30px;">
+                    <input type="submit" class="btn btn-success" value="Сохранить изминения"></p>
+                </form>
+
+            </div>
+</center>
+{% endif %}
+{% endblock content %}

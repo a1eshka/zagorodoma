@@ -1,3 +1,5 @@
+import datetime
+from msilib.schema import PublishComponent
 from tabnanny import verbose
 from tempfile import NamedTemporaryFile
 from django.conf import settings
@@ -9,21 +11,25 @@ import uuid
 from django.contrib.auth.models import User
 
 
-class Post_sale(models.Model): 
+class Post_sale(models.Model):
+    class NewManager(models.Manager):
+        def get_quertyser(self):
+            return super().get_queryset().filter(published=True)
+
     type_object = models.ForeignKey('Type_object', on_delete=models.CASCADE, verbose_name='Тип объекта', blank=True, null=True)
     status = models.ForeignKey('Status', on_delete=models.CASCADE, verbose_name='Тип сделки', blank=False, default=1, related_name='status_st')
     adress = models.TextField(verbose_name='Адрес', max_length=1000)
     body = models.TextField(verbose_name='Описание', max_length=5000)
-    square = models.CharField(blank=True, null=True, verbose_name='Площадь дома', max_length=4)
-    floors = models.CharField(verbose_name='Этажей в доме', max_length=2, blank=True, null=True)
-    land_area = models.CharField(verbose_name='Площадь участка', max_length=7)
+    square = models.IntegerField(blank=True, null=True, verbose_name='Площадь дома', max_length=4)
+    floors = models.IntegerField(verbose_name='Этажей в доме', max_length=2, blank=True, null=True)
+    land_area = models.IntegerField(verbose_name='Площадь участка', max_length=7)
     land_status = models.ForeignKey('Land_status', on_delete=models.CASCADE, verbose_name='Статус земли', blank=True, null=True)
     heating = models.ForeignKey('Heating', on_delete=models.CASCADE, verbose_name='Отопление', blank=True, null=True)
     year_of_construction = models.CharField(verbose_name='Год постройки', max_length=4, blank=True, null=True)
     house_material = models.ForeignKey('House_material', on_delete=models.CASCADE, verbose_name='Материал Дома', null=True, blank=True)
     ceiling_height = models.CharField(verbose_name='Высота потолков', max_length=5, blank=True, null=True)
     water = models.ForeignKey('Water', on_delete=models.CASCADE, verbose_name='Водоснабжение', null=True, blank=True)
-    price = models.CharField(verbose_name='Цена', max_length=30)
+    price = models.IntegerField(verbose_name='Цена', max_length=30)
     phone = models.CharField('Телефон', max_length=30, blank=True)
     created_at = models.DateTimeField (auto_now_add=True, verbose_name='Опубликовано')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', related_name='user_post')
@@ -33,14 +39,37 @@ class Post_sale(models.Model):
     rent_amenities = models.ManyToManyField('Rent_amenities', verbose_name='Аренда удобства', blank=True)
     rent_price = models.CharField(verbose_name='Арендная плата', max_length=30)
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
+    objects = models.Manager()
+    newmanager = NewManager ()
 
+   
     def __str__(self):
         return self.body
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={"pk": self.pk})
+    @property
+    def todaytime(self):
+        current_date = datetime.date.today()
+        date = self.created_at.date()
+        print(self.created_at.time())
+        if current_date == date:
+            return True
+        else:
+            return False
+    
+    @property 
+    def pub(self):
+        current_date = datetime.date.today()
+        date = self.created_at.date()
+        date2 = date + datetime.timedelta(days=30)
+        if current_date > date2:
+            self.published = False
+            self.save(self.published)
+            return True
 
-
+        else:
+            return False
     class Meta :
         verbose_name = 'Объявление'
         verbose_name_plural = 'Объявления'
@@ -132,7 +161,6 @@ class Water(models.Model):
 
 
 class PostImage(models.Model):
-
     def images_directory_path(instance, filename):
         return '/'.join(['images',str(instance.post.id), str(uuid.uuid4().hex + ".png")])
         

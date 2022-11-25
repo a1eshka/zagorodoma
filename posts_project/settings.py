@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'accounts.apps.AccountsConfig',
     'django_cleanup',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [

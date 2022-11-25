@@ -25,38 +25,25 @@
             <div class="card-body">
 
                 {% for my_post in new %}
-                <div class="card">
+                <div class="card-profile">
                   <div class="card-body">
+                    <div class="slider" style="width: 200px;height:150px; float: left;">
                     {% for all_images in my_post.all_images.all %}
                     <img src="{{ all_images.image_data_link.url }}" class="rounded" style="height: 150px; width: 200px;" alt="продукт">
                   {% endfor %}
-                    <div>{{ my_post.type_object}} · {% if my_post.square %} {{my_post.square|default_if_none:""}} м² ·{% endif %} {{my_post.land_area }} сот. · {{my_post.land_status}}</div>
-                    <div>{{ my_post.price }} ₽</div>
+                </div>
+                  <div style="margin-left: 300px;">
+                    <div><a style="color:#3A4454;font-size: 20px;" href="{% url 'post_detail' my_post.pk %}">{{ my_post.type_object}} · {% if my_post.square %} {{my_post.square|default_if_none:""}} м² ·{% endif %} {{my_post.land_area }} сот. · {{my_post.land_status}}</a></div>
+                    <div style="font-size: 20px;" class="price-main-card">{{ my_post.price }} ₽</div>
                     <small class="text-muted">{{my_post.created_at}}</small>
                   </div>
-                </div>    
+              </div>                
+                </div>  
+                <hr style="color: #e3e0e0;">    
                 {% endfor %}
 
             </div>
 {% endif %}
 
-
-
-<script type="text/javascript">
- 
-  $('.slider').slick({
-    accessibility: true,
-    arrows: true,
-    prevArrow: '<div class="carousel-control-prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></div>',
-    nextArrow: '<div class="carousel-control-next"><span class="carousel-control-next-icon" aria-hidden="true"></span></div>',
-    dots: true,
-    autoplay: false,
-  });
-
-
-  $('.price-main-card').text((i, text) => {
-  const [ price, currency ] = text.split(' ');
-  return `${(+price).toLocaleString()} ${currency}`;
-});
 </script>
 {% endblock content %}
