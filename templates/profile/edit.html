@@ -50,7 +50,8 @@
                   </div>
                  
                   {{ profile_form.photo }}
-                    <img src="{{ user.profile.photo.url }}" height=150 width=150 class="rounded-circle">
+                  
+                    <img src="{% if user.profile.photo %}{{ user.profile.photo.url }}{% else %}#{% endif %}" height=150 width=150 class="rounded-circle">
                  
                     {% csrf_token %}
                     <p style="text-align: center;margin-top: 30px;"><input type="submit" class="btn btn-success" value="Сохранить "></p>

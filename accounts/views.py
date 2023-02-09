@@ -1,3 +1,4 @@
+import datetime
 from http.client import HTTPResponse
 from multiprocessing import context
 from django.contrib.auth.forms import UserCreationForm
@@ -31,6 +32,15 @@ def favourite_add(request, id):
     else:
         post.favourites.add(request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@ login_required
+def pub(request, id):
+    post = get_object_or_404(Post_sale, id=id)
+    post.published = True
+    post.created_at = datetime.datetime.now()
+    post.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
 
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm

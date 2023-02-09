@@ -28,6 +28,12 @@
                 {% for my_post in my_post %}
                 <div class="card-profile">
                   <div class="card-body">
+                    {% if my_post.published == False %}
+                    <div style="float:right;"><span class="badge bg-secondary">В архиве</span></div>
+                    {% else %}
+                    <div style="float:right;"><span class="badge bg-primary">Опубликовано</span></div>
+                    {% endif%}
+                    
                     <div class="slider" style="width: 200px;height:150px; float: left;">
                     {% for all_images in my_post.all_images.all %}
                     <img src="{{ all_images.image_data_link.url }}" class="rounded" style="height: 150px; width: 200px;" alt="продукт">
@@ -39,6 +45,9 @@
                     <small class="text-muted">{{my_post.created_at}}</small>
                   </div>
                   <a href="{% url 'edit_post' my_post.id %}" ><button class="btn btn-danger-soft" style="margin: 15px;float: right;" type="button"><i class="bi bi-pencil-fill"></i> Изменить</button></a>
+                  {% if my_post.published == False %}
+                  <a style="margin: 15px;float: right;" class="btn btn-outline-info" href="{% url 'pub' my_post.id %}" class="">Опубликовать</a>
+                  {% endif %}
                 </div>
                 
                 </div>  

@@ -32,19 +32,19 @@
               <!-- Side Nav START -->
               <ul class="nav nav-tabs nav-pills nav-pills-soft flex-column fw-bold gap-2 border-0" id="menu">
                 <li class="nav-item" data-bs-dismiss="offcanvas">
-                  <a class="nav-link d-flex mb-0" href="{% url 'user_profile' user.id %}"><span>Аккаунт </span></a>
+                  <a class="nav-link d-flex mb-0" style="font-weight: 100;" href="{% url 'user_profile' user.id %}"><span> <i class="fi fi-bs-user" style="color: #7e7e7ead;"></i> Аккаунт </span></a>
                 </li>
                 <li class="nav-item" data-bs-dismiss="offcanvas">
-                  <a class="nav-link d-flex mb-0" href="{% url 'my_posts' %}"><span>Мои объявления </span></a>
+                  <a class="nav-link d-flex mb-0" style="font-weight: 100;" href="{% url 'my_posts' %}"><span> <i class="fi fi-bs-apps" style="color: #7e7e7ead;"></i> Мои объявления </span></a>
                 </li>
                 <li class="nav-item" data-bs-dismiss="offcanvas">
-                  <a class="nav-link d-flex mb-0" href="{% url 'favourite_list' %}"><span>Избранное </span></a>
+                  <a class="nav-link d-flex mb-0" style="font-weight: 100;" href="{% url 'favourite_list' %}"><span> <i class="fi fi-bs-heart" style="color: #7e7e7ead;"></i> Избранное </span></a>
                 </li>
                 <li class="nav-item" data-bs-dismiss="offcanvas">
-                  <a class="nav-link d-flex mb-0" href="#nav-setting-tab-4" data-bs-toggle="tab"><span>Уведомления </span></a>
+                  <a class="nav-link d-flex mb-0" style="font-weight: 100;" href="#nav-setting-tab-4" data-bs-toggle="tab"><span> <i class="fi fi-bs-bell" style="color: #7e7e7ead;"></i> Уведомления </span></a>
                 </li>
                 <li class="nav-item" data-bs-dismiss="offcanvas">
-                  <a class="nav-link d-flex mb-0" href="#nav-setting-tab-5" data-bs-toggle="tab" onclick="window.location.href = '{% url 'logout' %}';"><span>Выйти </span></a>
+                  <a class="nav-link d-flex mb-0" style="font-weight: 100;" href="#nav-setting-tab-5" data-bs-toggle="tab" onclick="window.location.href = '{% url 'logout' %}';"><span> <i class="fi fi-br-cross" style="color: #7e7e7ead;"></i> Выйти </span></a>
                 </li>
               </ul>
               <!-- Side Nav END -->

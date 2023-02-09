@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post_sale, Status, Land_status, Heating, House_material, Type_object, Water, PostImage, Ip, HouseAdditional, Rent_amenities
+from .models import Post_sale, Status, Land_status, Heating, House_material, Type_object, Water, PostImage, Ip, HouseAdditional, Rent_amenities, District, Cottvill 
 
 
 def complete_post(modeladmin, reguest, queryset):
@@ -26,7 +26,7 @@ admin.site.register(House_material)
 admin.site.register(Water)
 admin.site.register(PostImage)
 admin.site.register(Ip)
-
+admin.site.register(Cottvill)
 
 @admin.register(Type_object)
 class Type_objectAdmin (admin.ModelAdmin):
@@ -44,6 +44,9 @@ class HouseAdditionalAdmin (admin.ModelAdmin):
 class Rent_amenitiesAdmin (admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)} 
 
+@admin.register(District)
+class DistrictAdmin (admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)} 
 
 
 

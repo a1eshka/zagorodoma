@@ -39,6 +39,7 @@ class Post_sale(models.Model):
     rent_amenities = models.ManyToManyField('Rent_amenities', verbose_name='Аренда удобства', blank=True)
     rent_price = models.CharField(verbose_name='Арендная плата', max_length=30)
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
+    district = models.ForeignKey('District', on_delete=models.CASCADE, verbose_name='Район', blank=True, null=True)
     objects = models.Manager()
     newmanager = NewManager ()
 
@@ -52,7 +53,6 @@ class Post_sale(models.Model):
     def todaytime(self):
         current_date = datetime.date.today()
         date = self.created_at.date()
-        print(self.created_at.time())
         if current_date == date:
             return True
         else:
@@ -74,6 +74,32 @@ class Post_sale(models.Model):
         verbose_name = 'Объявление'
         verbose_name_plural = 'Объявления'
 
+class Cottvill(models.Model):
+    title = models.TextField(max_length=200, db_index=True , verbose_name='Название поселка', blank=True, null=True)
+    slug = models.SlugField(max_length=50, unique=True, verbose_name='URL поселка')
+    developer = models.TextField(max_length=100, verbose_name='Застройщик', blank=True, null=True)
+    url = models.TextField(max_length=100 , verbose_name='Сайт поселка', blank=True, null=True)
+    adress = models.TextField(max_length=800 , verbose_name='Адрес поселка', blank=True, null=True)
+    status_land = models.TextField(max_length=100 , verbose_name='Статус земли', blank=True, null=True)
+    col_area = models.TextField(max_length=4 , verbose_name='Количество участков', blank=True, null=True)
+    min_area = models.TextField(max_length=6 , verbose_name='Минимальная площадь участка', blank=True, null=True)
+    max_area = models.TextField(max_length=6 , verbose_name='Максимальная площадь участка', blank=True, null=True)
+    price_area = models.TextField(max_length=15 , verbose_name='Цена участка', blank=True, null=True)
+    сommunications = models.TextField(max_length=15 , verbose_name='Коммуникации', blank=True, null=True)
+    body = models.TextField(max_length=9000 , verbose_name='Описание', blank=True, null=True)
+    house_price_min = models.TextField(max_length=20 , verbose_name='Минимальная цена дома', blank=True, null=True)
+    house_price_max = models.TextField(max_length=20 , verbose_name='Максимальная цена дома', blank=True, null=True)
+    col_house = models.TextField(max_length=4 , verbose_name='Количество домов', blank=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', related_name='user')
+
+
+    def __str__(self):
+        return self.title
+    class Meta :
+        verbose_name = 'Поселок'
+        verbose_name_plural = 'Поселки'
+
+
 class Status(models.Model):
     title = models.TextField(max_length=50, db_index=True , verbose_name='Тип сделки', blank=True, null=True)
     slug = models.SlugField(max_length=50, unique=True, verbose_name='URL сделки')
@@ -83,6 +109,16 @@ class Status(models.Model):
     class Meta :
         verbose_name = 'Тип сделки'
         verbose_name_plural = 'Типы сделки'
+
+class District(models.Model):
+    title = models.TextField(max_length=50, db_index=True , verbose_name='Район объекта', blank=True, null=True)
+    slug = models.SlugField(max_length=50, unique=True, verbose_name='URL района')
+       
+    def __str__(self):
+        return self.title
+    class Meta :
+        verbose_name = 'Район объекта'
+        verbose_name_plural = 'Районы объекта'
 
 class Land_status(models.Model):
     title = models.TextField(max_length=50, db_index=True , verbose_name='Статус земли', blank=True, null=True)

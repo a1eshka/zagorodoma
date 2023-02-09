@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+{% if user.is_authenticated %}
+
+<h3 style="text-align: center;margin-top: 20px;color:#404040">Добавить Объявление</h3>
+<hr style="color:#e3e0e0;">
+<form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+        {{form.as_p}}
+        <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="adress-info">
+            <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+              <i class="fi fi-rr-marker"></i> Адрес</h2>
+            <div class="row">
+              <div class="col-sm-4 mb-3">
+                <label class="form-label" for="adress">Название поселка <span class="text-danger">*</span></label>
+                {{ form.title }} <!-- адрес-->
+              </div>
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="adress">Адрес <span class="text-danger">*</span></label>
+                {{ form.adress }} <!-- адрес-->
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 mb-3">
+                  <label class="form-label" for="adress">Статус земель <span class="text-danger">*</span></label>
+                  {{ form.status_land }} <!-- адрес-->
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <label class="form-label" for="adress">Застройщик <span class="text-danger">*</span></label>
+                  {{ form.developer }} <!-- адрес-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-10 mb-3">
+                  <label class="form-label" for="adress">Сайт поселка <span class="text-danger">*</span></label>
+                  {{ form.url }} <!-- адрес-->
+                </div>
+              </div>
+          </section>
+
+          <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="adress-info">
+            <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+              <i class="fi fi-rr-marker"></i> Адрес</h2>
+            <div class="row">
+              <div class="col-sm-3 mb-3">
+                <label class="form-label" for="adress">Количество участков <span class="text-danger">*</span></label>
+                {{ form.col_area }} <!-- адрес-->
+              </div>
+              <div class="col-sm-3 mb-3">
+                <label class="form-label" for="adress">Мин. площадь участков<span class="text-danger">*</span></label>
+                {{ form.min_area }} <!-- адрес-->
+              </div>
+              <div class="col-sm-3 mb-3">
+                <label class="form-label" for="adress">Макс. площадь участков<span class="text-danger">*</span></label>
+                {{ form.max_area }} <!-- адрес-->
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 mb-3">
+                  <label class="form-label" for="adress">Цена за сотку <span class="text-danger">*</span></label>
+                  {{ form.price_area }} <!-- адрес-->
+                </div>
+                <div class="col-sm-3 mb-3">
+                  <label class="form-label" for="adress">Мин. цена за дом <span class="text-danger">*</span></label>
+                  {{ form.house_price_min }} <!-- адрес-->
+                </div>
+                <div class="col-sm-3 mb-3">
+                    <label class="form-label" for="adress">Макс. цена за дом <span class="text-danger">*</span></label>
+                    {{ form.house_price_max }} <!-- адрес-->
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-10 mb-3">
+                  <label class="form-label" for="adress">Сайт поселка <span class="text-danger">*</span></label>
+                  {{ form.url }} <!-- адрес-->
+                </div>
+              </div>
+          </section>
+      {% else %}
+<button type="button" class="btn btn-outline-secondary" onclick="window.location.href = '{% url 'login' %}';">Войти</button>
+{% endif %}
+<script>
+  
+</script>
+
+<script>
+  $("#id_adress").suggestions({
+      token: "ca1baaf48c3a1e4e5d234d45772c702accd1ccdc",
+      type: "ADDRESS",
+      /* Вызывается, когда пользователь выбирает одну из подсказок */
+      onSelect: function(suggestion) {
+          console.log(suggestion);
+      }
+  });
+
+
+</script> 
+
+{% endblock content %}

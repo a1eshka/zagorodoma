@@ -1,13 +1,19 @@
     {% extends 'base.html' %}
     {% block content %}
-    <div  style="max-width: 1000px;margin: 15px;">
+    <div style="display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 1180px;
+    min-width: 320px;
+    width: 100%;">
+    <div  style="max-width: 990px;margin-left: 20px;margin-top: 20px;">
       <div class="min-card-main-info">
-        <div class="min-card-main-text"><a style="color:white" href="{% url 'sales' %}"> Продажа <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+        <div class="min-card-main-text"><a style="color:#5e5d5d" href="{% url 'sales' %}"> Продажа</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-        </svg></a></div>
+        </svg><img class="svg-img-main-min-icon" src="media/static/contract.png"></div>
         <div class="min-card-all-sale"> Всего объявлений:
         <b style="font-size: 15px;
-        color: white;
+        color: #5e5d5d;
         margin-left: 3px;">{{ sale_status_post }}</b>
         </div>
       </div>
@@ -15,10 +21,10 @@
       <div class="min-card-main-info-rent">
         <div class="min-card-main-text">Аренда <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-        </svg></div>
+        </svg><img class="svg-img-main-min-icon" src="media/static/house-main.svg"></div>
         <div class="min-card-all-sale"> Всего объявлений:
         <b style="font-size: 15px;
-        color: white;
+        color: #5e5d5d;
         margin-left: 3px;">{{ rent_status_post }}</b>
         </div>
       </div>
@@ -26,21 +32,29 @@
       <div class="min-card-main-info-cottage-postcards">
         <div class="min-card-main-text">Поселки <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-        </svg></div>
+        </svg><img class="svg-img-main-min-icon" src="media/static/village-main.svg"></div>
         <div class="min-card-all-sale"> Всего поселков:
         <b style="font-size: 15px;
-        color: white;
+        color: #5e5d5d;
         margin-left: 3px;">{{ rent_status_post }}</b>
         </div>
       </div>
+
+      <div class="min-card-main-info-cottage-postcards" style="background:#ffecdc !important">
+        <div class="min-card-main-text">Поселки <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+        </svg></div>
+        <div class="min-card-all-sale"> Всего поселков:
+        <b style="font-size: 15px;
+        color: #5e5d5d;
+        margin-left: 3px;">{{ rent_status_post }}</b>
+        </div>
       </div>
-    </div>
-    <div class="main-filter">
+  </div>
 
-
-
+  <div class="main-filter">
     <div style="float:left;margin-right: 10px;">
-      <div>Тип объекта:</div>
+      
       <select id="typeobj" name="categories" multiple>
         {% for typeobj in view.get_typeobjects %}
         <option value="{{ typeobj.id }}" data-badge="" class="filter-checkbox" data-filter="type_object" name="type_object">{{ typeobj.title }}</option>
@@ -48,37 +62,59 @@
       </select>
     </div>
     <div style="float:left;margin-right: 10px;">
-      <div>Тип сделки:</div>
+      
       <select id="getstatus" multiple="multiple" >
       {% for status in view.get_status %}
-      <option class="filter-checkbox" data-filter="status" type="checkbox" {% if status.id == 2 %} aria-selected="true" {% endif %} name="status" value="{{ status.id }}">
-      <span>{{ status.title }}</span>
+      <option class="filter-checkbox" data-filter="status" name="status" value="{{ status.id }}">
+      {{ status.title }}</option>
       {% endfor %}
     </select>
     </div>
-    <div style="float: left;margin-right: 10px;">
-      <div>Цена:</div>
-      <input class="form-control" style="max-width: 115px;float: left;margin-right: 5px;" name="minPrice" id="minPrice" placeholder="Цена от"/>
-      <input class="form-control" style="max-width: 115px;" name="maxPrice" id="maxPrice" placeholder="Цена до"/>
+    <div style="float:left;margin-right: 10px;">
+      
+      <select id="landstat" name="land" multiple>
+        {% for lands in view.get_landstatus %}
+        <option value="{{ lands.id }}" data-badge="" class="filter-checkbox" data-filter="land_status" name="land_status">{{ lands.title }}</option>
+        {% endfor %}
+      </select>
     </div>
     <div style="float: left;margin-right: 10px;">
-      <div>Этажей:</div>
-      <input class="form-control" style="width: 70px;float: left;margin-right: 5px;" name="minFloors" id="minFloors" placeholder="от"/>
-      <input class="form-control" style="width: 70px;" name="maxFloors" id="maxFloors" placeholder="до"/>
+      
+      <input class="form-control" style="max-width: 115px;float: left;margin-right: 5px;border: 1px solid #ffffff;" name="minPrice" id="minPrice" placeholder="Цена от"/>
+      <input class="form-control" style="max-width: 115px;border: 1px solid #ffffff;" name="maxPrice" id="maxPrice" placeholder="Цена до"/>
+    </div>
+    <div id="floors" style="float: left;margin-right: 10px;display:none;clear: both;margin-top: 10px;">
+      <div style="color: #aaa;">Этажей:</div>
+      <input class="form-control" style="width: 70px;float: left;margin-right: 5px;border: 1px solid #ffffff;" name="minFloors" id="minFloors" placeholder="от"/>
+      <input class="form-control" style="width: 70px;border: 1px solid #ffffff;" name="maxFloors" id="maxFloors" placeholder="до"/>
     </div>
    
-    <div style="float: left;margin-right: 10px;">
-      <div>S участка:</div>
-      <input class="form-control" style="width: 70px;float: left;margin-right: 5px;" name="minLand_area" id="minLand_area" placeholder="от"/>
-      <input class="form-control" style="width: 70px;float: left;" name="maxLand_area" id="maxLand_area"  id="maxLand_area" placeholder="до"/>
+    <div id="Land_area" style="float: left;margin-right: 10px;display:none;margin-top: 10px;">
+      <div style="color: #aaa;">S участка:</div>
+      <input class="form-control" style="width: 70px;float: left;margin-right: 5px;border: 1px solid #ffffff;" name="minLand_area" id="minLand_area" placeholder="от"/>
+      <input class="form-control" style="width: 70px;float: left;border: 1px solid #ffffff;" name="maxLand_area" id="maxLand_area"  id="maxLand_area" placeholder="до"/>
     </div>
-    
-    <button id="PriceFilter" class="btn" id="btn">Найти</button>
+    <div id="housemat" style="float:left;margin-right: 10px;display:none;margin-top: 10px;">
+      <div style="color: #aaa;">Материал дома:</div>
+      <select id="housematerial" name="house_material" multiple>
+        {% for housem in view.get_housematerial %}
+        <option value="{{ housem.id }}" data-badge="" class="filter-checkbox" data-filter="house_material" name="house_material">{{ housem.title }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div id="distr" style="float:left;margin-right: 10px;display:none;margin-top: 10px;">
+      <div style="color: #aaa;">Район:</div>
+      <select id="district" name="district" multiple>
+        {% for district in view.get_district %}
+        <option value="{{ district.id }}" data-badge="" class="filter-checkbox" data-filter="district" name="district">{{ district.title }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button id="showHideContent" class="btn" style="color: #4e4e4e !important;background-color: rgb(82 68 216 / 10%) !important;">Все фильтры</button>
+    <button id="PriceFilter" class="btn" id="btn" style="color: #5143d6 !important;background-color: rgb(82 68 216 / 10%) !important;">Найти</button>
   </div>
 
-
-<div style="max-width: 1000px;">
-  <div class="main-text-title">Последние объявления:</div>
+  <div class="main-text-title">Новые объявления:</div>
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="filteredProducts" style="max-width: 1000px;margin: 15px;" >
    
     {% for post in object_list %}
@@ -94,8 +130,9 @@
       <span class="badge bg-success" {% if post.status.id == 2 %} style="background-color: #27CB58 !important;border-radius: 0% 5px 5px 0%;" {% endif %} {% if post.status.id == 3 %} style="background-color: #53687E !important;border-radius: 0% 5px 5px 0%;" {% endif %}>{{post.status}}</span>
         <div class="card-body">
           <h5 class="card-title"><a style="color:#3A4454;" href="{% url 'post_detail' post.pk %}" target="_blank">{{ post.type_object}} · {% if post.square %} {{post.square|default_if_none:""}} м² ·{% endif %} {{post.land_area }} сот. · {{post.land_status}}</a></h5>
+          <p class="min-card-adress">{{ post.adress}}</p>
           <h4 class="price-main-card">{{ post.price }} ₽</h4>
-          <p class="min-card-text">{{ post.body|slice:":100" }}...<a href="{% url 'post_detail' post.pk %}" target="_blank">Читать далее</a></p>
+          <!--<p class="min-card-text">{{ post.body|slice:":100" }}...<a href="{% url 'post_detail' post.pk %}" target="_blank">Читать далее</a></p>!-->
         </div>
         {% if post.todaytime %}
             <div class="card-footer" style="background: white;"> 
@@ -113,7 +150,7 @@
 
   </div>
     <button type="button" id="loadMore" data-limit="6" data-total="{{total_data}}" class="btn btn-secondary btnload" style="margin: 0 auto;display: block;width: 200px;margin-top: 40px;">Показать еще</button>
-    <div class="alert alert-success alert-dismissible fade show not-visible" role="alert" id="alert" style="max-width: 955px;
+    <div class="alert alert-success alert-dismissible fade show not-visible" role="alert" id="alert" style="max-width: 990px;
     margin-left: 20px;
     margin-right: 20px;">
       <i class="bi bi-check-circle-fill"></i> Всё уже просмотрено
@@ -154,23 +191,7 @@ $('.mutliSelect input[type="checkbox"]').on('click', function() {
 
   }
 });
-$(".js-select2").select2({
-
-			closeOnSelect : false,
-			placeholder : " Тип объекта",
-			allowHtml: true,
-			allowClear: true
-		});
-$(".js-select3").select2({
-
-closeOnSelect : false,
-placeholder : " Тип сделки",
-allowHtml: true,
-allowClear: true
-});
 $(function(){
-        $('#people').multiSelect();
-        $('#ice-cream').multiSelect();
         $('#line-wrap-example').multiSelect({
             positionMenuWithin: $('.position-menu-within')
         });
@@ -182,12 +203,50 @@ $(function(){
             noneText: 'Тип сделки',
             
         });
-        
+        $('#landstat').multiSelect({
+            noneText: 'Статус участка',
+            
+        });
+        $('#housematerial').multiSelect({
+            noneText: 'Материал дома',
+            
+        });
+        $('#district').multiSelect({
+            noneText: 'Район',
+            
+        });
         $('#modal-example').multiSelect({
             'modalHTML': '<div class="multi-select-modal">'
         });
     });
 
+
+    $(document).ready(function(){
+    $("#showHideContent").click(function () {
+        if ($("#Land_area").is(":hidden")) {
+            $("#Land_area").show();
+        } else {
+            $("#Land_area").hide();
+        }
+        if ($("#floors").is(":hidden")) {
+            $("#floors").show();
+        } else {
+            $("#floors").hide();
+        }
+        if ($("#housemat").is(":hidden")) {
+            $("#housemat").show();
+        } else {
+            $("#housemat").hide();
+        }
+        if ($("#distr").is(":hidden")) {
+            $("#distr").show();
+        } else {
+            $("#distr").hide();
+        }
+        return false;
+    });
+});
+    
 
 </script>
 {% endblock content %}

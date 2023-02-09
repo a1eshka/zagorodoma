@@ -10,8 +10,8 @@ from django.http import JsonResponse
 from django.views.generic import ListView, DetailView, CreateView
 from django.views import generic
 from requests import request
-from .models import Post_sale,PostImage, Type_object, Status
-from .forms import PostForm
+from .models import Post_sale,PostImage, Type_object, Status, Land_status, House_material, District, Cottvill
+from .forms import PostForm, VillageForm
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
@@ -28,6 +28,15 @@ class FilterMain:
 
     def get_status(self):
         return Status.objects.all()
+
+    def get_landstatus(self):
+        return Land_status.objects.all()
+    
+    def get_housematerial(self):
+        return House_material.objects.all()
+        
+    def get_district(self):
+        return District.objects.all()
 
 class SalesListView(generic.ListView):
     """Вывод постов со статусом Продажа"""
@@ -86,7 +95,6 @@ class MyPostListView(generic.ListView):
        context['my_post'] = Post_sale.objects.filter(author=self.request.user.id)
        return context
 
-
 class HomeDetailView(FilterMain, DetailView):
     """Детальная страница поста"""
     model = Post_sale
@@ -138,6 +146,15 @@ class HomeCreateView(CreateView):
             return redirect(new_obj)
         return render(request, self.template_name, context={'form': bound_form})
 
+class VillageCreateView(CreateView):
+    """Создание нового послека"""
+    form_class = VillageForm
+    template_name = 'village/add_village.html'
+    model = Cottvill
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, context={'form': form})
 
 class FilterPostsView(FilterMain, ListView):
     template_name = 'home.html'
@@ -203,7 +220,10 @@ class JsonFilterMoviesView(ListView):
 
 def json_filter(request, page=1):
     status=request.GET.getlist('status[]')
+    land_status=request.GET.getlist('land_status[]')
     type_objects=request.GET.getlist('type_object[]')
+    house_material=request.GET.getlist('house_material[]')
+    district=request.GET.getlist('district[]')
     minPrice = request.GET['minPrice']
     maxPrice = request.GET['maxPrice']
     minFloors = request.GET['minFloors']
@@ -227,6 +247,12 @@ def json_filter(request, page=1):
         allPosts=allPosts.filter(type_object__id__in=type_objects)
     if len(status)>0:
         allPosts=allPosts.filter(status__id__in=status)
+    if len(land_status)>0:
+        allPosts=allPosts.filter(land_status__id__in=land_status)
+    if len(house_material)>0:
+        allPosts=allPosts.filter(house_material__id__in=house_material) 
+    if len(district)>0:
+        allPosts=allPosts.filter(district__id__in=district) 
 
     t=render_to_string('ajax/posts.html',{'object_list':allPosts})
     return JsonResponse({'object_list': t})

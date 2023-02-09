@@ -16,7 +16,7 @@ urlpatterns = [
     path('ychastki', YchastkiListView.as_view(), name='ychastki'),
     path('sales', SalesListView.as_view(), name='sales'),
     path('my_posts', MyPostListView.as_view(), name='my_posts'),
-    path('edit_post/<int:pk>/', views.edit_post, name='edit_post'),
-    
+    path('edit_post/<int:pk>/', views.edit_post, name='edit_post'), 
+    path('village/new/', VillageCreateView.as_view(), name='village_new'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

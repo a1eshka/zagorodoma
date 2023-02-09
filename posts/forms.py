@@ -1,6 +1,5 @@
 from django import forms
-from django.forms import CheckboxSelectMultiple,ClearableFileInput
-from .models import Post_sale,Status, Land_status, Heating, House_material, Water, HouseAdditional, Rent_amenities
+from .models import Post_sale, HouseAdditional, Rent_amenities, Cottvill
 
 
 class PostForm(forms.ModelForm):
@@ -22,7 +21,7 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post_sale
         exclude = ['author']
-        fields = ['status', 'type_object','adress','body', 'year_of_construction', 'house_material' ,'square', 'floors', 'water', 'ceiling_height', 'land_area', 'land_status', 'heating', 'price', 'rent_price' ,'phone', 'houseAdditional', 'rent_amenities', 'all_images' ]
+        fields = ['status', 'type_object','adress','body', 'year_of_construction', 'house_material' ,'square', 'floors', 'water', 'ceiling_height', 'land_area', 'land_status', 'heating', 'price', 'rent_price' ,'phone', 'houseAdditional', 'rent_amenities', 'district', 'all_images' ]
         widgets = {
             'type_object': forms.Select(attrs={'class': 'form-control'}),
             'all_images':forms.FileInput(attrs={'multiple': 'multiple'}),
@@ -41,10 +40,34 @@ class PostForm(forms.ModelForm):
             'price': forms.TextInput(attrs={'class': 'form-control'}),
             'rent_price': forms.TextInput(attrs={'class': 'form-control'}),
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'district': forms.Select(attrs={'class': 'form-control'}),
 
 
         }
-  
+
+
+class VillageForm(forms.ModelForm):
+
+    class Meta:
+        model = Cottvill
+        exclude = ['author']
+        fields = ['title', 'developer','url','adress', 'status_land', 'col_area' ,'min_area', 'max_area', 'price_area', 'сommunications', 'body', 'house_price_min', 'house_price_max', 'col_house' ]
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'КП Иваново'}),
+            'developer':forms.TextInput(attrs={'class': 'form-control'}),
+            'url':forms.TextInput(attrs={'class': 'form-control','placeholder': 'https://www.poselok.ru'}),
+            'adress': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ленинградская обл., Ломонсоовский район...'}),
+            'status_land': forms.Select(attrs={'class': 'form-control', 'rows': 5}),
+            'col_area': forms.TextInput(attrs={'class': 'form-control','placeholder': '56'}),
+            'min_area': forms.TextInput(attrs={'class': 'form-control','placeholder': '6 сот.'}),
+            'max_area':forms.TextInput(attrs={'class': 'form-control','placeholder': '24 сот.'}),
+            'price_area': forms.TextInput(attrs={'class': 'form-control'}),
+            'сommunications': forms.Select(attrs={'class': 'form-control'}),
+            'body': forms.Textarea(attrs={'class': 'form-control'}),
+            'house_price_min': forms.TextInput(attrs={'class': 'form-control'}),
+            'house_price_max': forms.TextInput(attrs={'class': 'form-control'}),
+            'col_house': forms.TextInput(attrs={'class': 'form-control'}),
+        }
     #title = forms.CharField(max_length=200, label='Заголовок')
     #status = forms.ModelChoiceField(empty_label='Не выбрано', queryset=Status.objects.all(), label='Тип сделки')
     #body = forms.CharField(label='Описание')
