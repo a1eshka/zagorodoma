@@ -3,18 +3,18 @@
 {% block content %}
 {% if user.is_authenticated %}
 
-<h3 style="text-align: center;margin-top: 20px;color:#404040">Добавить Объявление</h3>
+<h3 style="text-align: center;margin-top: 20px;color:#404040">Добавить поселок</h3>
 <hr style="color:#e3e0e0;">
 <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
-        {{form.as_p}}
         <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="adress-info">
             <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
-              <i class="fi fi-rr-marker"></i> Адрес</h2>
+              <i class="fi fi-rr-home"></i> О поселке</h2>
             <div class="row">
               <div class="col-sm-4 mb-3">
                 <label class="form-label" for="adress">Название поселка <span class="text-danger">*</span></label>
                 {{ form.title }} <!-- адрес-->
+                {{ form.slug }}
               </div>
               <div class="col-sm-6 mb-3">
                 <label class="form-label" for="adress">Адрес <span class="text-danger">*</span></label>
@@ -41,7 +41,7 @@
 
           <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="adress-info">
             <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
-              <i class="fi fi-rr-marker"></i> Адрес</h2>
+              <i class="fi fi-rr-info"></i> Общая информация</h2>
             <div class="row">
               <div class="col-sm-3 mb-3">
                 <label class="form-label" for="adress">Количество участков <span class="text-danger">*</span></label>
@@ -49,34 +49,63 @@
               </div>
               <div class="col-sm-3 mb-3">
                 <label class="form-label" for="adress">Мин. площадь участков<span class="text-danger">*</span></label>
-                {{ form.min_area }} <!-- адрес-->
+                <div class="input-group mb-3">{{ form.min_area }} <!-- Мин. площадь участков--> <span class="input-group-text">cот.</span> </div>
               </div>
               <div class="col-sm-3 mb-3">
                 <label class="form-label" for="adress">Макс. площадь участков<span class="text-danger">*</span></label>
-                {{ form.max_area }} <!-- адрес-->
+                <div class="input-group mb-3">{{ form.max_area }} <!-- Макс. площадь участков--> <span class="input-group-text">cот.</span> </div>
               </div>
             </div>
             <div class="row">
                 <div class="col-sm-3 mb-3">
                   <label class="form-label" for="adress">Цена за сотку <span class="text-danger">*</span></label>
-                  {{ form.price_area }} <!-- адрес-->
+                  <div class="input-group mb-3">{{ form.price_area }} <!-- Цена за сотку--> <span class="input-group-text">руб.</span> </div>
                 </div>
                 <div class="col-sm-3 mb-3">
-                  <label class="form-label" for="adress">Мин. цена за дом <span class="text-danger">*</span></label>
-                  {{ form.house_price_min }} <!-- адрес-->
+                    <label class="form-label" for="adress">Еженмесячные взносы <span class="text-danger">*</span></label>
+                    <div class="input-group mb-3">{{ form.payment }} <!-- Еженмесячные взносы--><span class="input-group-text">руб.</span> </div>
                 </div>
                 <div class="col-sm-3 mb-3">
-                    <label class="form-label" for="adress">Макс. цена за дом <span class="text-danger">*</span></label>
-                    {{ form.house_price_max }} <!-- адрес-->
-                  </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-10 mb-3">
-                  <label class="form-label" for="adress">Сайт поселка <span class="text-danger">*</span></label>
-                  {{ form.url }} <!-- адрес-->
+                    <label class="form-label" for="adress">Коммуникации в поселке <span class="text-danger">*</span></label>
+                    <div class="input-group mb-3">{{ form.сommunications }} <!-- Коммуникации на участке--><span class="input-group-text">руб.</span> </div>
                 </div>
               </div>
           </section>
+
+          <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="adress-info">
+            <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+              <i class="fi fi-rr-home"></i> Дома</h2>
+            <div class="row">
+              <div class="col-sm-3 mb-3">
+                <label class="form-label" for="adress">Количество домов <span class="text-danger">*</span></label>
+                {{ form.col_house }} <!-- адрес-->
+              </div>
+              <div class="col-sm-3 mb-3">
+                <label class="form-label" for="adress">Мин. цена за дом <span class="text-danger">*</span></label>
+                <div class="input-group mb-3">{{ form.house_price_min }} <!-- Мин. цена за дом--> <span class="input-group-text">руб.</span> </div>
+              </div>
+              <div class="col-sm-3 mb-3">
+                  <label class="form-label" for="adress">Макс. цена за дом <span class="text-danger">*</span></label>
+                  <div class="input-group mb-3">{{ form.house_price_max }} <!-- Макс. цена за дом--><span class="input-group-text">руб.</span> </div>
+                </div>
+            </div>
+              </div>
+          </section>
+
+          <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="adress-info">
+            <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+              <i class="fi fi-rr-comment-alt"></i> Описание</h2>
+            <div class="row">
+              <div class="col-sm-10 mb-3">
+                <label class="form-label" for="adress">Описание поселка <span class="text-danger">*</span></label>
+                {{ form.body }} <!-- Описание поселка-->
+                {{form.img}}
+              </div>
+            </div>
+          </section>
+        </div>
+        <input class="btn btn-success" style="margin: 0 auto;display: block;font-size: 19px;" type="submit" value="Разместить объявление" />
+        </form>
       {% else %}
 <button type="button" class="btn btn-outline-secondary" onclick="window.location.href = '{% url 'login' %}';">Войти</button>
 {% endif %}

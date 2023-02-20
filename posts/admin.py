@@ -26,10 +26,13 @@ admin.site.register(House_material)
 admin.site.register(Water)
 admin.site.register(PostImage)
 admin.site.register(Ip)
-admin.site.register(Cottvill)
 
 @admin.register(Type_object)
 class Type_objectAdmin (admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+
+@admin.register(Cottvill)
+class CottvillAdmin (admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
 @admin.register(Status)

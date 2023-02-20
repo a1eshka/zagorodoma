@@ -10,7 +10,7 @@
       <div class="min-card-main-info">
         <div class="min-card-main-text"><a style="color:#5e5d5d" href="{% url 'sales' %}"> Продажа</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-        </svg><img class="svg-img-main-min-icon" src="media/static/contract.png"></div>
+        </svg><img class="svg-img-main-min-icon" src="media/static/deal.png"></div>
         <div class="min-card-all-sale"> Всего объявлений:
         <b style="font-size: 15px;
         color: #5e5d5d;
@@ -21,7 +21,7 @@
       <div class="min-card-main-info-rent">
         <div class="min-card-main-text">Аренда <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-        </svg><img class="svg-img-main-min-icon" src="media/static/house-main.svg"></div>
+        </svg><img class="svg-img-main-min-icon" src="media/static/main-rentv2.png"></div>
         <div class="min-card-all-sale"> Всего объявлений:
         <b style="font-size: 15px;
         color: #5e5d5d;
@@ -30,21 +30,21 @@
       </div>
 
       <div class="min-card-main-info-cottage-postcards">
-        <div class="min-card-main-text">Поселки <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+        <div class="min-card-main-text"><a style="color:#5e5d5d" href="{% url 'village' %}"> Поселки</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-        </svg><img class="svg-img-main-min-icon" src="media/static/village-main.svg"></div>
+        </svg><img class="svg-img-main-min-icon" src="media/static/village.png"></div>
         <div class="min-card-all-sale"> Всего поселков:
         <b style="font-size: 15px;
         color: #5e5d5d;
-        margin-left: 3px;">{{ rent_status_post }}</b>
+        margin-left: 3px;">{{ col_village }}</b>
         </div>
       </div>
 
-      <div class="min-card-main-info-cottage-postcards" style="background:#ffecdc !important">
-        <div class="min-card-main-text">Поселки <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+      <div class="min-card-main-info-cottage-postcards" style="background:#ffdafdbf !important">
+        <div class="min-card-main-text">Участки <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-        </svg></div>
-        <div class="min-card-all-sale"> Всего поселков:
+        </svg><img class="svg-img-main-min-icon" src="media/static/land.png"></div>
+        <div class="min-card-all-sale"> Всего объявлений:
         <b style="font-size: 15px;
         color: #5e5d5d;
         margin-left: 3px;">{{ rent_status_post }}</b>
@@ -78,7 +78,7 @@
         {% endfor %}
       </select>
     </div>
-    <div style="float: left;margin-right: 10px;">
+    <div style="float: left;margin-right: 80px;">
       
       <input class="form-control" style="max-width: 115px;float: left;margin-right: 5px;border: 1px solid #ffffff;" name="minPrice" id="minPrice" placeholder="Цена от"/>
       <input class="form-control" style="max-width: 115px;border: 1px solid #ffffff;" name="maxPrice" id="maxPrice" placeholder="Цена до"/>

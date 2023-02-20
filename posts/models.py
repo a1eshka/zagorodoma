@@ -9,6 +9,8 @@ from django.urls import reverse
 import requests
 import uuid
 from django.contrib.auth.models import User
+from slugify import slugify
+
 
 
 class Post_sale(models.Model):
@@ -49,6 +51,7 @@ class Post_sale(models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={"pk": self.pk})
+
     @property
     def todaytime(self):
         current_date = datetime.date.today()
@@ -73,14 +76,16 @@ class Post_sale(models.Model):
     class Meta :
         verbose_name = 'Объявление'
         verbose_name_plural = 'Объявления'
+def images_directory_path(instance, filename):
+    return '/'.join(['villages',str(instance.slug), str(uuid.uuid4().hex + ".png")])
 
 class Cottvill(models.Model):
-    title = models.TextField(max_length=200, db_index=True , verbose_name='Название поселка', blank=True, null=True)
-    slug = models.SlugField(max_length=50, unique=True, verbose_name='URL поселка')
+    title = models.TextField(max_length=200, unique=True, db_index=True, verbose_name='Название поселка', blank=True, null=True)
+    slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL поселка')
     developer = models.TextField(max_length=100, verbose_name='Застройщик', blank=True, null=True)
     url = models.TextField(max_length=100 , verbose_name='Сайт поселка', blank=True, null=True)
     adress = models.TextField(max_length=800 , verbose_name='Адрес поселка', blank=True, null=True)
-    status_land = models.TextField(max_length=100 , verbose_name='Статус земли', blank=True, null=True)
+    status_land = models.ForeignKey('Land_status', on_delete=models.CASCADE, verbose_name='Статус земли', blank=True, null=True)
     col_area = models.TextField(max_length=4 , verbose_name='Количество участков', blank=True, null=True)
     min_area = models.TextField(max_length=6 , verbose_name='Минимальная площадь участка', blank=True, null=True)
     max_area = models.TextField(max_length=6 , verbose_name='Максимальная площадь участка', blank=True, null=True)
@@ -90,14 +95,24 @@ class Cottvill(models.Model):
     house_price_min = models.TextField(max_length=20 , verbose_name='Минимальная цена дома', blank=True, null=True)
     house_price_max = models.TextField(max_length=20 , verbose_name='Максимальная цена дома', blank=True, null=True)
     col_house = models.TextField(max_length=4 , verbose_name='Количество домов', blank=True, null=True)
+    payment = models.TextField(max_length=20 , verbose_name='Ежемесячные взносы', blank=True, null=True)
+    img = models.ImageField(upload_to=images_directory_path, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', related_name='user')
 
 
     def __str__(self):
         return self.title
+
+    def save(self,  *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super(Cottvill, self).save(*args, **kwargs)
+
     class Meta :
         verbose_name = 'Поселок'
         verbose_name_plural = 'Поселки'
+    
+    def get_absolute_url(self):
+        return reverse('village_detail', kwargs={'village_slug': self.slug})
 
 
 class Status(models.Model):

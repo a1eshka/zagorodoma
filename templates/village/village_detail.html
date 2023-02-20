@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ post.status }} {{ post.type_object}}а, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}} по адресу: {{ post.adress }} - Zagorodoma.ru
+{% endblock %}
+{% block description %}
+{% endblock %}
+{% block keywords %}
+{% endblock %}
+{% block content %}
+{% load mathfilters %}
+<style>#map {
+    width: 100%;
+    height: 30%;
+    border-radius: 10px;}
+  
+    .ymaps-2-1-79-map ymaps {
+      border-radius: 16px;
+    }</style>
+<div class="card">
+    <div class="card-body_post">
+        <div class="post-entry" style="width:1000px;">
+            <div><h3 style="float: left;">{{ village.title }}</h3>
+            <div><a style="float: right;border-bottom: 1px dashed #5143d6;color: #5143d6;" href="{{village.url}}"> {{village.url}} </a></div>
+            <div class="village-adress" id="village-adress" style="color: rgb(102 102 102 / 88%);clear: both;">{{ village.adress }}</div>
+            <input type="hidden" id="village-adress" name="variable" value="{{ village.adress }}">
+            {% if village.developer %}<div>Застройщик: {{ village.developer }}</div>{% endif %}
+            
+            <div id="body"> 
+                <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Участки</div>
+            <ul class="ul-card-info">
+                {% if village.status_land %}
+                <li class="li-card-info">
+                <span class="span-title">Статус земли</span>
+                <span class="dots"></span>
+                <span>{{ village.status_land }} </span>
+                </li>
+                {% endif %}
+                {% if village.col_area %}
+                <li class="li-card-info">
+                  <span class="span-title">Количество участков</span>
+                  <span class="dots"></span>
+                  <span>{{ village.col_area }}</span>
+                  </li>
+                {% endif %}
+                {% if village.min_area or village.max_area %}
+                <li class="li-card-info">
+                  <span class="span-title">Площадь участков</span>
+                  <span class="dots"></span>
+                  <span>{% if village.min_area %} от {{ village.min_area }} {% endif %} {% if village.max_area %} до {{ village.max_area }} {% endif %} сот.</span>
+                  </li>
+                {% endif %}
+                {% if village.price_area %}
+                <li class="li-card-info">
+                  <span class="span-title">Цена за сотку</span>
+                  <span class="dots"></span>
+                  <span class="price_area">{{ village.price_area }} руб.</span>
+                  </li>
+                {% endif %}
+              </ul> 
+            </div>
+            
+            <div id="body">
+                 {% if village.col_house %}
+                <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Дома</div>
+                <ul class="ul-card-info">
+                    {% if village.col_house %}
+                    <li class="li-card-info">
+                    <span class="span-title">Количество домов</span>
+                    <span class="dots"></span>
+                    <span>{{ village.col_house }} </span>
+                    </li>
+                    {% endif %}
+                    {% if village.house_price_min or house_price_max %}
+                    <li class="li-card-info">
+                      <span class="span-title">Цена дома</span>
+                      <span class="dots"></span>
+                      <span>{% if village.house_price_min %}от {{ village.house_price_min }} руб.{% endif %} {% if village.house_price_max %}от {{village.house_price_max}} руб.{% endif %}</span>
+                      </li>
+                    {% endif %}
+                    {% if village.min_area or village.max_area %}
+                    <li class="li-card-info">
+                      <span class="span-title">Площадь участков</span>
+                      <span class="dots"></span>
+                      <span>{% if village.min_area %} от {{ village.min_area }} {% endif %} {% if village.max_area %} до {{ village.max_area }} {% endif %} сот.</span>
+                      </li>
+                    {% endif %}
+                    {% if village.price_area %}
+                    <li class="li-card-info">
+                      <span class="span-title">Цена за сотку</span>
+                      <span class="dots"></span>
+                      <span class="price_area">{{ village.price_area }} руб.</span>
+                      </li>
+                    {% endif %}
+                  </ul>
+                  {% endif %}
+            </div>
+
+            <div id="body"> 
+                <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Ежемесячные взносы</div>
+                <div class="village-payment">{{ village.payment }} руб.</div>
+            </div>
+
+            <div id="body"> 
+                <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Описание</div>
+                    <p>{{ village.body }}</p>
+            </div>
+            
+            
+            {{ village.price_area }}
+            {{ village.house_price_min }}
+            {{ village.house_price_max }}
+            
+              
+            </div>
+            
+
+            <hr style="color:#e3e0e0;">
+</div>
+
+    </div>
+        </div>
+
+<script type="text/javascript">
+
+$('.price_area').text((i, text) => {
+const [ price, currency ] = text.split(' ');
+return `${(+price).toLocaleString()} ${currency}`;
+});
+
+ymaps.ready(init);
+
+function init() {
+    var myVar = document.getElementById("village-adress").value;
+    console.log(myVar);
+    var myMap = new ymaps.Map('map', {
+        center: [59.9386, 30.3141],
+        zoom: 9
+    });
+
+    // Поиск координат центра Нижнего Новгорода.
+    ymaps.geocode(myVar, {
+        /**
+         * Опции запроса
+         * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/geocode.xml
+         */
+        // Сортировка результатов от центра окна карты.
+        // boundedBy: myMap.getBounds(),
+        // strictBounds: true,
+        // Вместе с опцией boundedBy будет искать строго внутри области, указанной в boundedBy.
+        // Если нужен только один результат, экономим трафик пользователей.
+        results: 1
+    }).then(function (res) {
+            // Выбираем первый результат геокодирования.
+            var firstGeoObject = res.geoObjects.get(0),
+                // Координаты геообъекта.
+                coords = firstGeoObject.geometry.getCoordinates(),
+                // Область видимости геообъекта.
+                bounds = firstGeoObject.properties.get('boundedBy');
+
+            firstGeoObject.options.set('preset', 'islands#darkBlueDotIconWithCaption');
+            // Получаем строку с адресом и выводим в иконке геообъекта.
+            firstGeoObject.properties.set('iconCaption', firstGeoObject.getAddressLine());
+
+            // Добавляем первый найденный геообъект на карту.
+            myMap.geoObjects.add(firstGeoObject);
+            // Масштабируем карту на область видимости геообъекта.
+            myMap.setBounds(bounds, {
+                // Проверяем наличие тайлов на данном масштабе.
+                checkZoomRange: true
+            });
+
+            /**
+             * Все данные в виде javascript-объекта.
+             */
+            console.log('Все данные геообъекта: ', firstGeoObject.properties.getAll());
+            /**
+             * Метаданные запроса и ответа геокодера.
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/GeocoderResponseMetaData.xml
+             */
+            console.log('Метаданные ответа геокодера: ', res.metaData);
+            /**
+             * Метаданные геокодера, возвращаемые для найденного объекта.
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/GeocoderMetaData.xml
+             */
+            console.log('Метаданные геокодера: ', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData'));
+            /**
+             * Точность ответа (precision) возвращается только для домов.
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/precision.xml
+             */
+            console.log('precision', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData.precision'));
+            /**
+             * Тип найденного объекта (kind).
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/kind.xml
+             */
+            console.log('Тип геообъекта: %s', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData.kind'));
+            console.log('Название объекта: %s', firstGeoObject.properties.get('name'));
+            console.log('Описание объекта: %s', firstGeoObject.properties.get('description'));
+            console.log('Полное описание объекта: %s', firstGeoObject.properties.get('text'));
+            /**
+            * Прямые методы для работы с результатами геокодирования.
+            * @see https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/GeocodeResult-docpage/#getAddressLine
+            */
+            console.log('\nГосударство: %s', firstGeoObject.getCountry());
+            console.log('Населенный пункт: %s', firstGeoObject.getLocalities().join(', '));
+            console.log('Адрес объекта: %s', firstGeoObject.getAddressLine());
+            console.log('Наименование здания: %s', firstGeoObject.getPremise() || '-');
+            console.log('Номер здания: %s', firstGeoObject.getPremiseNumber() || '-');
+
+            /**
+             * Если нужно добавить по найденным геокодером координатам метку со своими стилями и контентом балуна, создаем новую метку по координатам найденной и добавляем ее на карту вместо найденной.
+             */
+            /**
+             var myPlacemark = new ymaps.Placemark(coords, {
+             iconContent: 'моя метка',
+             balloonContent: 'Содержимое балуна <strong>моей метки</strong>'
+             }, {
+             preset: 'islands#violetStretchyIcon'
+             });
+
+             myMap.geoObjects.add(myPlacemark);
+             */
+        });
+      }
+</script>
+{% endblock content %}

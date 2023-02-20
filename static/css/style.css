@@ -65,11 +65,10 @@ a {
   /*box-shadow: 0 0 10px rgb(0 0 0 / 30%) !important;*/
 }
 .card {
-  border: 0px !important;
-  max-width: 1248px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  background-color: #ffffff00 !important;
+border: 0px !important;
+max-width: 1248px;
+background-color: #ffffff00 !important;
+margin: auto;
 }
 .card-min {
   /*border: 1px solid rgb(0 0 0 / 5%) !important;*/
@@ -85,6 +84,7 @@ a {
 .card-body_post {
   display: flex;
   justify-content: center;
+  margin-top: 30px;
 }
 
 .min-card-text {
@@ -220,7 +220,7 @@ li {
 }
 
 .min-card-main-info {
-  background: #d7e9fc;
+  background: #e8e8e8a1;
   padding: 10px;
   border-radius: 10px;
   width: 244px;
@@ -230,7 +230,7 @@ li {
 }
 
 .min-card-main-info-rent {
-  background: #eedaff;
+  background: #eedaff99;
   padding: 10px;
   border-radius: 10px;
   width: 244px;
@@ -240,7 +240,7 @@ li {
 }
 
 .min-card-main-info-cottage-postcards {
-  background: #ffdcdc;
+  background: #ffdafd8c;
   padding: 10px;
   border-radius: 10px;
   width: 244px;
@@ -724,9 +724,61 @@ li {
     border-radius: 50%;
 }
 .svg-img-main-min-icon{
-  width: 70px;
-  height: 100px;
-  right: -5px;
+  width: 50px;
+  height: 50px;
+  right: 3px;
   position: absolute;
-  top: -15px;
+  top: 3px;
+}
+.card-village{
+  width: 700px;
+  margin: 0 auto;
+  margin-top: 10px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a !important;
+}
+
+.village-titile-category{
+  margin: 0 auto;
+  font-size: 24px;
+  max-width: 700px;
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: white;
+  margin-bottom: -15px;
+}
+.input-group-text {
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #737373;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #f7f7f7;
+  border: 1px solid #f2f2f2;
+  border-radius: 0.25rem;
+}
+.village-filter {
+  background-color: #95959526;
+  margin: 0 auto;
+  max-width: 700px;
+  margin-top: 25px;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: -15px;
+}
+.village-payment{
+  background-color: #5143d6;
+  padding: 5px;
+  border-radius: 10px;
+  width: 120px;
+  color: white;
+  font-size: 19px;
+  text-align: center;
 }

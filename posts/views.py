@@ -55,6 +55,15 @@ class DomaListView(generic.ListView):
     def get_queryset(self):
         return Post_sale.objects.filter(type_object='2').filter(published=True).order_by('-created_at')
 
+class VillageListView(generic.ListView):
+    """Вывод всех поселков"""
+    model = Cottvill
+    template_name = 'village/village.html'
+    context_object_name = 'village'
+
+    def get_queryset(self):
+        return Cottvill.objects.all()
+
 class YchastkiListView(generic.ListView):
     """Вывод постов с типом Участок"""
     model = Post_sale
@@ -79,6 +88,7 @@ class HomePageView(FilterMain, ListView):
         # Дополняем контекст нужным нам значением
         context['sale_status_post'] = Post_sale.objects.filter(status=2).filter(published=True).count()
         context['rent_status_post'] = Post_sale.objects.filter(status=3).filter(published=True).count()
+        context['col_village'] = Cottvill.objects.all().count()
         context['total_data'] = Post_sale.objects.filter(published=True).count()
         return context
 
@@ -122,6 +132,23 @@ class HomeDetailView(FilterMain, DetailView):
 
         return render(request, 'post_detail.html', context)
 
+class VillageDetailView(FilterMain, DetailView):
+    """Детальная страница поселка"""
+    model = VillageForm
+    template_name = 'village/village_detail.html'
+    context_object_name = 'village'
+
+    def get(self, request, *args, **kwargs):
+
+        id = self.kwargs['village_slug']
+        village = get_object_or_404(Cottvill, slug=id)
+        context = {
+            'village': village,
+        }
+
+
+        return render(request, 'village/village_detail.html', context)
+
 class HomeCreateView(CreateView):
     """Создание нового поста"""
     form_class = PostForm
@@ -155,6 +182,22 @@ class VillageCreateView(CreateView):
     def get(self, request):
         form = self.form_class()
         return render(request, self.template_name, context={'form': form})
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def image_upload_view(self, request):
+        if request.method == 'POST':
+            form = VillageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            # Get the current instance object to display in the template
+            img_obj = form.instance
+            return render(request, self.template_name, {'form': form, 'img_obj': img_obj})
+        else:
+            form = VillageForm()
+        return render(request, self.template_name, {'form': form})
 
 class FilterPostsView(FilterMain, ListView):
     template_name = 'home.html'
@@ -292,6 +335,18 @@ def load_more_data(request):
 
 
 
+class VillageSearch (ListView):
+    model = Cottvill
+    template_name = 'village/village.html'
+    context_object_name = 'village'
+    """Поиск поселка"""
+    def get_queryset(self):
+        q = self.request.GET.get('q')
+        a = "".join(q[0].upper()) + q[1:]
+        return Cottvill.objects.filter(title__icontains=a)
 
-        
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["q"] = f'q={self.request.GET.get("q")}&'
+        return context
 

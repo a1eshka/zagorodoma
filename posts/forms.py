@@ -41,6 +41,7 @@ class PostForm(forms.ModelForm):
             'rent_price': forms.TextInput(attrs={'class': 'form-control'}),
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'district': forms.Select(attrs={'class': 'form-control'}),
+            
 
 
         }
@@ -51,7 +52,7 @@ class VillageForm(forms.ModelForm):
     class Meta:
         model = Cottvill
         exclude = ['author']
-        fields = ['title', 'developer','url','adress', 'status_land', 'col_area' ,'min_area', 'max_area', 'price_area', 'сommunications', 'body', 'house_price_min', 'house_price_max', 'col_house' ]
+        fields = ['title', 'developer','url','adress', 'status_land', 'col_area' ,'min_area', 'max_area', 'price_area', 'сommunications', 'body', 'house_price_min', 'house_price_max', 'col_house', 'payment', 'img' ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'КП Иваново'}),
             'developer':forms.TextInput(attrs={'class': 'form-control'}),
@@ -63,10 +64,11 @@ class VillageForm(forms.ModelForm):
             'max_area':forms.TextInput(attrs={'class': 'form-control','placeholder': '24 сот.'}),
             'price_area': forms.TextInput(attrs={'class': 'form-control'}),
             'сommunications': forms.Select(attrs={'class': 'form-control'}),
-            'body': forms.Textarea(attrs={'class': 'form-control'}),
+            'body': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}),
             'house_price_min': forms.TextInput(attrs={'class': 'form-control'}),
             'house_price_max': forms.TextInput(attrs={'class': 'form-control'}),
             'col_house': forms.TextInput(attrs={'class': 'form-control'}),
+            'payment':forms.TextInput(attrs={'class': 'form-control'}),
         }
     #title = forms.CharField(max_length=200, label='Заголовок')
     #status = forms.ModelChoiceField(empty_label='Не выбрано', queryset=Status.objects.all(), label='Тип сделки')

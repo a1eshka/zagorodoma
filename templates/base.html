@@ -83,7 +83,7 @@
                 {% else %}
                 <img src="\media\users\profile\default\default-icon.png" height=40 width=40 style="margin-top: 3px;" class="rounded-circle">
                 {% endif %}
-                <a style="float: right;margin-top: -7px;margin-left: -7px;" class="nav-link active" aria-current="page" href="{% url 'user_profile' user.id %}"><div class="username">{{ user.username }} </div></a>
+                <a id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false" style="float: right;margin-top: -7px;margin-left: -7px;" class="nav-link active" aria-current="page" href="{% url 'user_profile' user.id %}"><div class="username">{{ user.username }} </div></a>
               
                 <ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
                   <!-- Profile info -->
