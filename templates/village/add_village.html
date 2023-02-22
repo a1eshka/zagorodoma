@@ -99,7 +99,24 @@
               <div class="col-sm-10 mb-3">
                 <label class="form-label" for="adress">Описание поселка <span class="text-danger">*</span></label>
                 {{ form.body }} <!-- Описание поселка-->
-                {{form.img}}
+              </div>
+            </div>
+          </section>
+          <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="photo-info">
+            <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+              <i class="fi fi-rr-picture"></i> Фотографии </h2>
+            <div class="row">
+              <div class="col-sm-3 mb-3">
+                <label class="form-label" for="price">Логотип поселка <span class="text-danger">*</span></label>
+                <div class="example-1">
+                  <div class="form-group">
+                    <label class="label">
+                      <i class="fi-rr-add-document"></i>
+                      <span class="title">Добавить фотографию</span>
+                      {{form.img}}
+                    </label>
+                  </div>
+                </div>       
               </div>
             </div>
           </section>

@@ -10,12 +10,13 @@
   <span class="badge bg-success" {% if post.status.id == 2 %} style="background-color: #27CB58 !important;border-radius: 0% 5px 5px 0%;" {% endif %} {% if post.status.id == 3 %} style="background-color: #53687E !important;border-radius: 0% 5px 5px 0%;" {% endif %}>{{post.status}}</span>
     <div class="card-body">
       <h5 class="card-title"><a style="color:#3A4454;" href="{% url 'post_detail' post.pk %}" target="_blank">{{ post.type_object}} · {% if post.square %} {{post.square|default_if_none:""}} м² ·{% endif %} {{post.land_area }} сот. · {{post.land_status}}</a></h5>
+      <p class="min-card-adress">{{ post.adress}}</p>
       <h4 class="price-main-card">{{ post.price }} ₽</h4>
-      <p class="min-card-text">{{ post.body|slice:":100" }}...<a href="{% url 'post_detail' post.pk %}" target="_blank">Читать далее</a></p>
+      <!--<p class="min-card-text">{{ post.body|slice:":100" }}...<a href="{% url 'post_detail' post.pk %}" target="_blank">Читать далее</a></p>!-->
     </div>
     {% if post.todaytime %}
     <div class="card-footer" style="background: white;"> 
-      <small class="text-muted"><i class="bi bi-clock-history"></i> Сегодня</small>
+      <small class="text-muted"><i class="bi bi-clock-history"></i> Сегодня в {{post.created_at|time:"H:i"}} </small>
     </div>
   {% else %}
     <div class="card-footer" style="background: white;"> 

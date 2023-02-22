@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-{{ post.status }} {{ post.type_object}}а, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}} по адресу: {{ post.adress }} - Zagorodoma.ru
+{{ post.status }} {{village.title}} - Zagorodoma.ru
 {% endblock %}
 {% block description %}
 {% endblock %}
@@ -10,7 +10,7 @@
 {% load mathfilters %}
 <style>#map {
     width: 100%;
-    height: 30%;
+    height: 80%;
     border-radius: 10px;}
   
     .ymaps-2-1-79-map ymaps {
@@ -19,13 +19,22 @@
 <div class="card">
     <div class="card-body_post">
         <div class="post-entry" style="width:1000px;">
-            <div><h3 style="float: left;">{{ village.title }}</h3>
-            <div><a style="float: right;border-bottom: 1px dashed #5143d6;color: #5143d6;" href="{{village.url}}"> {{village.url}} </a></div>
-            <div class="village-adress" id="village-adress" style="color: rgb(102 102 102 / 88%);clear: both;">{{ village.adress }}</div>
-            <input type="hidden" id="village-adress" name="variable" value="{{ village.adress }}">
-            {% if village.developer %}<div>Застройщик: {{ village.developer }}</div>{% endif %}
+          {%  if village.img %}
+          <img src="{{ village.img.url }}" style="width:150px;float: left;margin-bottom: 30px;border-radius: 10px;" alt="{{village.title}}">
+          {% else %}
+          <img src="/media/villages/default.png" style="width:150px;float: left;margin-bottom: 30px;border-radius: 10px;" alt="{{village.title}}">
+          {% endif %}
+          <div><a style="float: right;border-bottom: 1px dashed #5143d6;color: #5143d6;" href="{{village.url}}"> {{village.url}} </a></div>
+          <div style="float: left;margin-left: 20px;">
+            <div><h3 style="float: left;">{{ village.title }}</h3></div> 
             
-            <div id="body"> 
+            <input type="hidden" id="village-adress" name="variable" value="{{ village.adress }}">
+            <div style="color: rgb(102 102 102 / 88%);clear: both; margin-bottom: 5px;">{{ village.adress }}</div>
+            
+            {% if village.developer %}<div style="margin-bottom: 5px;">Застройщик: {{ village.developer }}</div>{% endif %}
+          </div> 
+            <hr style="color:#e3e0e0;">
+            <div id="body" style="clear:both;"> 
                 <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Участки</div>
             <ul class="ul-card-info">
                 {% if village.status_land %}
@@ -77,47 +86,35 @@
                       <span>{% if village.house_price_min %}от {{ village.house_price_min }} руб.{% endif %} {% if village.house_price_max %}от {{village.house_price_max}} руб.{% endif %}</span>
                       </li>
                     {% endif %}
-                    {% if village.min_area or village.max_area %}
+                    {% if village.сommunications %}
                     <li class="li-card-info">
-                      <span class="span-title">Площадь участков</span>
+                      <span class="span-title">Коммуникации</span>
                       <span class="dots"></span>
-                      <span>{% if village.min_area %} от {{ village.min_area }} {% endif %} {% if village.max_area %} до {{ village.max_area }} {% endif %} сот.</span>
-                      </li>
-                    {% endif %}
-                    {% if village.price_area %}
-                    <li class="li-card-info">
-                      <span class="span-title">Цена за сотку</span>
-                      <span class="dots"></span>
-                      <span class="price_area">{{ village.price_area }} руб.</span>
+                      <span>{% if village.сommunications %} {{village.сommunications }} {% endif %} сот.</span>
                       </li>
                     {% endif %}
                   </ul>
                   {% endif %}
             </div>
 
-            <div id="body"> 
+            {% if village.payment %}
+            <div id="body">
                 <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Ежемесячные взносы</div>
                 <div class="village-payment">{{ village.payment }} руб.</div>
             </div>
+            {% endif %}
 
             <div id="body"> 
                 <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Описание</div>
                     <p>{{ village.body }}</p>
             </div>
-            
-            
-            {{ village.price_area }}
-            {{ village.house_price_min }}
-            {{ village.house_price_max }}
-            
-              
             </div>
-            
-
             <hr style="color:#e3e0e0;">
+            <div id="map"></div>
 </div>
 
     </div>
+    
         </div>
 
 <script type="text/javascript">

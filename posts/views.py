@@ -38,13 +38,20 @@ class FilterMain:
     def get_district(self):
         return District.objects.all()
 
-class SalesListView(generic.ListView):
+class SalesListView(FilterMain, generic.ListView):
     """Вывод постов со статусом Продажа"""
     model = Post_sale
     template_name = 'sales.html'
     context_object_name = 'sales'
     def get_queryset(self):
-        return Post_sale.objects.filter(status='2').filter(published=True).order_by('-created_at')
+        return Post_sale.objects.filter(status='2').filter(published=True).order_by('-created_at')[:6]
+    
+    def get_context_data(self, **kwargs):
+        # Получаем контекст из родительского класса ListView
+        context = super().get_context_data(**kwargs)
+        # Дополняем контекст нужным нам значением
+        context['total_data'] = Post_sale.objects.filter(status='2').filter(published=True).count()
+        return context
 
 class DomaListView(generic.ListView):
     """Вывод постов с типом Дом"""
@@ -64,13 +71,34 @@ class VillageListView(generic.ListView):
     def get_queryset(self):
         return Cottvill.objects.all()
 
-class YchastkiListView(generic.ListView):
+class YchastkiListView(FilterMain, generic.ListView):
     """Вывод постов с типом Участок"""
     model = Post_sale
     template_name = 'ychastki.html'
     context_object_name = 'ychastki'
     def get_queryset(self):
-        return Post_sale.objects.filter(type_object='3').filter(published=True).order_by('-created_at')
+        return Post_sale.objects.filter(type_object='5').filter(published=True).order_by('-created_at')[:6]
+    def get_context_data(self, **kwargs):
+        # Получаем контекст из родительского класса ListView
+        context = super().get_context_data(**kwargs)
+        # Дополняем контекст нужным нам значением
+        context['total_data'] = Post_sale.objects.filter(type_object='5').filter(published=True).count()
+        return context
+
+class RentListView(FilterMain, generic.ListView):
+    """Вывод постов с типом Аренда"""
+    model = Post_sale
+    template_name = 'rent.html'
+    context_object_name = 'rent'
+    def get_queryset(self):
+        return Post_sale.objects.filter(status='3').filter(published=True).order_by('-created_at')[:6]
+    
+    def get_context_data(self, **kwargs):
+        # Получаем контекст из родительского класса ListView
+        context = super().get_context_data(**kwargs)
+        # Дополняем контекст нужным нам значением
+        context['total_data'] = Post_sale.objects.filter(status='3').filter(published=True).count()
+        return context
 
 class HomePageView(FilterMain, ListView):
     """Вывод всех постов на главной"""
@@ -333,6 +361,26 @@ def load_more_data(request):
     t=render_to_string('ajax/posts.html', {'object_list':allPosts})
     return JsonResponse({'object_list':t})
 
+def load_more_data_sales(request):
+    offset=int(request.GET['offset'])
+    limit=int(request.GET['limit'])
+    allPosts = Post_sale.objects.all().filter(status='2').filter(published=True).order_by('-created_at')[offset:offset+limit]
+    t=render_to_string('ajax/posts.html', {'object_list':allPosts})
+    return JsonResponse({'object_list':t})
+
+def load_more_data_rent(request):
+    offset=int(request.GET['offset'])
+    limit=int(request.GET['limit'])
+    allPosts = Post_sale.objects.all().filter(status='3').filter(published=True).order_by('-created_at')[offset:offset+limit]
+    t=render_to_string('ajax/posts.html', {'object_list':allPosts})
+    return JsonResponse({'object_list':t}) 
+
+def load_more_data_ychastki(request):
+    offset=int(request.GET['offset'])
+    limit=int(request.GET['limit'])
+    allPosts = Post_sale.objects.all().filter(type_object='5').filter(published=True).order_by('-created_at')[offset:offset+limit]
+    t=render_to_string('ajax/posts.html', {'object_list':allPosts})
+    return JsonResponse({'object_list':t})
 
 
 class VillageSearch (ListView):

@@ -7,7 +7,7 @@ $(document).ready(function(){
 		console.log(_currentPosts,_limit,_total);
         		// Run Ajax
 		$.ajax({
-			url:'/load-more-data',
+			url:'/load-more-data-ychastki',
 			data:{
                 limit:_limit,
                 offset:_currentPosts,

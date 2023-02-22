@@ -264,6 +264,7 @@ li {
 
 .price-main-card {
   color: #313131;
+  margin-bottom: -10px;
 }
 
 .pagination {
@@ -781,4 +782,5 @@ li {
   color: white;
   font-size: 19px;
   text-align: center;
+  margin-bottom: 10px;
 }

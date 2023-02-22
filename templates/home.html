@@ -1,4 +1,5 @@
     {% extends 'base.html' %}
+    {% load static %}
     {% block content %}
     <div style="display: flex;
     flex-direction: column;
@@ -19,7 +20,7 @@
       </div>
 
       <div class="min-card-main-info-rent">
-        <div class="min-card-main-text">Аренда <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+        <div class="min-card-main-text"><a style="color:#5e5d5d" href="{% url 'rent' %}"> Аренда</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
         </svg><img class="svg-img-main-min-icon" src="media/static/main-rentv2.png"></div>
         <div class="min-card-all-sale"> Всего объявлений:
@@ -41,7 +42,7 @@
       </div>
 
       <div class="min-card-main-info-cottage-postcards" style="background:#ffdafdbf !important">
-        <div class="min-card-main-text">Участки <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+        <div class="min-card-main-text"><a style="color:#5e5d5d" href="{% url 'ychastki' %}"> Участки</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
         </svg><img class="svg-img-main-min-icon" src="media/static/land.png"></div>
         <div class="min-card-all-sale"> Всего объявлений:
@@ -54,7 +55,6 @@
 
   <div class="main-filter">
     <div style="float:left;margin-right: 10px;">
-      
       <select id="typeobj" name="categories" multiple>
         {% for typeobj in view.get_typeobjects %}
         <option value="{{ typeobj.id }}" data-badge="" class="filter-checkbox" data-filter="type_object" name="type_object">{{ typeobj.title }}</option>
@@ -147,7 +147,6 @@
     </div>
     {% endif %}
   {% endfor %}
-
   </div>
     <button type="button" id="loadMore" data-limit="6" data-total="{{total_data}}" class="btn btn-secondary btnload" style="margin: 0 auto;display: block;width: 200px;margin-top: 40px;">Показать еще</button>
     <div class="alert alert-success alert-dismissible fade show not-visible" role="alert" id="alert" style="max-width: 990px;
@@ -249,4 +248,5 @@ $(function(){
     
 
 </script>
+<script src="{% static 'js/loadMore.js' %}" type="text/javascript"></script>
 {% endblock content %}
