@@ -12,6 +12,7 @@ urlpatterns = [
     path("load-more-data", views.load_more_data, name='load_more_data'),
     path("load-more-data-sales", views.load_more_data_sales, name='load_more_data_sales'),
     path("load-more-data-rent", views.load_more_data_rent, name='load_more_data_rent'),
+    path("load-more-data-doma", views.load_more_data_doma, name='load_more_data_doma'),
     path("load-more-data-ychastki", views.load_more_data_ychastki, name='load_more_data_ychastki'),
     path('post/new/', HomeCreateView.as_view(), name='post_new'),
     path('post/<int:pk>/', HomeDetailView.as_view(), name='post_detail'),

@@ -45,9 +45,10 @@
       <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="object-info">
         <h2 class="h4 mb-4"><i class="fi fi-rr-list"></i>  Информация об объекте</h2>
         <div class="row">
-          <div class="col-sm-6 mb-3">
+          <div class="col-sm-4 mb-3">
             <label class="form-label" for="ap-category">Площадь участка <span class="text-danger">*</span></label>
-            {{ form.land_area }} <!-- площадь участка-->
+            <div class="input-group mb-3">{{ form.land_area }} <!-- площадь участка--><span class="input-group-text">сот.</span> </div>
+            
           </div>
           <div class="col-sm-6 mb-3">
             <label class="form-label" for="ap-type">Статус участка <span class="text-danger">*</span></label>
@@ -105,8 +106,13 @@
         <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
           <i class="fi fi-rr-picture"></i> Фотографии </h2>
         <div class="row">
-          <div class="col-sm-3 mb-3">
-            <label class="form-label" for="price">Фотографии <span class="text-danger">*</span></label>
+          <div class="col-sm-3 mb-3" style="width:100%;">
+            <label class="form-label" for="photo-info">Фотографии <span class="text-danger">*</span>
+              <div class="alert alert-warning" role="alert" style="width: 800px;">
+                Для загрузки нескольких фотографий, их необходимо выделить при помощи ctrl!
+              </div>
+
+          </label>
             <div class="example-1">
               <div class="form-group">
                 <label class="label">
@@ -115,9 +121,10 @@
                   {{ form.all_images }}
                 </label>
               </div>
+              <div class="row">
+                <span class="photo-add" id="output"></span>
             </div>
-            
-                      
+            </div>       
           </div>
         </div>
       </section>
@@ -161,7 +168,29 @@
 <button type="button" class="btn btn-outline-secondary" onclick="window.location.href = '{% url 'login' %}';">Войти</button>
 {% endif %}
 <script>
-  
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+        // Only process image files.
+        if (!f.type.match('image.*')) {
+            alert("Image only please....");
+        }
+        var reader = new FileReader();
+        // Closure to capture the file information.
+        reader.onload = (function (theFile) {
+            return function (e) {
+                // Render thumbnail.
+                var span = document.createElement('span');
+                span.innerHTML = ['<img class="thumb" title="', escape(theFile.name), '" src="', e.target.result, '" />'].join('');
+                document.getElementById('output').insertBefore(span, null);
+            };
+        })(f);
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+    }
+}
+document.getElementById('id_all_images').addEventListener('change', handleFileSelect, false);
 </script>
 
 <script>
@@ -173,8 +202,6 @@
           console.log(suggestion);
       }
   });
-
-
 </script> 
 
 {% endblock content %}

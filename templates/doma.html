@@ -1,44 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<div style="display: flex;
-flex-direction: column;
-margin: 0 auto;
-max-width: 1180px;
-min-width: 320px;
-width: 100%;">
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="filteredProducts" style="max-width: 1000px;margin: 15px;" >
-   
-  {% for post in object_list %}
-  {% if post.pub %}
-  {% else %}
-  <div class="advert post-box">
-    <div class="card-min">
-      <div class="slider">
-      {% for all_images in post.all_images.all %}
-        <img src="{{ all_images.image_data_link.url }}" class="rounded" style="height: 220px;" alt="продукт">
-      {% endfor %}     
-    </div>
-    <span class="badge bg-success" {% if post.status.id == 2 %} style="background-color: #27CB58 !important;border-radius: 0% 5px 5px 0%;" {% endif %} {% if post.status.id == 3 %} style="background-color: #53687E !important;border-radius: 0% 5px 5px 0%;" {% endif %}>{{post.status}}</span>
-      <div class="card-body">
-        <h5 class="card-title"><a style="color:#3A4454;" href="{% url 'post_detail' post.pk %}" target="_blank">{{ post.type_object}} · {% if post.square %} {{post.square|default_if_none:""}} м² ·{% endif %} {{post.land_area }} сот. · {{post.land_status}}</a></h5>
-        <p class="min-card-adress">{{ post.adress}}</p>
-        <h4 class="price-main-card">{{ post.price }} ₽</h4>
-        <!--<p class="min-card-text">{{ post.body|slice:":100" }}...<a href="{% url 'post_detail' post.pk %}" target="_blank">Читать далее</a></p>!-->
-      </div>
-      {% if post.todaytime %}
-          <div class="card-footer" style="background: white;"> 
-            <small class="text-muted"><i class="bi bi-clock-history"></i> Сегодня в {{post.created_at|time:"H:i"}} </small>
-          </div>
-        {% else %}
-          <div class="card-footer" style="background: white;"> 
-            <small class="text-muted">{{post.created_at}}</small>
-          </div>
-      {% endif %}
-    </div>    
-  </div>
-  {% endif %}
-{% endfor %}
-</div>
+<div class="category-page-style">
+<!--Подключение фильтра-->
+{% include 'main_filter.html' %}
+<!--Подключение фильтра-->
+<!--Подключение карточки объекта-->
+{% include 'card_posts.html' %}
+<!--Подключение фильтра-->
 </div>
 
+
+<script src="{% static 'js/loadMoredoma.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/jscategory.js' %}" type="text/javascript"></script>
 {% endblock content %}

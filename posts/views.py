@@ -53,14 +53,21 @@ class SalesListView(FilterMain, generic.ListView):
         context['total_data'] = Post_sale.objects.filter(status='2').filter(published=True).count()
         return context
 
-class DomaListView(generic.ListView):
+class DomaListView(FilterMain, generic.ListView):
     """Вывод постов с типом Дом"""
     model = Post_sale
     template_name = 'doma.html'
     context_object_name = 'doma'
     paginate_by = 6
     def get_queryset(self):
-        return Post_sale.objects.filter(type_object='2').filter(published=True).order_by('-created_at')
+        return Post_sale.objects.filter(type_object='2').filter(published=True).order_by('-created_at')[:6]
+    
+    def get_context_data(self, **kwargs):
+        # Получаем контекст из родительского класса ListView
+        context = super().get_context_data(**kwargs)
+        # Дополняем контекст нужным нам значением
+        context['total_data'] = Post_sale.objects.filter(type_object='2').filter(published=True).count()
+        return context
 
 class VillageListView(generic.ListView):
     """Вывод всех поселков"""
@@ -193,6 +200,7 @@ class HomeCreateView(CreateView):
             new_obj = bound_form.save(commit=False)
             new_obj.author = request.user
             new_obj = bound_form.save()
+            messages.success(request, 'Ваше объявление успешно опубликовано.')
             for f in request.FILES.getlist('all_images'):
                 data = f.read() #Если файл целиком умещается в памяти
                 photo = PostImage(post=new_obj)
@@ -339,6 +347,7 @@ def edit_post(request, pk):
             new_obj = form.save(commit=False)
             new_obj.author = request.user
             new_obj = form.save()
+            messages.success(request, 'Ваше объявление успешно отредактировано.')
             for f in request.FILES.getlist('all_images'):
                 data = f.read() #Если файл целиком умещается в памяти
                 photo = PostImage(post=new_obj)
@@ -381,6 +390,14 @@ def load_more_data_ychastki(request):
     allPosts = Post_sale.objects.all().filter(type_object='5').filter(published=True).order_by('-created_at')[offset:offset+limit]
     t=render_to_string('ajax/posts.html', {'object_list':allPosts})
     return JsonResponse({'object_list':t})
+
+def load_more_data_doma(request):
+    offset=int(request.GET['offset'])
+    limit=int(request.GET['limit'])
+    allPosts = Post_sale.objects.filter(type_object='2').filter(published=True).order_by('-created_at')[offset:offset+limit]
+    t=render_to_string('ajax/posts.html', {'object_list':allPosts})
+    return JsonResponse({'object_list':t})
+
 
 
 class VillageSearch (ListView):
