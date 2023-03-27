@@ -1,0 +1,33 @@
+{% load static %}
+{% load mathfilters %}
+{% for village in object_list %}
+<div class="card-village post-box">
+    <div class="row" style="width: 800px;">
+        <div class="col-md-4" style="width: 200px;">
+            {%  if village.img %}
+            <img src="{{ village.img.url }}" class="img-fluid rounded" alt="{{village.title}} - zagorodoma.ru">
+            {% else %}
+            <img src="media/villages/default.png" class="img-fluid rounded" alt="{{village.title}} - zagorodoma.ru">
+            {% endif %}
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title" style="float: left;"><a style="color:#3A4454;" href="{% url 'village_detail' village.slug %}">{{village.title}}</a></h5>
+              <p class="card-text" style="float: right;"><small class="text-muted">ID: {{village.id}}</small></p>
+              <p class="card-text" style="clear: both;">{{village.body}}</p>
+              <p class="card-text">{{ village.adress }}</p>
+              <p class="card-text">Участки от <small class="text-muted">{{village.min_area|mul:village.price_area}} руб. </small></p>
+            </div>
+          </div>
+    </div>
+</div>
+{% endfor %}
+<script type="text/javascript">
+$('.text-muted').text((i, text) => {
+    const [ price, currency ] = text.split(' ');
+    if (price>=0)
+    {
+    return `${(+price).toLocaleString()} ${currency}`;
+    }
+  });
+</script>

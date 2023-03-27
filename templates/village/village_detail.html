@@ -17,7 +17,8 @@
       border-radius: 16px;
     }</style>
 <div class="card">
-    <div class="card-body_post">
+  <input type="button" class="btn btn-secondary" style="width: 100px;display: flex;justify-content: center;margin-top: 20px;margin-left: 20px;" onclick="history.back();" value="Назад"/>
+    <div class="card-body_post" style="margin-top: 20px; !important">
         <div class="post-entry" style="width:1000px;">
           {%  if village.img %}
           <img src="{{ village.img.url }}" style="width:150px;float: left;margin-bottom: 30px;border-radius: 10px;" alt="{{village.title}}">
@@ -25,7 +26,7 @@
           <img src="/media/villages/default.png" style="width:150px;float: left;margin-bottom: 30px;border-radius: 10px;" alt="{{village.title}}">
           {% endif %}
           <div><a style="float: right;border-bottom: 1px dashed #5143d6;color: #5143d6;" href="{{village.url}}"> {{village.url}} </a></div>
-          <div style="float: left;margin-left: 20px;">
+          <div class="village-title-card">
             <div><h3 style="float: left;">{{ village.title }}</h3></div> 
             
             <input type="hidden" id="village-adress" name="variable" value="{{ village.adress }}">
@@ -33,7 +34,6 @@
             
             {% if village.developer %}<div style="margin-bottom: 5px;">Застройщик: {{ village.developer }}</div>{% endif %}
           </div> 
-            <hr style="color:#e3e0e0;">
             <div id="body" style="clear:both;"> 
                 <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Участки</div>
             <ul class="ul-card-info">
@@ -108,9 +108,10 @@
                 <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Описание</div>
                     <p>{{ village.body }}</p>
             </div>
-            </div>
             <hr style="color:#e3e0e0;">
             <div id="map"></div>
+            </div>
+            
 </div>
 
     </div>
@@ -128,7 +129,6 @@ ymaps.ready(init);
 
 function init() {
     var myVar = document.getElementById("village-adress").value;
-    console.log(myVar);
     var myMap = new ymaps.Map('map', {
         center: [59.9386, 30.3141],
         zoom: 9
@@ -165,57 +165,6 @@ function init() {
                 // Проверяем наличие тайлов на данном масштабе.
                 checkZoomRange: true
             });
-
-            /**
-             * Все данные в виде javascript-объекта.
-             */
-            console.log('Все данные геообъекта: ', firstGeoObject.properties.getAll());
-            /**
-             * Метаданные запроса и ответа геокодера.
-             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/GeocoderResponseMetaData.xml
-             */
-            console.log('Метаданные ответа геокодера: ', res.metaData);
-            /**
-             * Метаданные геокодера, возвращаемые для найденного объекта.
-             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/GeocoderMetaData.xml
-             */
-            console.log('Метаданные геокодера: ', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData'));
-            /**
-             * Точность ответа (precision) возвращается только для домов.
-             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/precision.xml
-             */
-            console.log('precision', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData.precision'));
-            /**
-             * Тип найденного объекта (kind).
-             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/kind.xml
-             */
-            console.log('Тип геообъекта: %s', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData.kind'));
-            console.log('Название объекта: %s', firstGeoObject.properties.get('name'));
-            console.log('Описание объекта: %s', firstGeoObject.properties.get('description'));
-            console.log('Полное описание объекта: %s', firstGeoObject.properties.get('text'));
-            /**
-            * Прямые методы для работы с результатами геокодирования.
-            * @see https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/GeocodeResult-docpage/#getAddressLine
-            */
-            console.log('\nГосударство: %s', firstGeoObject.getCountry());
-            console.log('Населенный пункт: %s', firstGeoObject.getLocalities().join(', '));
-            console.log('Адрес объекта: %s', firstGeoObject.getAddressLine());
-            console.log('Наименование здания: %s', firstGeoObject.getPremise() || '-');
-            console.log('Номер здания: %s', firstGeoObject.getPremiseNumber() || '-');
-
-            /**
-             * Если нужно добавить по найденным геокодером координатам метку со своими стилями и контентом балуна, создаем новую метку по координатам найденной и добавляем ее на карту вместо найденной.
-             */
-            /**
-             var myPlacemark = new ymaps.Placemark(coords, {
-             iconContent: 'моя метка',
-             balloonContent: 'Содержимое балуна <strong>моей метки</strong>'
-             }, {
-             preset: 'islands#violetStretchyIcon'
-             });
-
-             myMap.geoObjects.add(myPlacemark);
-             */
         });
       }
 </script>

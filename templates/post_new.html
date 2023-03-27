@@ -7,6 +7,7 @@
 <hr style="color:#e3e0e0;">
 <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
+      
       <div class="form-floating">
       <!-- статус сделки-->
       <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="basic-info">
@@ -22,10 +23,15 @@
             </ul>
           </div>
           <!-- статус сделки-->
-          <div class="col-sm-3 mb-3">
+          <div class="col-sm-6 mb-3">
             <label class="form-label" for="ap-type">Тип объекта <span class="text-danger">*</span></label>
-            {{ form.type_object }} <!-- тип объекта-->
-          </div>
+            <ul id="id_type_object" class="payment-methods">
+            {% for radio in form.type_object %}
+            {{ radio.tag }}
+            <label for="{{ radio.id_for_label }}"> {{ radio.choice_label }} </label>
+            {% endfor %}
+            </ul>
+            </div>
         </div>
       </section>
       <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="adress-info">
@@ -136,6 +142,12 @@
             <label class="form-label" for="price">Цена <span class="text-danger">*</span></label>
             <div class="input-group mb-3">{{ form.price }}<!-- цена--><span class="input-group-text">руб.</span> </div>
             
+          </div>
+          <div class="col-sm-3 mb-3">
+            <label class="form-label" for="price"></label>
+            <div class="input-group mb-3" style="font-size: 20px;font-size: 20px;background: #e9ecef;color: #636363;padding: 10px;width: 240px;border-radius: 10px;"> 
+              {{ form.urgent_sales }} <div style="margin-left: 5px;margin-right: 5px;"> Срочная продажа</div> <img src="/media/static/fire.png" width="20" height="20">
+            </div>        
           </div>
         </div>
       </section>

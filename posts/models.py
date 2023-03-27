@@ -18,9 +18,9 @@ class Post_sale(models.Model):
         def get_quertyser(self):
             return super().get_queryset().filter(published=True)
 
-    type_object = models.ForeignKey('Type_object', on_delete=models.CASCADE, verbose_name='Тип объекта', blank=True, null=True)
-    status = models.ForeignKey('Status', on_delete=models.CASCADE, verbose_name='Тип сделки', blank=False, default=1, related_name='status_st')
-    adress = models.TextField(verbose_name='Адрес', max_length=1000)
+    type_object = models.ForeignKey('Type_object', on_delete=models.CASCADE, verbose_name='Тип объекта', default=2, blank=True, null=True, related_name='type_object_st')
+    status = models.ForeignKey('Status', on_delete=models.CASCADE, verbose_name='Тип сделки', blank=False, default=2, related_name='status_st')
+    adress = models.TextField(verbose_name='Адрес', max_length=1000, blank=True)
     body = models.TextField(verbose_name='Описание', max_length=5000)
     square = models.IntegerField(blank=True, null=True, verbose_name='Площадь дома')
     floors = models.IntegerField(verbose_name='Этажей в доме', blank=True, null=True)
@@ -41,6 +41,7 @@ class Post_sale(models.Model):
     rent_amenities = models.ManyToManyField('Rent_amenities', verbose_name='Аренда удобства', blank=True)
     rent_price = models.CharField(verbose_name='Арендная плата', max_length=30)
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
+    urgent_sales = models.BooleanField(verbose_name='Срочная продажа', default=False)
     district = models.ForeignKey('District', on_delete=models.CASCADE, verbose_name='Район', blank=True, null=True)
     objects = models.Manager()
     newmanager = NewManager ()
@@ -76,6 +77,7 @@ class Post_sale(models.Model):
     class Meta :
         verbose_name = 'Объявление'
         verbose_name_plural = 'Объявления'
+        
 def images_directory_path(instance, filename):
     return '/'.join(['villages',str(instance.slug), str(uuid.uuid4().hex + ".png")])
 
@@ -86,16 +88,17 @@ class Cottvill(models.Model):
     url = models.TextField(max_length=100 , verbose_name='Сайт поселка', blank=True, null=True)
     adress = models.TextField(max_length=800 , verbose_name='Адрес поселка', blank=True, null=True)
     status_land = models.ForeignKey('Land_status', on_delete=models.CASCADE, verbose_name='Статус земли', blank=True, null=True)
-    col_area = models.TextField(max_length=4 , verbose_name='Количество участков', blank=True, null=True)
-    min_area = models.TextField(max_length=6 , verbose_name='Минимальная площадь участка', blank=True, null=True)
-    max_area = models.TextField(max_length=6 , verbose_name='Максимальная площадь участка', blank=True, null=True)
-    price_area = models.TextField(max_length=15 , verbose_name='Цена участка', blank=True, null=True)
+    col_area = models.IntegerField(verbose_name='Количество участков', blank=True, null=True)
+    min_area = models.IntegerField(verbose_name='Минимальная площадь участка', blank=True, null=True)
+    max_area = models.IntegerField(verbose_name='Максимальная площадь участка', blank=True, null=True)
+    price_area = models.IntegerField(verbose_name='Цена участка', blank=True, null=True)
     сommunications = models.TextField(max_length=15 , verbose_name='Коммуникации', blank=True, null=True)
     body = models.TextField(max_length=9000 , verbose_name='Описание', blank=True, null=True)
     house_price_min = models.TextField(max_length=20 , verbose_name='Минимальная цена дома', blank=True, null=True)
     house_price_max = models.TextField(max_length=20 , verbose_name='Максимальная цена дома', blank=True, null=True)
     col_house = models.TextField(max_length=4 , verbose_name='Количество домов', blank=True, null=True)
     payment = models.TextField(max_length=20 , verbose_name='Ежемесячные взносы', blank=True, null=True)
+    published = models.BooleanField(verbose_name='Опубликован', default=False)
     img = models.ImageField(upload_to=images_directory_path, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', related_name='user')
 
@@ -113,7 +116,6 @@ class Cottvill(models.Model):
     
     def get_absolute_url(self):
         return reverse('village_detail', kwargs={'village_slug': self.slug})
-
 
 class Status(models.Model):
     title = models.TextField(max_length=50, db_index=True , verbose_name='Тип сделки', blank=True, null=True)
@@ -166,7 +168,7 @@ class House_material(models.Model):
         verbose_name_plural = 'Материалы Дома'
 
 class Type_object(models.Model):
-    title = models.TextField(max_length=50, db_index=True , verbose_name='Тип объекта')
+    title = models.TextField(max_length=50, db_index=True , verbose_name='Тип объекта', blank=True, null=True)
     slug = models.SlugField(max_length=50, unique=True, verbose_name='URL объекта')
        
     def __str__(self):

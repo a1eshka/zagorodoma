@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Каталог строительных компаний загородных домов в СПб и ЛО - zagorodoma.ru{% endblock %}
+{% block description %}Каталог строительных компаний в Санкт-Петербурге и Ленинградской области на сайте zagorodoma.ru{% endblock %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+<div class="companies-title-category"><i class="fi fi-rr-search-alt"></i> Каталог строительных компаний <button type="button" class="btn btn-outline-success" onclick="window.location.href = '{% url 'companies_new' %}';" style="float: right;"><i class="fi-rr-add" style="font-size: 12px;"></i> Добавить компанию</button></div>
+<div class="table-responsive" style="margin: 0 auto;
+max-width: 990px;
+margin-top: 20px;
+border-radius: 10px;">
+        <table class="table" style="background:white;border-radius: 10px;">
+            <tbody>
+                {% for catalog in object_list %}
+                <tr>
+                  <th style="padding: 20px;">
+                    <td>
+                        {%  if catalog.img %}
+                        <img src="{{ catalog.img.url }}" width=100 class="img rounded" alt="{{catalog.title}} - zagorodoma.ru">
+                        {% else %}
+                        <img src="media/villages/default.png" width=100 class="img rounded" alt="{{catalog.title}} - zagorodoma.ru">
+                        {% endif %}
+                    </td>
+                    <td style="padding: 20px;">
+                    <div style="margin-top: 15px;">
+                        <b><a style="color:#3A4454;" href="{% url 'detail_company' catalog.slug %}">{{ catalog.title }}</a></b>
+                    </div>
+                    </td>
+                        <td style="padding: 20px;">
+                            <div style="margin-top: 15px;font-size: 14px;">
+                                {{ catalog.adress|slice:":100" }}
+                            </div>
+                        </td>
+                        <td style="padding: 20px;">
+                            <div style="margin-top: 15px;font-size: 14px;">
+                                {{ catalog.phone }}
+                            </div>
+                        </td>
+                        <td style="padding: 20px;">
+                            <div style="margin-top: 15px;font-size: 14px;">
+                                <a href="{% url 'company_rating' catalog.id 1 %}">+</a>
+{{ catalog.rating.get_difference }}
+                            </div>
+                        </td>
+                        <!--<td style="padding: 20px;">
+                            <div style="margin-top: 15px;font-size: 14px;">
+                                {% for user in catalog.services.all %}
+                                    {{ user.title }} 
+                                {% endfor %}
+                           </div>
+                        </td>!-->
+                    </th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>   
+ <script async src="{% static '/js/ratings.js' %}"></script>
+{% endblock content %}

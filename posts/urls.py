@@ -3,7 +3,6 @@ from posts import views
 from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
-from django.conf.urls import url
  
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
@@ -14,6 +13,7 @@ urlpatterns = [
     path("load-more-data-rent", views.load_more_data_rent, name='load_more_data_rent'),
     path("load-more-data-doma", views.load_more_data_doma, name='load_more_data_doma'),
     path("load-more-data-ychastki", views.load_more_data_ychastki, name='load_more_data_ychastki'),
+    path("load-more-data-village", views.load_more_data_village, name='load_more_data_village'),
     path('post/new/', HomeCreateView.as_view(), name='post_new'),
     path('post/<int:pk>/', HomeDetailView.as_view(), name='post_detail'),
     path('doma', DomaListView.as_view(), name='doma'),

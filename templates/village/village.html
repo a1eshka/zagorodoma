@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}Каталог коттеджных поселков - zagorodoma.ru{% endblock %}
+{% block description %}Каталог коттеджных поселков в Санкт-Петербурге и Ленинградской области на сайте zagorodoma.ru{% endblock %}
+{% load static %}
+{% load mathfilters %}
 {% block content %}
-<div class="village-titile-category">Поселки <button type="button" class="btn btn-success" onclick="window.location.href = '{% url 'village_new' %}';" style="float: right;">Добавить поселок</button></div>
+<div class="village-titile-category"><i class="fi fi-rr-home"></i> Коттеджные поселки <button type="button" class="btn btn-success" onclick="window.location.href = '{% url 'village_new' %}';" style="float: right;">Добавить поселок</button></div>
 <div class="village-filter">
     <form class="d-flex" action="{% url 'village_search' %}" method="get">
         <div class="input-group">
@@ -11,27 +15,38 @@
 </div>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="filteredProducts" style="max-width: 1000px;margin: 15px;display: inline;" >
   {% for village in object_list %}
-    <div class="card-village">
-        <div class="row" style="width: 700px;">
-            <div class="col-md-4">
+    <div class="card-village post-box">
+        <div class="row">
+            <div class="col-md-4" style="width: 200px;">
                 {%  if village.img %}
-                <img src="{{ village.img.url }}" class="img-fluid rounded-start" alt="...">
+                <img src="{{ village.img.url }}" class="img-fluid rounded" alt="{{village.title}} - zagorodoma.ru">
                 {% else %}
-                <img src="media/villages/default.png" class="img-fluid rounded-start" alt="...">
+                <img src="media/villages/default.png" class="img-fluid rounded" alt="{{village.title}} - zagorodoma.ru">
                 {% endif %}
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title" style="float: left;"><a style="color:#3A4454;" href="{% url 'village_detail' village.slug %}" target="_blank">{{village.title}}</a></h5>
+                  <h5 class="card-title" style="float: left;"><a style="color:#3A4454;" href="{% url 'village_detail' village.slug %}">{{village.title}}</a></h5>
                   <p class="card-text" style="float: right;"><small class="text-muted">ID: {{village.id}}</small></p>
                   <p class="card-text" style="clear: both;">{{village.body}}</p>
                   <p class="card-text">{{ village.adress }}</p>
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  <div class="card-text">Участки от {{village.min_area|mul:village.price_area}} руб. </div>
                 </div>
               </div>
         </div>
     </div>
   {% endfor %}
+  <button type="button" id="loadMore" data-limit="6" data-total="{{total_data}}" class="btn btn-secondary btnload" style="margin: 0 auto;display: block;width: 200px;margin-top: 40px;">Показать еще</button>
 </div>
+<script type="text/javascript">
 
+$('.text-muted').text((i, text) => {
+    const [ price, currency ] = text.split(' ');
+    if (price>=0)
+    {
+    return `${(+price).toLocaleString()} ${currency}`;
+    }
+  });
+</script>
+<script src="{% static 'js/loadMorevillage.js' %}" type="text/javascript"></script>
 {% endblock content %}

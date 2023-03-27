@@ -21,9 +21,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post_sale
         exclude = ['author']
-        fields = ['status', 'type_object','adress','body', 'year_of_construction', 'house_material' ,'square', 'floors', 'water', 'ceiling_height', 'land_area', 'land_status', 'heating', 'price', 'rent_price' ,'phone', 'houseAdditional', 'rent_amenities', 'district', 'all_images' ]
+        fields = ['status', 'type_object','adress','body', 'year_of_construction', 'house_material' ,'square', 'floors', 'water', 'ceiling_height', 'land_area', 'land_status', 'heating', 'price', 'rent_price' ,'phone', 'houseAdditional', 'rent_amenities', 'district', 'all_images', 'urgent_sales' ]
         widgets = {
-            'type_object': forms.Select(attrs={'class': 'form-control'}),
+            'type_object': forms.RadioSelect(attrs={'class': 'payment-methods'}),
             'all_images':forms.FileInput(attrs={'multiple': 'multiple'}),
             'adress':forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Адрес участка'}),
             'status': forms.RadioSelect(attrs={'class': 'payment-methods'}),
@@ -59,10 +59,10 @@ class VillageForm(forms.ModelForm):
             'url':forms.TextInput(attrs={'class': 'form-control','placeholder': 'https://www.poselok.ru'}),
             'adress': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ленинградская обл., Ломонсоовский район...'}),
             'status_land': forms.Select(attrs={'class': 'form-control', 'rows': 5}),
-            'col_area': forms.TextInput(attrs={'class': 'form-control','placeholder': '56'}),
-            'min_area': forms.TextInput(attrs={'class': 'form-control','placeholder': '6 сот.'}),
-            'max_area':forms.TextInput(attrs={'class': 'form-control','placeholder': '24 сот.'}),
-            'price_area': forms.TextInput(attrs={'class': 'form-control'}),
+            'col_area': forms.TextInput(attrs={'class': 'form-control','placeholder': '56', 'maxlength':'4'}),
+            'min_area': forms.TextInput(attrs={'class': 'form-control','placeholder': '6 сот.', 'maxlength':'6'}),
+            'max_area':forms.TextInput(attrs={'class': 'form-control','placeholder': '24 сот.', 'maxlength':'6'}),
+            'price_area': forms.TextInput(attrs={'class': 'form-control', 'maxlength':'15'}),
             'сommunications': forms.Select(attrs={'class': 'form-control'}),
             'body': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}),
             'house_price_min': forms.TextInput(attrs={'class': 'form-control'}),

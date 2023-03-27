@@ -23,7 +23,7 @@ $(document).ready(function(){
 				var _totalShowing=$(".post-box").length;
 				if(_totalShowing==_total){
 					$("#loadMore").remove();
-					alert.classList.remove('not-visible');
+					
 				}
 			}
         });

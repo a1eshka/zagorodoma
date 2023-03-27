@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}{{catalog.title}} - Zagorodoma.ru{% endblock %}
+{% block description %}
+{% endblock %}
+{% block keywords %}
+{% endblock %}
+{% block content %}
+{% load mathfilters %}
+<style>#map {
+    width: 100%;
+    height: 80%;
+    border-radius: 10px;}
+  
+    .ymaps-2-1-79-map ymaps {
+      border-radius: 16px;
+    }</style>
+<div class="card">
+  <input type="button" class="btn btn-secondary" style="width: 100px;display: flex;justify-content: center;margin-top: 20px;margin-left: 20px;" onclick="history.back();" value="Назад"/>
+    <div class="card-body_post" style="margin-top: 20px; !important">
+        <div class="post-entry" style="width:1000px;">
+          {%  if catalog.img %}
+          <img src="{{ catalog.img.url }}" style="width:150px;float: left;margin-bottom: 30px;border-radius: 10px;" alt="{{catalog.title}}">
+          {% else %}
+          <img src="/media/villages/default.png" style="width:150px;float: left;margin-bottom: 30px;border-radius: 10px;" alt="{{catalog.title}}">
+          {% endif %}
+          <div><a style="float: right;border-bottom: 1px dashed #5143d6;color: #5143d6;" href="{{catalog.url}}"> {{catalog.url}} </a></div>
+          <div class="company-title-card">
+            <div><h3 style="float: left;">{{ catalog.title }}</h3></div> 
+            
+            <input type="hidden" id="catalog-adress" name="variable" value="{{ catalog.adress }}">
+            <div style="color: rgb(102 102 102 / 88%);clear: both; margin-bottom: 5px;">{{ catalog.adress }}</div>
+            <div style="color: rgb(102 102 102 / 88%);clear: both; margin-bottom: 5px;">{{ catalog.phone }}</div>
+          </div>  
+          {% if catalog.services %}       
+            <div id="body" style="clear:both;">
+                <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Предоставляемые услуги</div>
+                <ul class="ul-card-info">
+                  
+                  {% for user in catalog.services.all %}
+                   
+                  <li class="li-card-info">
+                    <span class="span-title">{{ user.title }}</span>
+                    <span class="dots"></span>
+                    <svg style="color: #198754;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                      <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                    </svg>
+                    </li>
+                  {% endfor %}
+                  
+                  </ul>
+            </div>
+            {% endif %}
+            <div id="body"> 
+                <div style="font-size: 18px;font-weight: bold;margin-bottom: 8px;">Описание</div>
+                    <p>{{ catalog.body }}</p>
+            </div>
+            <hr style="color:#e3e0e0;">
+            <div id="map"></div>
+            </div>
+            
+</div>
+
+    </div>
+    
+        </div>
+
+<script async type="text/javascript">
+
+$('.price_area').text((i, text) => {
+const [ price, currency ] = text.split(' ');
+return `${(+price).toLocaleString()} ${currency}`;
+});
+
+ymaps.ready(init);
+
+function init() {
+    var myVar = document.getElementById("catalog-adress").value;
+
+    var myMap = new ymaps.Map('map', {
+        center: [59.9386, 30.3141],
+        zoom: 9
+    });
+
+    // Поиск координат центра Нижнего Новгорода.
+    ymaps.geocode(myVar, {
+        /**
+         * Опции запроса
+         * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/geocode.xml
+         */
+        // Сортировка результатов от центра окна карты.
+        // boundedBy: myMap.getBounds(),
+        // strictBounds: true,
+        // Вместе с опцией boundedBy будет искать строго внутри области, указанной в boundedBy.
+        // Если нужен только один результат, экономим трафик пользователей.
+        results: 1
+    }).then(function (res) {
+            // Выбираем первый результат геокодирования.
+            var firstGeoObject = res.geoObjects.get(0),
+                // Координаты геообъекта.
+                coords = firstGeoObject.geometry.getCoordinates(),
+                // Область видимости геообъекта.
+                bounds = firstGeoObject.properties.get('boundedBy');
+
+            firstGeoObject.options.set('preset', 'islands#darkBlueDotIconWithCaption');
+            // Получаем строку с адресом и выводим в иконке геообъекта.
+            firstGeoObject.properties.set('iconCaption', firstGeoObject.getAddressLine());
+
+            // Добавляем первый найденный геообъект на карту.
+            myMap.geoObjects.add(firstGeoObject);
+            // Масштабируем карту на область видимости геообъекта.
+            myMap.setBounds(bounds, {
+                // Проверяем наличие тайлов на данном масштабе.
+                checkZoomRange: true
+            });
+        });
+      }
+</script>
+{% endblock content %}

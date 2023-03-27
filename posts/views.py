@@ -1,8 +1,6 @@
 import datetime
 from msilib.schema import PublishComponent
 from multiprocessing import context
-import os
-import parser
 from pickle import FALSE
 from re import template
 from sre_constants import SUCCESS
@@ -76,7 +74,14 @@ class VillageListView(generic.ListView):
     context_object_name = 'village'
 
     def get_queryset(self):
-        return Cottvill.objects.all()
+        return Cottvill.objects.all()[:6]
+    
+    def get_context_data(self, **kwargs):
+        # Получаем контекст из родительского класса ListView
+        context = super().get_context_data(**kwargs)
+        # Дополняем контекст нужным нам значением
+        context['total_data'] = Cottvill.objects.all().count()
+        return context
 
 class YchastkiListView(FilterMain, generic.ListView):
     """Вывод постов с типом Участок"""
@@ -396,6 +401,13 @@ def load_more_data_doma(request):
     limit=int(request.GET['limit'])
     allPosts = Post_sale.objects.filter(type_object='2').filter(published=True).order_by('-created_at')[offset:offset+limit]
     t=render_to_string('ajax/posts.html', {'object_list':allPosts})
+    return JsonResponse({'object_list':t})
+
+def load_more_data_village(request):
+    offset=int(request.GET['offset'])
+    limit=int(request.GET['limit'])
+    allPosts = Cottvill.objects.all()[offset:offset+limit]
+    t=render_to_string('ajax/villages.html', {'object_list':allPosts})
     return JsonResponse({'object_list':t})
 
 
