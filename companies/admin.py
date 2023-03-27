@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Constcomp, Services
+from .models import Constcomp, Services, Rating
 
 class ConstcompAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'author', ]
@@ -10,3 +10,5 @@ class ConstcompAdmin (admin.ModelAdmin):
 @admin.register(Services)
 class ServicesAdmin (admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
+
+admin.site.register(Rating)

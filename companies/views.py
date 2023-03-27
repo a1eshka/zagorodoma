@@ -1,8 +1,13 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Constcomp
+from .models import Constcomp, Rating
 from django.views.generic import DetailView, CreateView
 from django.views import generic
 from .forms import ConstcompForm
+from django.shortcuts import render, get_object_or_404 
+from django.http import JsonResponse 
+from django.contrib.auth.decorators import login_required 
+from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 class ConstcompListView(generic.ListView):
     """Вывод всех строительных компаний"""
@@ -63,3 +68,25 @@ class ConstcompCreateView(CreateView):
             form = ConstcompForm()
         return render(request, self.template_name, {'form': form})
 
+
+
+@csrf_exempt 
+@login_required 
+def rate_constcomp(request): 
+    if request.method == 'POST': 
+        constcomp_id = request.POST.get('constcomp_id') 
+        is_like = request.POST.get('is_like') 
+        constcomp = Constcomp.objects.get(pk=constcomp_id) 
+        rating, created = Rating.objects.get_or_create(user=request.user, constcomp=constcomp) 
+        if is_like == 'like': 
+            rating.is_like = True 
+        elif is_like == 'dislike': 
+            rating.is_like = False 
+        else: 
+            rating.is_like = None 
+        rating.save() 
+        response_data = { 
+            'likes_count': constcomp.likes_count(), 
+            'dislikes_count': constcomp.dislikes_count(), 
+        } 
+        return JsonResponse(response_data)

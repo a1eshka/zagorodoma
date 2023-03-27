@@ -9,15 +9,16 @@ from django.urls import reverse
 import uuid
 from django.contrib.auth.models import User
 from slugify import slugify
+from PIL import Image
 
 def images_directory_path2(instance, filename):
-    return '/'.join(['companies',str(instance.slug), str(uuid.uuid4().hex + ".png")])
+    return '/'.join(['companies',str(instance.slug), str(uuid.uuid4().hex + ".webp")])
 
 class Constcomp(models.Model):
     class ConstcompManager(models.Manager):
         
         def all(self):
-            return self.get_queryset().prefetch_related('ratings').filter(status='published')
+            return self.get_queryset().filter(status='published')
 
         
     title = models.TextField(max_length=200, unique=True, db_index=True, verbose_name='Название строительной компании', blank=True, null=True)
@@ -46,8 +47,12 @@ class Constcomp(models.Model):
     def get_absolute_url(self):
         return reverse('detail_company', kwargs={'constcomp_slug': self.slug})
     
-    def get_sum_rating(self):
-        return sum([rating.value for rating in self.ratings.all()])
+    def likes_count(self): 
+        return self.rating_set.filter(is_like=True).count() 
+ 
+    def dislikes_count(self): 
+        return self.rating_set.filter(is_like=False).count()
+    
 
 class Services(models.Model):
     title = models.TextField(max_length=50, db_index=True , verbose_name='Услуги', blank=True, null=True)
@@ -58,3 +63,15 @@ class Services(models.Model):
     class Meta :
         verbose_name = 'Услуги'
         verbose_name_plural = 'Услуги'
+
+
+class Rating(models.Model): 
+    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    constcomp = models.ForeignKey(Constcomp, on_delete=models.CASCADE) 
+    is_like = models.BooleanField(default=True) 
+ 
+    class Meta: 
+        unique_together = ('user', 'constcomp')
+        verbose_name = 'Голоса'
+        verbose_name_plural = 'Голоса'
+    

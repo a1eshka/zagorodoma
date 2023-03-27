@@ -10,6 +10,7 @@ import requests
 import uuid
 from django.contrib.auth.models import User
 from slugify import slugify
+from PIL import Image
 
 
 
@@ -215,7 +216,7 @@ class Water(models.Model):
 
 class PostImage(models.Model):
     def images_directory_path(instance, filename):
-        return '/'.join(['images',str(instance.post.id), str(uuid.uuid4().hex + ".png")])
+        return '/'.join(['images',str(instance.post.id), str(uuid.uuid4().hex + ".webp")])
         
     image_data_link = models.ImageField(upload_to=images_directory_path)
     image_url = models.URLField(blank=True)
@@ -226,17 +227,14 @@ class PostImage(models.Model):
         verbose_name_plural = "Фотографии"
 
     def get_remote_url(self):
+        cleaned_data = super().clean()
+        all_images = cleaned_data.get("all_images")
         if self.image_url and not self.image_data_link:
             image_temp = NamedTemporaryFile(delete=True)
             image_temp.write(requests.get(self.image_url).content)
             image_temp.flush()
-            self.image_data_link.save(f'photo_{self.pk}.jpg', File(image_temp))
+            with Image.open(all_images) as img:
+                self.image_data_link.save(f'photo_{self.pk}.jpg', File(image_temp))
         self.save()
-
-class Ip(models.Model): # наша таблица где будут айпи адреса
-    ip = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.ip
 
 

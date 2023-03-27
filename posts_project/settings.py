@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'companies.apps.CompaniesConfig',
     'django_cleanup',
     'mathfilters',
-    'updown',
 
 ]
 
@@ -132,4 +131,5 @@ LOGOUT_REDIRECT_URL = 'home'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+
 

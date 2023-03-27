@@ -46,7 +46,6 @@ class PostForm(forms.ModelForm):
 
         }
 
-
 class VillageForm(forms.ModelForm):
 
     class Meta:

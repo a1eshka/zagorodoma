@@ -37,9 +37,19 @@ border-radius: 10px;">
                             </div>
                         </td>
                         <td style="padding: 20px;">
-                            <div style="margin-top: 15px;font-size: 14px;">
-                                <a href="{% url 'company_rating' catalog.id 1 %}">+</a>
-{{ catalog.rating.get_difference }}
+                            <div style="margin-top: 15px;font-size: 14px;">                     
+                                {% if request.user.is_authenticated %} 
+                                <button class="rate-button btn" data-constcomp-id="{{ catalog.id }}" data-is-like="like" style="border-radius: 10px;
+                                background-color: #87ff87;
+                                border-color: #87ff87;
+                                color: green;margin-bottom: 3px;"><i class="fi-br-social-network"></i> <span id="likes-count-{{ catalog.id }}">{{ catalog.likes_count }}</span></button> 
+                                <button class="rate-button btn" data-constcomp-id="{{ catalog.id }}" data-is-like="dislike" style="border-radius: 10px;
+                                background-color: #ffcccc;
+                                border-color: #ffcccc;
+                                color: #e22a3c;"><i class="fi-br-hand"></i> <span id="dislikes-count-{{ catalog.id }}">{{ catalog.dislikes_count }}</span></button>  
+                                {% else %} 
+                                <p>Вы должны <a href="{% url 'login' %}">войти</a>, чтобы проголосовать.</p> 
+                                {% endif %}
                             </div>
                         </td>
                         <!--<td style="padding: 20px;">
@@ -54,6 +64,32 @@ border-radius: 10px;">
                 {% endfor %}
             </tbody>
         </table>
-    </div>   
+    </div>
+
+    <script> 
+
+$(document).ready(function() { 
+    $('.rate-button').click(function() { 
+        var constcomp_id = $(this).data('constcomp-id'); 
+        var is_like = $(this).data('is-like'); 
+        $.ajax({ 
+            type: 'POST', 
+            url: 'rate_constcomp', 
+            data: { 
+                'constcomp_id': constcomp_id, 
+                'is_like': is_like, 
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(), 
+            }, 
+            success: function(data) { 
+                $('#likes-count-' + constcomp_id).text(data.likes_count); 
+                $('#dislikes-count-' + constcomp_id).text(data.dislikes_count); 
+            }, 
+            error: function() { 
+                alert('Ошибка при голосовании.'); 
+            } 
+        }); 
+    }); 
+});
+    </script>
  <script async src="{% static '/js/ratings.js' %}"></script>
 {% endblock content %}
