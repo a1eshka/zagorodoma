@@ -1,10 +1,10 @@
 import datetime
-from msilib.schema import PublishComponent
 from tabnanny import verbose
 from tempfile import NamedTemporaryFile
 from django.conf import settings
 from django.core.files import File
 from django.db import models
+from django.shortcuts import render
 from django.urls import reverse
 import requests
 import uuid
@@ -19,7 +19,7 @@ class Post_sale(models.Model):
         def get_quertyser(self):
             return super().get_queryset().filter(published=True)
 
-    type_object = models.ForeignKey('Type_object', on_delete=models.CASCADE, verbose_name='Тип объекта', default=2, blank=True, null=True, related_name='type_object_st')
+    type_object = models.ForeignKey('Type_object', on_delete=models.CASCADE, verbose_name='Тип объекта', default=2, blank=False, related_name='type_object_st')
     status = models.ForeignKey('Status', on_delete=models.CASCADE, verbose_name='Тип сделки', blank=False, default=2, related_name='status_st')
     adress = models.TextField(verbose_name='Адрес', max_length=1000, blank=True)
     body = models.TextField(verbose_name='Описание', max_length=5000)
@@ -100,6 +100,7 @@ class Cottvill(models.Model):
     col_house = models.TextField(max_length=4 , verbose_name='Количество домов', blank=True, null=True)
     payment = models.TextField(max_length=20 , verbose_name='Ежемесячные взносы', blank=True, null=True)
     published = models.BooleanField(verbose_name='Опубликован', default=False)
+    main_slider = models.BooleanField(verbose_name='На главном слайдере', default=False)
     img = models.ImageField(upload_to=images_directory_path, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', related_name='user')
 
@@ -117,7 +118,7 @@ class Cottvill(models.Model):
     
     def get_absolute_url(self):
         return reverse('village_detail', kwargs={'village_slug': self.slug})
-
+    
 class Status(models.Model):
     title = models.TextField(max_length=50, db_index=True , verbose_name='Тип сделки', blank=True, null=True)
     slug = models.SlugField(max_length=50, unique=True, verbose_name='URL сделки')

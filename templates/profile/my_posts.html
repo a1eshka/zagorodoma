@@ -46,16 +46,30 @@
                   </div>
                   <a href="{% url 'edit_post' my_post.id %}" ><button class="btn btn-danger-soft" style="margin: 15px;float: right;" type="button"><i class="bi bi-pencil-fill"></i> Изменить</button></a>
                   {% if my_post.published == False %}
-                  <a style="margin: 15px;float: right;" class="btn btn-outline-info" href="{% url 'pub' my_post.id %}" class="">Опубликовать</a>
+                  <button type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-success" style="margin: 15px;float: right;"><i class="fi-rr-plus" style="font-size: 11px;"></i> Опубликовать </button>
                   {% endif %}
                 </div>
                 
                 </div>  
-                <hr style="color: #e3e0e0;">  
+                <hr style="color: #e3e0e0;">
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Публикация объявления</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Опубликовать Ваше объявление?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                        <a style="margin: 15px;float: right;" class="btn btn-outline-info" href="{% url 'pub' my_post.id %}" class="">Опубликовать</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
                 {% endfor %}
-
-
-
             </div>
 {% endif %}
 

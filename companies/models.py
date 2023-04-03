@@ -1,5 +1,3 @@
-import datetime
-from msilib.schema import PublishComponent
 from tabnanny import verbose
 from tempfile import NamedTemporaryFile
 from django.conf import settings

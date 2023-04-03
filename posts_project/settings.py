@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'accounts.apps.AccountsConfig',
     'companies.apps.CompaniesConfig',
+    'news.apps.NewsConfig',
     'django_cleanup',
     'mathfilters',
+    'django_rename_app',
 
 ]
 
@@ -119,6 +121,20 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Email settings
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = '465'
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = 'info@zagorodoma.ru'
+EMAIL_HOST_PASSWORD = 'wc42sck3j4rz3DPzexuN'
+
+EMAIL_SERVER = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = ['admin@zagorodoma.ru']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -131,5 +147,3 @@ LOGOUT_REDIRECT_URL = 'home'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
-
-

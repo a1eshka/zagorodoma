@@ -1,15 +1,15 @@
 
 {% block main-filter %}
 <div class="main-filter">
-    <div style="float:left;margin-right: 10px;">
+    <div class="filter-blocks">
       <select id="typeobj" name="categories" multiple>
         {% for typeobj in view.get_typeobjects %}
         <option value="{{ typeobj.id }}" data-badge="" class="filter-checkbox" data-filter="type_object" name="type_object">{{ typeobj.title }}</option>
         {% endfor %}
       </select>
     </div>
-    <div style="float:left;margin-right: 10px;">
-      
+
+    <div class="filter-blocks">
       <select id="getstatus" multiple="multiple" >
       {% for status in view.get_status %}
       <option class="filter-checkbox" data-filter="status" name="status" value="{{ status.id }}">
@@ -17,19 +17,20 @@
       {% endfor %}
     </select>
     </div>
-    <div style="float:left;margin-right: 10px;">
-      
+
+    <div class="filter-blocks">
+      <input class="form-control" style="max-width: 115px;float: left;margin-right: 5px;border: 1px solid #ffffff;" name="minPrice" id="minPrice" placeholder="Цена от"/>
+      <input class="form-control" style="max-width: 115px;border: 1px solid #ffffff;" name="maxPrice" id="maxPrice" placeholder="Цена до"/>
+    </div>
+
+    <div class="filter-blocks">
       <select id="landstat" name="land" multiple>
         {% for lands in view.get_landstatus %}
         <option value="{{ lands.id }}" data-badge="" class="filter-checkbox" data-filter="land_status" name="land_status">{{ lands.title }}</option>
         {% endfor %}
       </select>
     </div>
-    <div style="float: left;margin-right: 80px;">
-      
-      <input class="form-control" style="max-width: 115px;float: left;margin-right: 5px;border: 1px solid #ffffff;" name="minPrice" id="minPrice" placeholder="Цена от"/>
-      <input class="form-control" style="max-width: 115px;border: 1px solid #ffffff;" name="maxPrice" id="maxPrice" placeholder="Цена до"/>
-    </div>
+
     <div id="floors" style="float: left;margin-right: 10px;display:none;clear: both;margin-top: 10px;">
       <div style="color: #aaa;">Этажей:</div>
       <input class="form-control" style="width: 70px;float: left;margin-right: 5px;border: 1px solid #ffffff;" name="minFloors" id="minFloors" placeholder="от"/>
@@ -41,6 +42,7 @@
       <input class="form-control" style="width: 70px;float: left;margin-right: 5px;border: 1px solid #ffffff;" name="minLand_area" id="minLand_area" placeholder="от"/>
       <input class="form-control" style="width: 70px;float: left;border: 1px solid #ffffff;" name="maxLand_area" id="maxLand_area"  id="maxLand_area" placeholder="до"/>
     </div>
+
     <div id="housemat" style="float:left;margin-right: 10px;display:none;margin-top: 10px;">
       <div style="color: #aaa;">Материал дома:</div>
       <select id="housematerial" name="house_material" multiple>
@@ -49,6 +51,7 @@
         {% endfor %}
       </select>
     </div>
+
     <div id="distr" style="float:left;margin-right: 10px;display:none;margin-top: 10px;">
       <div style="color: #aaa;">Район:</div>
       <select id="district" name="district" multiple>
@@ -57,7 +60,9 @@
         {% endfor %}
       </select>
     </div>
+    <div class="buttons-filter">
     <button id="showHideContent" class="btn" style="color: #4e4e4e !important;background-color: rgb(82 68 216 / 10%) !important;">Все фильтры</button>
     <button id="PriceFilter" class="btn" id="btn" style="color: #5143d6 !important;background-color: rgb(82 68 216 / 10%) !important;">Найти</button>
+    </div>
   </div>
 {% endblock %}

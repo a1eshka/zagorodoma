@@ -1,5 +1,3 @@
-import datetime
-from msilib.schema import PublishComponent
 from multiprocessing import context
 from pickle import FALSE
 from re import template
@@ -18,6 +16,10 @@ from django.shortcuts import get_object_or_404, redirect, render, HttpResponseRe
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.contrib import messages
+from django.db.models import Avg
+from django.core.mail import send_mail
+from django.shortcuts import redirect
+
 
 
 class FilterMain:
@@ -74,15 +76,16 @@ class VillageListView(generic.ListView):
     context_object_name = 'village'
 
     def get_queryset(self):
-        return Cottvill.objects.all()[:6]
+        return Cottvill.objects.filter(published=True)[:6]
     
     def get_context_data(self, **kwargs):
         # Получаем контекст из родительского класса ListView
         context = super().get_context_data(**kwargs)
         # Дополняем контекст нужным нам значением
-        context['total_data'] = Cottvill.objects.all().count()
+        context['total_data'] = Cottvill.objects.filter(published=True).count()
         return context
-
+    
+   
 class YchastkiListView(FilterMain, generic.ListView):
     """Вывод постов с типом Участок"""
     model = Post_sale
@@ -114,13 +117,14 @@ class RentListView(FilterMain, generic.ListView):
 
 class HomePageView(FilterMain, ListView):
     """Вывод всех постов на главной"""
-    model = Post_sale
+    model = Post_sale, Cottvill
     template_name = 'home.html'
     context_object_name = 'all_posts_list'
 
     def get_queryset(self):
         return Post_sale.objects.filter(published=True).order_by('-created_at')[:9]
-    
+
+
     def get_context_data(self, **kwargs):
         
         # Получаем контекст из родительского класса ListView
@@ -128,11 +132,11 @@ class HomePageView(FilterMain, ListView):
         # Дополняем контекст нужным нам значением
         context['sale_status_post'] = Post_sale.objects.filter(status=2).filter(published=True).count()
         context['rent_status_post'] = Post_sale.objects.filter(status=3).filter(published=True).count()
-        context['col_village'] = Cottvill.objects.all().count()
+        context['col_village'] = Cottvill.objects.filter(published=True).count()
+        context['villages'] = Cottvill.objects.filter(main_slider=True).filter(published=True)
         context['total_data'] = Post_sale.objects.filter(published=True).count()
-        return context
-
-    
+        context['avg_price_area'] = Post_sale.objects.filter(published=True).aggregate(Avg('price'))
+        return context  
 
 class MyPostListView(generic.ListView):
     """Вывод моих постов в личном кабинете"""
@@ -168,8 +172,6 @@ class HomeDetailView(FilterMain, DetailView):
             'post': post,
             'fav': fav
         }
-
-
         return render(request, 'post_detail.html', context)
 
 class VillageDetailView(FilterMain, DetailView):
@@ -206,6 +208,17 @@ class HomeCreateView(CreateView):
             new_obj.author = request.user
             new_obj = bound_form.save()
             messages.success(request, 'Ваше объявление успешно опубликовано.')
+            post_url = request.build_absolute_uri(new_obj.get_absolute_url())
+            subject = 'Ваше объявление успешно опубликовано.'
+            message = 'Поздравляем! Ваше объявление успешно опубликовано на нашем сайте. Объявление доступно по адресу: {}'.format(post_url)
+             # Функционал для отправки письма и генерации токена
+            send_mail(
+            subject,
+            message,
+            'info@zagorodoma.ru',
+            [new_obj.author.email],
+            fail_silently=False,
+        )
             for f in request.FILES.getlist('all_images'):
                 data = f.read() #Если файл целиком умещается в памяти
                 photo = PostImage(post=new_obj)
@@ -406,11 +419,9 @@ def load_more_data_doma(request):
 def load_more_data_village(request):
     offset=int(request.GET['offset'])
     limit=int(request.GET['limit'])
-    allPosts = Cottvill.objects.all()[offset:offset+limit]
+    allPosts = Cottvill.objects.filter(published=True)[offset:offset+limit]
     t=render_to_string('ajax/villages.html', {'object_list':allPosts})
     return JsonResponse({'object_list':t})
-
-
 
 class VillageSearch (ListView):
     model = Cottvill
@@ -426,4 +437,3 @@ class VillageSearch (ListView):
         context = super().get_context_data(*args, **kwargs)
         context["q"] = f'q={self.request.GET.get("q")}&'
         return context
-

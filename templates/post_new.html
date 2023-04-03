@@ -15,7 +15,7 @@
         <div class="row">
           <div class="col-sm-6 mb-3">
             <label class="form-label" for="ap-category">Тип сделки <span class="text-danger">*</span></label>
-            <ul id="id_status" class="payment-methods">
+            <ul id="id_status" class="payment-methods" style="padding-left: 0rem;">
             {% for radio in form.status %}
             {{ radio.tag }}
             <label for="{{ radio.id_for_label }}"> {{ radio.choice_label }} </label>
@@ -25,7 +25,7 @@
           <!-- статус сделки-->
           <div class="col-sm-6 mb-3">
             <label class="form-label" for="ap-type">Тип объекта <span class="text-danger">*</span></label>
-            <ul id="id_type_object" class="payment-methods">
+            <ul id="id_type_object" class="payment-methods" style="padding-left: 0rem;">
             {% for radio in form.type_object %}
             {{ radio.tag }}
             <label for="{{ radio.id_for_label }}"> {{ radio.choice_label }} </label>

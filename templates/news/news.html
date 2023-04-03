@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Новости загородной недвижимости - zagorodoma.ru{% endblock %}
+{% block description %}Каталог новостей про загородную недвижимость в Санкт-Петербурге и Ленинградской области на сайте zagorodoma.ru{% endblock %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+<div class="table-responsive" style="margin: 0 auto;
+max-width: 990px;
+margin-top: 20px;
+border-radius: 10px;">
+<div class="main-text-title">Новости:</div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="filteredProducts" style="max-width: 1000px;margin: 15px;" >
+ 
+    {% for news in object_list %}
+    <div style="position: relative;">
+    {%  if news.img %}
+    <img src="{{ news.img.url }}" class="img-fluid rounded" style="filter: brightness(50%);" alt="{{news.title}} - zagorodoma.ru">
+    {% else %}
+    <img src="media/villages/default.png" class="img-fluid rounded" alt="{{news.title}} - zagorodoma.ru">
+    {% endif %}
+    <div class="news-title-main">{{news.title}}</div>
+    <div class="news-data-main">{{news.created_at}}</div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock content %}
