@@ -4,7 +4,6 @@ $(document).ready(function(){
         var _currentPosts=$(".post-box").length;
         var _limit=$(this).attr('data-limit');
         var _total=$(this).attr('data-total');
-		console.log(_currentPosts,_limit,_total);
         		// Run Ajax
 		$.ajax({
 			url:'/load-more-data-ychastki',

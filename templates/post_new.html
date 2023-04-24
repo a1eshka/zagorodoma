@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
- 
+{% block title %}Разместить бесплатное объявление о продаже или аренде загородной недвижимости - Zagorodoma.ru{% endblock %}
+{% block description %}Подать бесплатное объявление о продаже или аренде загородного участка, дома, коттеджа или таунхауса на сайте Загородома. {% endblock %} 
 {% block content %}
 {% if user.is_authenticated %}
 
-<h3 style="text-align: center;margin-top: 20px;color:#404040">Добавить Объявление</h3>
-<hr style="color:#e3e0e0;">
+<div class="post-add-new-title"><h3 style="font-size: 20px;
+  margin-bottom: 0 !important;
+  margin-left: 10px;">Добавить объявление</h3></div>
 <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       
@@ -38,56 +40,66 @@
         <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
           <i class="fi fi-rr-marker"></i> Адрес</h2>
         <div class="row">
-          <div class="col-sm-6 mb-3">
-            <label class="form-label" for="adress">Адрес <span class="text-danger">*</span></label>
-            {{ form.adress }} <!-- адрес-->
+          <div class="form-floating col-sm-6 mb-3">
+            {{ form.adress }} 
+            <label for="id_adress" class="label-text-add-post">Адрес объекта</label>
           </div>
-          <div class="col-sm-6 mb-3">
-            <label class="form-label" for="district">Район <span class="text-danger">*</span></label>
+          <div class="form-floating col-sm-6 mb-3">
             {{ form.district }} <!-- адрес-->
+            <label for="id_district" class="label-text-add-post">Район</label>
           </div>
         </div>
       </section>
       <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="object-info">
         <h2 class="h4 mb-4"><i class="fi fi-rr-list"></i>  Информация об объекте</h2>
         <div class="row">
-          <div class="col-sm-4 mb-3">
-            <label class="form-label" for="ap-category">Площадь участка <span class="text-danger">*</span></label>
-            <div class="input-group mb-3">{{ form.land_area }} <!-- площадь участка--><span class="input-group-text">сот.</span> </div>
-            
+
+          <div class="form-floating col-sm-6 mb-3">
+            {{ form.land_area }} <!-- площадь участка-->
+            <label for="id_land_area" class="label-text-add-post">Площадь участка, сот.</label>
           </div>
-          <div class="col-sm-6 mb-3">
-            <label class="form-label" for="ap-type">Статус участка <span class="text-danger">*</span></label>
+
+
+          <div class="form-floating col-sm-6 mb-3">
             {{ form.land_status }} <!-- статус земли-->
+            <label for="id_land_status" class="label-text-add-post">Статус участка</label>
           </div>
-          <div class="col-sm-6 mb-3">
-            <label class="form-label" for="ap-type">Площадь дома <span class="text-danger">*</span></label>
+
+          <div id="div_square" class="form-floating col-sm-6 mb-3">
             {{ form.square }} <!-- площадь дома-->
+            <label for="id_square" class="label-text-add-post">Площадь дома, м²</label>
           </div>
-          <div class="col-sm-6 mb-3">
-            <label class="form-label" for="ap-type">Материал дома <span class="text-danger">*</span></label>
+
+          <div id="div_house_material" class="form-floating col-sm-6 mb-3">
             {{ form.house_material }} <!-- материал дома-->
+            <label for="id_house_material" class="label-text-add-post">Материал дома</label>
           </div>
-          <div class="col-sm-6 mb-3">
-            <label class="form-label" for="ap-type">Год постройки <span class="text-danger">*</span></label>
+
+          <div id="div_year_of_construction" class="form-floating col-sm-6 mb-3">
             {{ form.year_of_construction }} <!-- год постройки-->
+            <label for="id_year_of_construction" class="label-text-add-post">Год постройки</label>
           </div>
-          <div class="col-sm-6 mb-3">
-            <label class="form-label" for="ap-type">Кол-во этажей <span class="text-danger">*</span></label>
+
+          <div id="div_floors" class="form-floating col-sm-6 mb-3">
             {{ form.floors }} <!-- этажей в дома-->
+            <label for="id_floors" class="label-text-add-post">Кол-во этажей </label>
           </div>
-          <div class="col-sm-6 mb-3">
-            <label class="form-label" for="ap-type">Высота потолков <span class="text-danger">*</span></label>
+
+          <div id="div_ceiling_height" class="form-floating ceiling_height col-sm-6 mb-3">
             {{ form.ceiling_height }} <!-- высота потолков-->
+            <label for="id_ceiling_height" class="label-text-add-post">Высота потолков </label>
           </div>
-          <div class="col-sm-6 mb-3">
-            <label class="form-label" for="ap-type">Водоснабжение <span class="text-danger">*</span></label>
+
+          <div class="form-floating col-sm-6 mb-3">
             {{ form.water }} <!-- водоснабжение-->
+            <label for="id_water" class="label-text-add-post">Водоснабжение</label>
           </div>
-          <div class="col-sm-6 mb-3">
-            <label class="form-label" for="ap-type">Отопление <span class="text-danger">*</span></label>
+
+          <div class="form-floating col-sm-6 mb-3">
             {{ form.heating }} <!-- какое отопление в доме--> 
+            <label for="id_heating" class="label-text-add-post">Отопление</label>
           </div>
+          
           <div class="col-sm-6 mb-3">
             <label class="form-label" for="ap-type">Благоустройство <span class="text-danger">*</span></label>
             {{ form.houseAdditional }} <!-- Благоустройство-->
@@ -138,37 +150,43 @@
         <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
           <i class="fi fi-rr-coins"></i> Цена</h2>
         <div class="row">
-          <div class="col-sm-3 mb-3">
-            <label class="form-label" for="price">Цена <span class="text-danger">*</span></label>
-            <div class="input-group mb-3">{{ form.price }}<!-- цена--><span class="input-group-text">руб.</span> </div>
-            
+          <div id="div_id_price" class="form-floating col-sm-4 mb-3">
+            {{ form.price }}<!-- цена-->
+            <label for="id_price" class="label-text-add-post">Цена, руб.</label>
           </div>
           <div class="col-sm-3 mb-3">
-            <label class="form-label" for="price"></label>
-            <div class="input-group mb-3" style="font-size: 20px;font-size: 20px;background: #e9ecef;color: #636363;padding: 10px;width: 240px;border-radius: 10px;"> 
-              {{ form.urgent_sales }} <div style="margin-left: 5px;margin-right: 5px;"> Срочная продажа</div> <img src="/media/static/fire.png" width="20" height="20">
+            <div class="form-check form-switch" > 
+              {{ form.urgent_sales }} <label class="form-check-label" for="flexSwitchCheckDefault">Срочная продажа <img src="/media/static/flash-sale.png" width="20" height="20"></label>
             </div>        
           </div>
         </div>
       </section>
-      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="price-info">
+      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="rent-info">
         <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
           <i class="fi fi-rr-coins"></i> Стоимость аренды</h2>
         <div class="row">
-          <div class="col-sm-3 mb-3">
-            <label class="form-label" for="price">Цена <span class="text-danger">*</span></label>
-            <div class="input-group mb-3">{{ form.rent_price }} <!-- стоимость аренды--><span class="input-group-text">руб.</span> </div>
-            
+          <div id="div_id_rent_price" class="form-floating col-sm-4 mb-3">
+            {{ form.rent_price }} <!-- стоимость аренды-->
+            <label for="id_rent_price" class="label-text-add-post">Стоимость аренды, руб.</label>
           </div>
+          <div class="col-sm-6 mb-3">
+            <ul id="id_rent_period" class="payment-methods" style="padding-left: 0rem;">
+            {% for radio in form.rent_period %}
+            {{ radio.tag }}
+            <label for="{{ radio.id_for_label }}"> {{ radio.choice_label }} </label>
+            {% endfor %}
+            </ul>
+            </div>
         </div>
       </section>
-      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="price-info">
+      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="phone-info">
         <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
           <i class="fi fi-rr-phone-call"></i> Телефон</h2>
         <div class="row">
-          <div class="col-sm-4 mb-3">
-              <label class="form-label" for="ap-type">Мобильный телефон <span class="text-danger">*</span></label>
-              {{ form.phone }}  <!-- номер продавца-->
+          <div class="form-floating col-sm-4 mb-3">
+            {{ form.phone }}  <!-- номер продавца-->
+            <label for="id_phone" class="label-text-add-post">Мобильный телефон</label>
+            
           </div>
         </div>
       </section>
@@ -179,6 +197,78 @@
 {% else %}
 <button type="button" class="btn btn-outline-secondary" onclick="window.location.href = '{% url 'login' %}';">Войти</button>
 {% endif %}
+<script>
+  $(document).ready(function(){
+
+    $('#object-info').hide();
+    $('#rent-info').hide();
+    $('#price-info').hide();
+})
+$('#id_status_1').change(function () {
+    if ($("#id_status_1 :selected")) {
+      $('#rent-info').show();
+      $('#price-info').hide();
+  } else {
+    $('#price-info').hide();
+  } 
+});
+$('#id_status_0').change(function () {
+    if ($("#id_status_0 :selected")) {
+      $('#price-info').show();
+      $('#rent-info').hide();
+  } else {
+    $('#rent-info').hide();
+  } 
+});
+  $('#id_type_object_0').change(function () {
+    if ($("#id_type_object_0 :selected")) {
+      $('#object-info').show();
+      $('#div_house_material').show();
+      $('#div_year_of_construction').show();
+      $('#div_square').show();
+      $('#div_floors').show();
+      $('#div_ceiling_height').show();
+  } else {
+      $('#object-info').hide();
+  } 
+});
+$('#id_type_object_1').change(function () {
+    if ($("#id_type_object_1 :selected")) {
+      $('#object-info').show();
+      $('#div_house_material').show();
+      $('#div_year_of_construction').show();
+      $('#div_square').show();
+      $('#div_floors').show();
+      $('#div_ceiling_height').show();
+  } else {
+      $('#object-info').hide();
+  } 
+});
+$('#id_type_object_2').change(function () {
+    if ($("#id_type_object_2 :selected")) {
+      $('#object-info').show();
+      $('#div_house_material').show();
+      $('#div_year_of_construction').show();
+      $('#div_square').show();
+      $('#div_floors').show();
+      $('#div_ceiling_height').show();
+  } else {
+      $('#object-info').hide();
+  } 
+});
+  $('#id_type_object_3').change(function () {
+    if ($("#id_type_object_0 :selected")) {
+      $('#object-info').show();
+      $('#div_house_material').hide();
+      $('#div_year_of_construction').hide();
+      $('#div_square').hide();
+      $('#div_floors').hide();
+      $('#div_ceiling_height').hide();
+  } else {
+      $('#object-info').show();
+  } 
+});
+</script>
 <script>
   function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -209,11 +299,11 @@ document.getElementById('id_all_images').addEventListener('change', handleFileSe
   $("#id_adress").suggestions({
       token: "ca1baaf48c3a1e4e5d234d45772c702accd1ccdc",
       type: "ADDRESS",
+      
       /* Вызывается, когда пользователь выбирает одну из подсказок */
       onSelect: function(suggestion) {
           console.log(suggestion);
       }
   });
 </script> 
-
 {% endblock content %}

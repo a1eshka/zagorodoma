@@ -23,7 +23,7 @@
               <!-- Card header START -->
               <!-- Card body START -->
             <div class="card-body">
-
+                {% if new %}
                 {% for my_post in new %}
                 <div class="card-profile">
                   <div class="card-body">
@@ -41,8 +41,14 @@
                 </div>  
                 <hr style="color: #e3e0e0;">    
                 {% endfor %}
-
+                {% else %}
+                <div class="no-fav">Вы еще не добавили в избранное ни одного объявления. <img src="/media/static/sad.png" width="30" height="30"></div>
+                {% endif %}
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
 {% endif %}
 
 </script>

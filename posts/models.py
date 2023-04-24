@@ -19,8 +19,8 @@ class Post_sale(models.Model):
         def get_quertyser(self):
             return super().get_queryset().filter(published=True)
 
-    type_object = models.ForeignKey('Type_object', on_delete=models.CASCADE, verbose_name='Тип объекта', default=2, blank=False, related_name='type_object_st')
-    status = models.ForeignKey('Status', on_delete=models.CASCADE, verbose_name='Тип сделки', blank=False, default=2, related_name='status_st')
+    type_object = models.ForeignKey('Type_object', on_delete=models.CASCADE, verbose_name='Тип объекта', default=0, blank=False, related_name='type_object_st')
+    status = models.ForeignKey('Status', on_delete=models.CASCADE, verbose_name='Тип сделки', blank=False, default=0, related_name='status_st')
     adress = models.TextField(verbose_name='Адрес', max_length=1000, blank=True)
     body = models.TextField(verbose_name='Описание', max_length=5000)
     square = models.IntegerField(blank=True, null=True, verbose_name='Площадь дома')
@@ -32,7 +32,7 @@ class Post_sale(models.Model):
     house_material = models.ForeignKey('House_material', on_delete=models.CASCADE, verbose_name='Материал Дома', null=True, blank=True)
     ceiling_height = models.CharField(verbose_name='Высота потолков', max_length=5, blank=True, null=True)
     water = models.ForeignKey('Water', on_delete=models.CASCADE, verbose_name='Водоснабжение', null=True, blank=True)
-    price = models.IntegerField(verbose_name='Цена')
+    price = models.IntegerField(verbose_name='Цена', null=True, blank=True)
     phone = models.CharField('Телефон', max_length=30, blank=True)
     created_at = models.DateTimeField (auto_now_add=True, verbose_name='Опубликовано')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор', related_name='user_post')
@@ -40,7 +40,8 @@ class Post_sale(models.Model):
     views = models.IntegerField(default=0)
     houseAdditional = models.ManyToManyField('HouseAdditional', verbose_name='Благоустройство', blank=True)
     rent_amenities = models.ManyToManyField('Rent_amenities', verbose_name='Аренда удобства', blank=True)
-    rent_price = models.CharField(verbose_name='Арендная плата', max_length=30)
+    rent_price = models.CharField(verbose_name='Арендная плата', max_length=30, blank=True)
+    rent_period = models.ForeignKey('RentPeriod', on_delete=models.CASCADE, verbose_name='Время аренды', blank=True, null=True, related_name='rent_period')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
     urgent_sales = models.BooleanField(verbose_name='Срочная продажа', default=False)
     district = models.ForeignKey('District', on_delete=models.CASCADE, verbose_name='Район', blank=True, null=True)
@@ -129,6 +130,16 @@ class Status(models.Model):
         verbose_name = 'Тип сделки'
         verbose_name_plural = 'Типы сделки'
 
+class RentPeriod (models.Model):
+    title = models.TextField(max_length=50, db_index=True , verbose_name='Время аренды', blank=True, null=True)
+    slug = models.SlugField(max_length=50, unique=True, verbose_name='URL время аренды')
+       
+    def __str__(self):
+        return self.title
+    class Meta :
+        verbose_name = 'Время аренды'
+        verbose_name_plural = 'Время аренды'        
+
 class District(models.Model):
     title = models.TextField(max_length=50, db_index=True , verbose_name='Район объекта', blank=True, null=True)
     slug = models.SlugField(max_length=50, unique=True, verbose_name='URL района')
@@ -203,6 +214,17 @@ class HouseAdditional(models.Model):
         verbose_name = 'Благоустройство'
         verbose_name_plural = 'Благоустройства'
 
+class Subscribers(models.Model):
+    email = models.EmailField('',max_length=255, unique=True)
+    time_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата подписки')
+       
+    def __str__(self):
+        return self.email
+    
+    class Meta :
+        verbose_name = 'Подписка на новости'
+        verbose_name_plural = 'Подписки на новости'
+
 class Water(models.Model):
     title = models.TextField(max_length=50, db_index=True , verbose_name='Водоснабжение')
        
@@ -239,3 +261,15 @@ class PostImage(models.Model):
         self.save()
 
 
+class BannerPost(models.Model):
+    def banner_directory_path(instance, filename):
+        return '/'.join(['banners',str(instance.alt), str(uuid.uuid4().hex + ".webp")])
+    banner = models.ImageField(upload_to=banner_directory_path, blank=True)
+    alt = models.TextField(max_length=50, db_index=True , verbose_name='Баннер')
+       
+    def __str__(self):
+        return self.alt
+    
+    class Meta :
+        verbose_name = 'Рекламный баннер'
+        verbose_name_plural = 'Рекламные баннеры'

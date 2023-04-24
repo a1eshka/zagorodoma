@@ -15,6 +15,10 @@ $(document).ready(function(){
         var _maxLand_area=$('#maxLand_area').val();
         _filterObj.minLand_area=_minLand_area;
         _filterObj.maxLand_area=_maxLand_area;
+		var _minsquare=$('#minsquare').val();
+        var _maxsquare=$('#maxsquare').val();
+        _filterObj.minsquare=_minsquare;
+        _filterObj.maxsquare=_maxsquare;
 		$(".filter-checkbox").each(function(index,ele){
 			var _filterVal=$(this).val();
 			var _filterKey=$(this).data('filter');

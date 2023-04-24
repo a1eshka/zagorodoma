@@ -22,9 +22,12 @@ urlpatterns = [
     path('rent', RentListView.as_view(), name='rent'),
     path('my_posts', MyPostListView.as_view(), name='my_posts'),
     path('edit_post/<int:pk>/', views.edit_post, name='edit_post'),
+    path('post_delete/<int:pk>/', views.delete_post, name='post_delete'),
     path('village', VillageListView.as_view(), name='village'),
     path('village/new/', VillageCreateView.as_view(), name='village_new'),
     path('village/<slug:village_slug>/', VillageDetailView.as_view(), name='village_detail'),
     path('village/search', views.VillageSearch.as_view(), name='village_search'),
+    path('subscribe', views.subscribe, name='subscribe'),
+    path('json_main', views.json_main, name='json_main'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

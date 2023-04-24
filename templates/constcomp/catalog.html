@@ -10,9 +10,9 @@ max-width: 990px;
 margin-top: 20px;
 border-radius: 10px;">
         <table class="table" style="background:white;border-radius: 10px;">
-            <tbody>
+            <tbody id="filteredProducts">
                 {% for catalog in object_list %}
-                <tr>
+                <tr class="post-box">
                   <th style="padding: 20px;">
                     <td>
                         {%  if catalog.img %}
@@ -64,10 +64,11 @@ border-radius: 10px;">
                 {% endfor %}
             </tbody>
         </table>
+        <div class="grid-img-right mt-4 text-right bg bg1" >
+            {% include 'pagination.html' %}
+        </div>
     </div>
-
-    <script> 
-
+<script> 
 $(document).ready(function() { 
     $('.rate-button').click(function() { 
         var constcomp_id = $(this).data('constcomp-id'); 

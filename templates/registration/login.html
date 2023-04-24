@@ -2,7 +2,8 @@
 <main class="form-signin">
   <form method="post">
     {% csrf_token %}
-    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+    <img class="mb-4" src="/media/static/logo-v2.png" alt="zagorodoma.ru" width="220" height="100" style="display: block;
+      margin: 0 auto;">
     <h1 class="h3 mb-3 fw-normal">Войти или зарегистрироваться</h1>
 
     <div class="form-floating">
@@ -15,7 +16,8 @@
     </div>
     
     <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
-    <a class="nav-link active" aria-current="page" href="{% url 'signup' %}">Зарегистрироваться</a>
+    <a class="nav-link active" style="float: left;" aria-current="page" href="{% url 'signup' %}">Зарегистрироваться</a>
+    <a class="nav-link active" style="float: right;" aria-current="page" href="{% url 'password_reset' %}">Забыли пароль?</a>
     <p class="mt-5 mb-3 text-muted">Загородома © 2017–2021</p>
   </form>
 </main>

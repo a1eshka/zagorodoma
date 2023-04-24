@@ -8,15 +8,17 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import render_to_string
 
 class ConstcompListView(generic.ListView):
     """Вывод всех строительных компаний"""
     model = Constcomp
     template_name = 'constcomp/catalog.html'
     context_object_name = 'catalog'
+    paginate_by = 10
 
     def get_queryset(self):
-        return Constcomp.objects.filter(published=True)[:6]
+        return Constcomp.objects.filter(published=True)
     
     def get_context_data(self, **kwargs):
         # Получаем контекст из родительского класса ListView

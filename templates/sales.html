@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
+{% block title %}Объявления о продаже недвижимости в Ленинградской области. Объектов в продаже: {{total_data}} - Zagorodoma.ru{% endblock %}
+{% block description %}Широкий выбор объектов недвижимости в продаже на нашем сайте. Наш каталог включает в себя дома, коттеджи, земельные участки и таунхаусы. {% endblock %}
 {% load static %}
 {% block content %}
 <div class="category-page-style">
 <!--Подключение фильтра-->
-{% include 'main_filter.html' %}
+{% include 'static/main_filter.html' %}
 <!--Подключение фильтра-->
 <!--Подключение карточки объекта-->
-{% include 'card_posts.html' %}
+{% include 'static/card_posts.html' %}
 <!--Подключение фильтра-->
 </div>
 

@@ -10,12 +10,16 @@
     <div class="card-body">
       <h5 class="card-title"><a style="color:#3A4454;" href="{% url 'post_detail' post.pk %}" target="_blank">{{ post.type_object}} · {% if post.square %} {{post.square|default_if_none:""}} м² ·{% endif %} {{post.land_area }} сот. · {{post.land_status}}</a></h5>
       <p class="min-card-adress">{{ post.adress}}</p>
+      {% if post.price %}
       <h4 class="price-main-card">{{ post.price }} ₽</h4>
+      {% else %}
+      <div><h4  class="price-main-card" style="float: left;">{{post.rent_price}} ₽</h4><h4 style="font-size: 16px;">/{{post.rent_period}}</h4></div>
+      {% endif %}
       <!--<p class="min-card-text">{{ post.body|slice:":100" }}...<a href="{% url 'post_detail' post.pk %}" target="_blank">Читать далее</a></p>!-->
     </div>
     {% if post.todaytime %}
     <div class="card-footer" style="background: white;"> 
-      <small class="text-muted"><i class="bi bi-clock-history"></i> Сегодня в {{post.created_at|time:"H:i"}} </small>
+      <small class="text-muted" style="color:#5143d6bd !important"><i class="bi bi-clock-history"></i> Сегодня в {{post.created_at|time:"H:i"}} </small>
     </div>
   {% else %}
     <div class="card-footer" style="background: white;"> 

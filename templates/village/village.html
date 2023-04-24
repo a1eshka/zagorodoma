@@ -4,7 +4,7 @@
 {% load static %}
 {% load mathfilters %}
 {% block content %}
-<div class="village-titile-category"><i class="fi fi-rr-home"></i> Коттеджные поселки <button type="button" class="btn btn-success" onclick="window.location.href = '{% url 'village_new' %}';" style="float: right;">Добавить поселок</button></div>
+<div class="village-titile-category"><img src="/media/static/village-icon.png" width="30" height="30"> Коттеджные поселки <button type="button" class="btn btn-success" onclick="window.location.href = '{% url 'village_new' %}';" style="float: right;">Добавить поселок</button></div>
 <div class="village-filter">
     <form class="d-flex" action="{% url 'village_search' %}" method="get">
         <div class="input-group">

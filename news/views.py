@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import DetailView, CreateView
 from django.views import generic
 from .models import *
@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import render_to_string
 
 class NewsListView(generic.ListView):
     """Вывод всех новостей"""
@@ -68,3 +69,36 @@ class NewsDetailView(DetailView):
 
 
         return render(request, 'news/detail_news.html', context)
+    
+def load_more_data_news(request):
+    offset=int(request.GET['offset'])
+    limit=int(request.GET['limit'])
+    allNews = News.objects.filter(published=True)[offset:offset+limit]
+    t=render_to_string('ajax/news.html', {'object_list':allNews})
+    return JsonResponse({'object_list':t})
+
+def edit_new(request, pk):
+    get_post = get_object_or_404(News, pk=pk, author=request.user)
+    if request.method == 'POST':
+        form = NewsForm(request.POST or None, request.FILES or None, instance=get_post )
+        if form.is_valid():
+            new_obj = form.save(commit=False)
+            new_obj.author = request.user
+            new_obj = form.save()
+            messages.success(request, 'Ваша новость успешно отредактирована.')
+            return redirect(new_obj)
+            success = True
+    template = 'news/edit_news.html'
+    context = {
+        'get_post': get_post,
+        'form': NewsForm(instance=get_post),
+
+    }
+    return render (request, template, context)
+
+def delete_new(request, pk):
+    new = News.objects.get(pk=pk)
+    new.delete()
+    messages.success(request, 'Ваша публикация удалена.')
+
+    return redirect('/news')

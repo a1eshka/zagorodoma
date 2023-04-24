@@ -4,7 +4,58 @@
 {% load static %}
 {% load mathfilters %}
 {% block content %}
+{% if author.id == author.id %}
+{% if user.is_authenticated %}
 
-
-
+<h3 style="text-align: center;margin-top: 20px;color:#404040">Редактировать новость</h3>
+<hr style="color:#e3e0e0;">
+<form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+        <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="adress-info">
+            <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+              <i class="fi fi-rr-home"></i> Новость</h2>
+            <div class="row">
+              <div class="col-sm-10 mb-3">
+                <label class="form-label" for="adress">Название новости <span class="text-danger">*</span></label>
+                {{ form.title }} <!-- адрес-->
+                {{ form.slug }}
+              </div>
+            </div>
+          </section>
+          <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="adress-info">
+            <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+              <i class="fi fi-rr-comment-alt"></i> Описание</h2>
+            <div class="row">
+              <div class="col-sm-10 mb-3">
+                <label class="form-label" for="adress">Текст новости <span class="text-danger">*</span></label>
+                {{ form.body }} 
+              </div>
+            </div>
+          </section>
+          <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="photo-info">
+            <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+              <i class="fi fi-rr-picture"></i> Фотография </h2>
+            <div class="row">
+              <div class="col-sm-3 mb-3">
+                <label class="form-label" for="price">Фотография новости <span class="text-danger">*</span></label>
+                <div class="example-1">
+                  <div class="form-group">
+                    <label class="label">
+                      <i class="fi-rr-add-document"></i>
+                      <span class="title">Добавить фотографию</span>
+                      {{form.img}}
+                    </label>
+                  </div>
+                </div>       
+              </div>
+            </div>
+            <div>Опубликовать {{form.published}}</div>
+          </section>
+        </div>
+        <input class="btn btn-success" style="margin: 0 auto;display: block;font-size: 19px;" type="submit" value="Сохранить изменения" />
+        </form>
+      {% else %}
+<button type="button" class="btn btn-outline-secondary" onclick="window.location.href = '{% url 'login' %}';">Войти</button>
+{% endif %}
+{% endif %}
 {% endblock content %}

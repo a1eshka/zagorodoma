@@ -20,8 +20,13 @@
   <div class="card-body_post">
   <div class="post-entry">
     <h4>{{ post.type_object}}, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}}</h4>
+    {% if post.price %}
     <div class="price-card" id="Price">{{post.price}} ₽</div>
     <div class="price-m2">{{ post.price|intdiv:post.land_area }} ₽/сот.</div>
+    {% else %}
+    <div><h4 class="price-card" style="font-weight: bold;">{{post.rent_price}} ₽</h4></div>
+    <div class="price-m2-rent"><span class="badge bg-success" style="font-size: 18px;">В {{post.rent_period}}</span></div>
+    {% endif %}
     <div class="buttons-post">
       {% if request.user.is_authenticated %}
       {% if fav %}
@@ -35,6 +40,10 @@
     <p><a href="#" onClick="window.print()"><i class="bi bi-printer" style="font-size: 25px;color: #7a7a7a;margin-right: 10px;"></i></a></p>
     <p><a id=vk_share_button>
     </a></p>
+    {% if post.author.id == user.id %}
+    <div><a href="{% url 'edit_post' post.id %}" ><button style="margin-right: 10px;" class="btn btn-gary-soft"type="button"><i class="bi bi-pencil-fill"></i> Изменить</button></a></div>
+    <div><button class="btn btn-danger-soft" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button"><i class="fi-rr-trash"></i> Удалить</button></a></div>
+    {% endif %}
  
     
   </div>
@@ -52,7 +61,7 @@
       {% endfor %}     
     </div>
     <div id="body"> <div style="font-size: 18px;font-weight: bold;margin-bottom: 16px;">Описание</div>
-      <p>{{ post.body}}</p>
+      <p>{{ post.body|linebreaks}}</p>
 
 
     </div>
@@ -176,8 +185,8 @@
 
   <div class="sidebar-adv">
   
-      <p style="text-align: center;margin-top: 15px;">РЕКЛАМА</p>
-      
+      <p style="text-align: center;margin-top: 15px;"></p>
+
     </div>
     <div class="sidebar-adv">
   
@@ -187,6 +196,23 @@
       </div>
   </div>
 
+</div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Удаление объявления</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Вы уверены что хотите безвозвратно удалить Ваше объявление? 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+        <a href="{% url 'post_delete' post.id %}" ><button class="btn btn-danger-soft"type="button"><i class="fi-rr-trash"></i> Удалить</button></a>
+      </div>
+    </div>
+  </div>
 </div>
 <script type="text/javascript">
 
@@ -216,6 +242,7 @@ ymaps.ready(init);
 
 function init() {
     var myVar = document.getElementById("post-adress").value;
+    console.log(myVar);
     var myMap = new ymaps.Map('map', {
         center: [59.9386, 30.3141],
         zoom: 9
@@ -252,6 +279,55 @@ function init() {
                 // Проверяем наличие тайлов на данном масштабе.
                 checkZoomRange: true
             });
+            /**
+             * Все данные в виде javascript-объекта.
+             */
+             console.log('Все данные геообъекта: ', firstGeoObject.properties.getAll());
+            /**
+             * Метаданные запроса и ответа геокодера.
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/GeocoderResponseMetaData.xml
+             */
+            console.log('Метаданные ответа геокодера: ', res.metaData);
+            /**
+             * Метаданные геокодера, возвращаемые для найденного объекта.
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/GeocoderMetaData.xml
+             */
+            console.log('Метаданные геокодера: ', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData'));
+            /**
+             * Точность ответа (precision) возвращается только для домов.
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/precision.xml
+             */
+            console.log('precision', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData.precision'));
+            /**
+             * Тип найденного объекта (kind).
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/kind.xml
+             */
+            console.log('Тип геообъекта: %s', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData.kind'));
+            console.log('Название объекта: %s', firstGeoObject.properties.get('name'));
+            console.log('Описание объекта: %s', firstGeoObject.properties.get('description'));
+            console.log('Полное описание объекта: %s', firstGeoObject.properties.get('text'));
+            /**
+            * Прямые методы для работы с результатами геокодирования.
+            * @see https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/GeocodeResult-docpage/#getAddressLine
+            */
+            console.log('\nГосударство: %s', firstGeoObject.getCountry());
+            console.log('Населенный пункт: %s', firstGeoObject.getLocalities().join(', '));
+            console.log('Адрес объекта: %s', firstGeoObject.getAddressLine());
+            console.log('Наименование здания: %s', firstGeoObject.getPremise() || '-');
+            console.log('Номер здания: %s', firstGeoObject.getPremiseNumber() || '-');
+
+            /**
+             * Если нужно добавить по найденным геокодером координатам метку со своими стилями и контентом балуна, создаем новую метку по координатам найденной и добавляем ее на карту вместо найденной.
+             */
+            /**
+             var myPlacemark = new ymaps.Placemark(coords, {
+             iconContent: 'моя метка',
+             balloonContent: 'Содержимое балуна <strong>моей метки</strong>'
+             }, {
+             preset: 'islands#violetStretchyIcon'
+             });
+             myMap.geoObjects.add(myPlacemark);
+             */
         });
       }
 </script>

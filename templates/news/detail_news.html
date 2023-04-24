@@ -1,10 +1,59 @@
 {% extends 'base.html' %}
-{% block title %}Новости загородной недвижимости - zagorodoma.ru{% endblock %}
+{% block title %}{{news.title}} - zagorodoma.ru{% endblock %}
 {% block description %}Каталог новостей про загородную недвижимость в Санкт-Петербурге и Ленинградской области на сайте zagorodoma.ru{% endblock %}
 {% load static %}
 {% load mathfilters %}
 {% block content %}
+<div class="card">
+    <div class="card-body_post">
+        <div class="post-entry">
+            
+            {% if news.author.id == user.id %}
+            <div style="margin-bottom: 10px;"> 
+            <div style="float: left;"><a href="{% url 'edit_new' news.id %}" ><button style="margin-right: 10px;" class="btn btn-gary-soft"type="button"><i class="bi bi-pencil-fill"></i> Изменить</button></a></div>
+            <div><button class="btn btn-danger-soft" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button"><i class="fi-rr-trash"></i> Удалить</button></a></div>
+            </div>
+            {% endif %}
 
-
+        <div class="content-wrapper">
+            <div class="image-info br3">
+                <div class="news-main-photo bg-cover br3" style="display: flex; background-image: url({{ news.img.url }});">
+                            <h1>{{ news.title }}</h1>
+                            {% if news.todaytime %}
+                            <span><i class="bi bi-clock-history"></i> Сегодня в {{news.created_at|time:"H:i"}} </span>
+                                {% else %}
+                            <span>{{news.created_at}}</span>
+                            {% endif %}
+                    </div>
+            </div>
+        </div>
+            <hr style="color:#e3e0e0;">
+            <div>{{ news.body|linebreaks }}</div>
+            <hr style="color:#e3e0e0;">
+            <div>
+                <div style="display:inline-block;">Автор: {{ news.author }}</div>
+                
+                <div style="display:inline-block;">Просмотров: {{ news.views }}</div>
+            </div>
+        </div>
+    </div>        
+</div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Удаление новости</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Вы уверены что хотите безвозвратно удалить Вашу публикацию? 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+          <a href="{% url 'new_delete' news.id %}" ><button class="btn btn-danger-soft"type="button"><i class="fi-rr-trash"></i> Удалить</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock content %}

@@ -1,35 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% if user_form.errors %}
+<p>
+  {{ user_form.errors }}
+</p>
+{% endif %}
+{% if request.user.is_authenticated %}
+<div class="info-registration">
+  <h4 class="alert-heading">Вы уже авторизованы. Вы не можете посетить эту страницу.</h4>
+</div>
+{% else %}
 <main class="form-signin">
     <form method="post">
       {% csrf_token %}
-      <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+      <img class="mb-4" src="/media/static/logo-v2.png" alt="zagorodoma.ru" width="220" height="100" style="display: block;
+      margin: 0 auto;">
       <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
   
       <div class="form-floating">
-        <input type="login" class="form-control" id="id_username" placeholder="Логин" name="username"> 
-        <label for="floatingInput">Логин</label>
+        <input type="login" class="form-control" id="id_username" placeholder="Логин" name="username" required> 
+        <label for="floatingInput" class="label-text-add-post">Логин</label>
       </div>
       <div class="form-floating">
-        <input type="login" class="form-control" id="id_first_name" placeholder="Имя" name="first_name"> 
-        <label for="floatingInput">Имя</label>
+        <input type="login" class="form-control" id="id_first_name" placeholder="Имя" name="first_name" required> 
+        <label for="floatingInput" class="label-text-add-post">Имя</label>
       </div>
       <div class="form-floating">
-        <input type="login" class="form-control" id="id_email" placeholder="email@mail.ru" name="email"> 
-        <label for="floatingInput">Почта</label>
+        <input type="login" class="form-control" id="id_email" placeholder="email@mail.ru" name="email" required> 
+        <label for="floatingInput" class="label-text-add-post">Почта</label>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="id_password1" placeholder="Пароль" name="password">
-        <label for="floatingPassword">Пароль</label>
+        <input type="password" class="form-control" id="id_password1" placeholder="Пароль" name="password" required>
+        <label for="floatingPassword" class="label-text-add-post">Пароль</label>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="id_password2" placeholder="Пароль" name="password2">
-        <label for="floatingPassword">Подтверждение пароля</label>
+        <input type="password" class="form-control" id="id_password2" placeholder="Пароль" name="password2" required>
+        <label for="floatingPassword" class="label-text-add-post">Подтверждение пароля</label>
       </div>
       <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
       <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Войти</a>
       <p class="mt-5 mb-3 text-muted">Загородома © 2017–2021</p>
     </form>
   </main>
+  {% endif %}
 {% endblock content %}

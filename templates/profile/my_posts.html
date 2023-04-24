@@ -24,34 +24,56 @@
               <!-- Card header START -->
               <!-- Card body START -->
             <div class="card-body">
-
+                {% if my_post %}
                 {% for my_post in my_post %}
                 <div class="card-profile">
                   <div class="card-body">
                     {% if my_post.published == False %}
-                    <div style="float:right;"><span class="badge bg-secondary">В архиве</span></div>
+                    <div class="my-profile-tag"><span class="badge bg-secondary">В архиве</span></div>
                     {% else %}
-                    <div style="float:right;"><span class="badge bg-primary">Опубликовано</span></div>
+                    <div class="my-profile-tag"><span class="badge bg-primary">Опубликовано</span></div>
                     {% endif%}
                     
-                    <div class="slider" style="width: 200px;height:150px; float: left;">
+                    <div class="slider my-post-image">
                     {% for all_images in my_post.all_images.all %}
                     <img src="{{ all_images.image_data_link.url }}" class="rounded" style="height: 150px; width: 200px;" alt="продукт">
                   {% endfor %}
                 </div>
-                  <div style="margin-left: 300px;">
+                  <div class="my-profile-posts">
                     <div><a style="color:#3A4454;font-size: 20px;" href="{% url 'post_detail' my_post.pk %}">{{ my_post.type_object}} · {% if my_post.square %} {{my_post.square|default_if_none:""}} м² ·{% endif %} {{my_post.land_area }} сот. · {{my_post.land_status}}</a></div>
-                    <div style="font-size: 20px;" class="price-main-card">{{ my_post.price }} ₽</div>
-                    <small class="text-muted">{{my_post.created_at}}</small>
+                    <div style="color: #585858;">{{ my_post.adress }}</div>
+                    {% if my_post.price %}
+                    <h4 class="price-main-card" style="font-size: 23px;">{{ my_post.price }} ₽</h4>
+                    {% else %}
+                    <div style="font-size: 23px;">{{my_post.rent_price}} ₽ / {{my_post.rent_period}}</div>
+                    {% endif %}
                   </div>
-                  <a href="{% url 'edit_post' my_post.id %}" ><button class="btn btn-danger-soft" style="margin: 15px;float: right;" type="button"><i class="bi bi-pencil-fill"></i> Изменить</button></a>
+                  <a href="{% url 'edit_post' my_post.id %}" ><button class="btn btn-edit-soft" style="margin: 15px;float: right;" type="button"><i class="bi bi-pencil-fill"></i> Изменить</button></a>
                   {% if my_post.published == False %}
                   <button type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-success" style="margin: 15px;float: right;"><i class="fi-rr-plus" style="font-size: 11px;"></i> Опубликовать </button>
                   {% endif %}
+                  <button class="btn btn-danger-soft" data-bs-toggle="modal" data-bs-target="#staticBackdropdel" style="margin: 15px;float: right;" type="button"><i class="fi-rr-trash"></i> Удалить</button></a>
                 </div>
                 
                 </div>  
                 <hr style="color: #e3e0e0;">
+                <div class="modal fade" id="staticBackdropdel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropdelLabel">Удаление объявления</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Вы уверены что хотите безвозвратно удалить Ваше объявление? 
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                        <a href="{% url 'post_delete' my_post.id %}" ><button class="btn btn-danger-soft"type="button"><i class="fi-rr-trash"></i> Удалить</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
@@ -71,6 +93,13 @@
                 </div>  
                 {% endfor %}
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="no-fav">Вы еще не добавили ни одного объявления. <img src="/media/static/sad.png" width="30" height="30"><a href="{% url 'post_new' %}"> Добавить объявление</a></div>
+    {% endif %}
 {% endif %}
 
 {% endblock content %}

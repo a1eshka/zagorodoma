@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Новости загородной недвижимости - zagorodoma.ru{% endblock %}
+{% block title %}Новости загородной недвижимости в Ленинградской области - zagorodoma.ru{% endblock %}
 {% block description %}Каталог новостей про загородную недвижимость в Санкт-Петербурге и Ленинградской области на сайте zagorodoma.ru{% endblock %}
 {% load static %}
 {% load mathfilters %}
@@ -10,18 +10,25 @@ margin-top: 20px;
 border-radius: 10px;">
 <div class="main-text-title">Новости:</div>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="filteredProducts" style="max-width: 1000px;margin: 15px;" >
- 
     {% for news in object_list %}
-    <div style="position: relative;">
-    {%  if news.img %}
-    <img src="{{ news.img.url }}" class="img-fluid rounded" style="filter: brightness(50%);" alt="{{news.title}} - zagorodoma.ru">
-    {% else %}
-    <img src="media/villages/default.png" class="img-fluid rounded" alt="{{news.title}} - zagorodoma.ru">
-    {% endif %}
-    <div class="news-title-main">{{news.title}}</div>
-    <div class="news-data-main">{{news.created_at}}</div>
+    <div style="position: relative;display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;" class="post-box">
+    <a href="{% url 'detail_news' news.slug %}"><img src="{{ news.img.url }}" class="img-fluid rounded" style="filter: brightness(50%);height:250px;" width="400" alt="{{news.title}} - zagorodoma.ru"></a>
+    <div class="news-views-main"><i class="fi-rr-eye" style="font-size: 12px;"></i> {{news.views}}</div>
+    <div class="news-title-main">
+        <span style="font-weight: bold;">{{news.title}}</span><br>
+        {% if news.todaytime %}
+        <span style="font-size: 10px;"><i class="bi bi-clock-history"></i> Сегодня в {{news.created_at|time:"H:i"}} </span>
+        {% else %}
+        <span style="font-size: 10px;">{{news.created_at}}</span>
+        {% endif %}
+    </div>
     </div>
     {% endfor %}
 </div>
+<button type="button" id="loadMore" data-limit="6" data-total="{{total_data}}" class="btn btn-secondary btnload" style="margin: 0 auto;display: block;width: 200px;margin-top: 40px;">Показать еще</button>
 </div>
+<script src="{% static 'js/loadmorenews.js' %}" type="text/javascript"></script>
 {% endblock content %}

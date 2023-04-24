@@ -1,0 +1,14 @@
+<div class="main-subscribe-block">
+    <h3 style="font-weight: bold;">Подпишитесь на наши новости</h3>
+    <div style="max-width: 450px;float: left;">
+      Введите адрес электронной почты, чтобы получать последние новости и обновления.
+    </div>
+    <form class="form-subscribe-block" method="post" action="{% url 'subscribe' %}" autocomplete="off">
+      {% csrf_token %}
+      <div class="input-group"><span class="input-group-text text-muted" style="margin-top: 0.125rem;padding-right: 0;border: 0;background: transparent;"><i class="fi-rr-envelope"></i></span>
+        {{ form }}
+      </div>
+      <button class="btn btn-success" type="submit" style="display: flex;align-items: center;justify-content: center;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Подписаться</font></font></button>
+    </form>
+    
+  </div>

@@ -68,6 +68,11 @@ $(function(){
         } else {
             $("#Land_area").hide();
         }
+        if ($("#square").is(":hidden")) {
+            $("#square").show();
+        } else {
+            $("#square").hide();
+        }
         if ($("#floors").is(":hidden")) {
             $("#floors").show();
         } else {

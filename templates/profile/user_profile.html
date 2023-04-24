@@ -65,7 +65,14 @@
                     <input type="text" class="form-control" style="border: none;" placeholder="" value="{{ user.email }}" readonly>
                     <!-- Add new email -->
                   </div>
-                  <a href="{% url 'edit' %}" ><button class="btn btn-danger-soft" style="margin: 15px;float: right;" type="button"><i class="bi bi-pencil-fill"></i> Изменить</button></a>
+                  <div style="float: right;">
+                  <a href="{% url 'password_change' %}" ><button class="btn btn-edit-soft" style="margin: 15px;" type="button"><i class="bi bi-pencil-fill"></i> Изменить пароль</button></a>
+                  <a href="{% url 'edit' %}" ><button class="btn btn-danger-soft" style="margin: 15px;" type="button"><i class="bi bi-pencil-fill"></i> Изменить</button></a>
+                  </div>
+</div>
+</div>
+</div>
+</div>
 </div>
 {% endif %}
 {% endblock content %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post_sale, HouseAdditional, Rent_amenities, Cottvill
+from .models import Post_sale, HouseAdditional, Rent_amenities, Cottvill, Subscribers
 
 
 class PostForm(forms.ModelForm):
@@ -21,7 +21,7 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post_sale
         exclude = ['author']
-        fields = ['status', 'type_object','adress','body', 'year_of_construction', 'house_material' ,'square', 'floors', 'water', 'ceiling_height', 'land_area', 'land_status', 'heating', 'price', 'rent_price' ,'phone', 'houseAdditional', 'rent_amenities', 'district', 'all_images', 'urgent_sales' ]
+        fields = ['status', 'type_object','adress','body', 'year_of_construction', 'house_material' ,'square', 'floors', 'water', 'ceiling_height', 'land_area', 'land_status', 'heating', 'price', 'rent_price' ,'phone', 'houseAdditional', 'rent_amenities', 'district', 'all_images', 'urgent_sales', 'rent_period' ]
         widgets = {
             'type_object': forms.RadioSelect(attrs={'class': 'payment-methods'}),
             'all_images':forms.FileInput(attrs={'multiple': 'multiple'}),
@@ -29,18 +29,20 @@ class PostForm(forms.ModelForm):
             'status': forms.RadioSelect(attrs={'class': 'payment-methods'}),
             'body': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'year_of_construction': forms.TextInput(attrs={'class': 'form-control','placeholder': '2021', 'maxlength':'5'}),
-            'house_material': forms.Select(attrs={'class': 'form-control'}),
+            'house_material': forms.Select(attrs={'class': 'form-select'}),
             'ceiling_height':forms.TextInput(attrs={'class': 'form-control','placeholder': '2.7 м.', 'maxlength':'3'}),
             'square': forms.TextInput(attrs={'class': 'form-control','placeholder': '120 м2', 'maxlength':'5'}),
             'floors': forms.TextInput(attrs={'class': 'form-control','placeholder': '3', 'maxlength':'2'}),
-            'water': forms.Select(attrs={'class': 'form-control'}),
+            'water': forms.Select(attrs={'class': 'form-select'}),
             'land_area': forms.TextInput(attrs={'class': 'form-control','placeholder': '8 сот.', 'maxlength':'6'}),
-            'land_status': forms.Select(attrs={'class': 'form-control'}),
-            'heating': forms.Select(attrs={'class': 'form-control'}),
+            'land_status': forms.Select(attrs={'class': 'form-select'}),
+            'heating': forms.Select(attrs={'class': 'form-select'}),
             'price': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '10 000 000 руб.', 'maxlength':'10'}),
             'rent_price': forms.TextInput(attrs={'class': 'form-control','maxlength':'6'}),
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
-            'district': forms.Select(attrs={'class': 'form-control'}),
+            'district': forms.Select(attrs={'class': 'form-select'}),
+            'urgent_sales':forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'rent_period': forms.RadioSelect(attrs={'class': 'payment-methods'}),
             
 
 
@@ -68,6 +70,16 @@ class VillageForm(forms.ModelForm):
             'house_price_max': forms.TextInput(attrs={'class': 'form-control'}),
             'col_house': forms.TextInput(attrs={'class': 'form-control'}),
             'payment':forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class SubscribeForm(forms.ModelForm):
+
+    class Meta:
+        model = Subscribers
+        fields = ['email']
+        widgets = {
+            'email': forms.TextInput(attrs={'class': 'form-control email-subscribe', 'placeholder':'Адрес электронной почты', 'label':'', 'autocomplete': 'off'}),
         }
     #title = forms.CharField(max_length=200, label='Заголовок')
     #status = forms.ModelChoiceField(empty_label='Не выбрано', queryset=Status.objects.all(), label='Тип сделки')

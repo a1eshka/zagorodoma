@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.urls import reverse
 import uuid
@@ -24,6 +25,15 @@ class News(models.Model):
     def save(self,  *args, **kwargs):
         self.slug = slugify(self.title)
         return super(News, self).save(*args, **kwargs)
+    
+    @property
+    def todaytime(self):
+        current_date = datetime.date.today()
+        date = self.created_at.date()
+        if current_date == date:
+            return True
+        else:
+            return False
 
     class Meta :
         verbose_name = 'Новости'

@@ -44,16 +44,16 @@
       <div class="min-card-main-info-company">
         <div class="min-card-main-text"><a style="color:#5e5d5d" href="{% url 'catalog' %}"> Строительные компании</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-        </svg><img class="svg-img-main-min-icon" src="media/static/land.png"></div>
+        </svg><img class="svg-img-main-min-icon" src="media/static/business.png"></div>
         <div class="min-card-all-sale"> Всего компаний:
         <b style="font-size: 15px;
         color: #5e5d5d;
-        margin-left: 3px;">{{ rent_status_post }}</b>
+        margin-left: 3px;">{{ companies_post }}</b>
         </div>
       </div>
   </div>
 <!--Подключение фильтра-->
-  {% include 'main_filter.html' %}
+  {% include 'static/main_filter.html' %}
 <!--Подключение фильтра-->
   <div class="main-text-title">Новые объявления:</div>
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="filteredProducts" style="max-width: 1000px;margin: 15px;" >
@@ -76,12 +76,16 @@
         <div class="card-body">
           <h5 class="card-title"><a style="color:#3A4454;" href="{% url 'post_detail' post.pk %}" target="_blank">{{ post.type_object}} · {% if post.square %} {{post.square|default_if_none:""}} м² ·{% endif %} {{post.land_area }} сот. · {{post.land_status}}</a></h5>
           <p class="min-card-adress">{{ post.adress}}</p>
+          {% if post.price %}
           <h4 class="price-main-card">{{ post.price }} ₽</h4>
+          {% else %}
+          <div><h4  class="price-main-card" style="float: left;">{{post.rent_price}} ₽</h4><h4 style="font-size: 16px;">/{{post.rent_period}}</h4></div>
+          {% endif %}
           <!--<p class="min-card-text">{{ post.body|slice:":100" }}...<a href="{% url 'post_detail' post.pk %}" target="_blank">Читать далее</a></p>!-->
         </div>
         {% if post.todaytime %}
             <div class="card-footer" style="background: white;"> 
-              <small class="text-muted"><i class="bi bi-clock-history"></i> Сегодня в {{post.created_at|time:"H:i"}} </small>
+              <small class="text-muted" style="color:#5143d6bd !important"><i class="bi bi-clock-history"></i> Сегодня в {{post.created_at|time:"H:i"}} </small>
             </div>
           {% else %}
             <div class="card-footer" style="background: white;"> 
@@ -94,8 +98,9 @@
   {% endfor %}
   
   </div>
-  <div style="margin: 0 auto;"><button type="button" id="loadMore" data-limit="6" data-total="{{total_data}}" class="btn btn-secondary btnload" style="margin: 0 auto;display: block;width: 200px;margin-top: 20px;">Показать еще</button></div>
-    <div class="main-text-title" style="margin-top:20px">Коттеджные поселки: <div style="float: right;"><a href="{% url 'village' %}" style="border-bottom: 1px dashed;    border-bottom: 1px dashed #5143d6;
+  <div style="max-width: 1000px;"><button type="button" id="loadMore" data-limit="6" data-total="{{total_data}}" class="btn btn-secondary btnload" style="margin: 0 auto;display: block;width: 200px;margin-top: 20px;">Показать еще</button></div>
+  
+  <div class="main-text-title" style="margin-top:20px">Коттеджные поселки: <div style="float: right;"><a href="{% url 'village' %}" style="border-bottom: 1px dashed;    border-bottom: 1px dashed #5143d6;
       color: #5143d6;">Посмотреть все <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
       <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
     </svg></a></div></div>
@@ -112,7 +117,38 @@
     </div>
       {% endfor %}
     </div>
-  </div>
+    <!--Подключение подписки-->
+    {% include 'static/subscribe.html' %}
+    <!--Подключение подписки-->
+
+<div class="main-text-title">Новости: <div style="float: right;"><a href="{% url 'news' %}" style="border-bottom: 1px dashed;    border-bottom: 1px dashed #5143d6;
+  color: #5143d6;">Посмотреть все <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
+</svg></a></div></div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="filteredProducts" style="max-width: 1000px;margin: 15px;" >
+ 
+    {% for new in news %}
+    <div style="position: relative;display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;" class="post-box-news">
+    <a href="{% url 'detail_news' new.slug %}"><img src="{{ new.img.url }}" class="img-fluid rounded" style="filter: brightness(50%);height:250px;" width="400" alt="{{news.title}} - zagorodoma.ru"></a>
+    <div class="news-views-main"><i class="fi-rr-eye" style="font-size: 12px;"></i> {{new.views}}</div>
+    <div class="news-title-main">
+        <span style="font-weight: bold;">{{new.title}}</span><br>
+        {% if new.todaytime %}
+        <span style="font-size: 10px;"><i class="bi bi-clock-history"></i> Сегодня в {{new.created_at|time:"H:i"}} </span>
+        {% else %}
+        <span style="font-size: 10px;">{{new.created_at}}</span>
+        {% endif %}
+    </div>
+    </div>
+    {% endfor %}
+</div>
+<!--Подключение блока о нас-->
+{% include 'static/about.html' %}
+<!--Подключение блока о нас-->
+</div>
 <script defer type="text/javascript">
 $(".dropdown dt a").on('click', function() {
   $(".dropdown dd ul").slideToggle('fast');
@@ -183,6 +219,11 @@ $(function(){
             $("#Land_area").show();
         } else {
             $("#Land_area").hide();
+        }
+        if ($("#square").is(":hidden")) {
+            $("#square").show();
+        } else {
+            $("#square").hide();
         }
         if ($("#floors").is(":hidden")) {
             $("#floors").show();

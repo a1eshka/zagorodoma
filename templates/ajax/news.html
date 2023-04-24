@@ -1,0 +1,18 @@
+{% load static %}
+{% for news in object_list %}
+    <div style="position: relative;display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;" class="post-box">
+    <a href="{% url 'detail_news' news.slug %}"><img src="{{ news.img.url }}" class="img-fluid rounded" style="filter: brightness(50%);height:250px;" width="400" alt="{{news.title}} - zagorodoma.ru"></a>
+    <div class="news-views-main"><i class="fi-rr-eye" style="font-size: 12px;"></i> {{news.views}}</div>
+    <div class="news-title-main">
+        <a href="{% url 'detail_news' news.slug %}" style="color: white;"><span style="font-weight: bold;">{{news.title}}</span><br>
+        {% if news.todaytime %}
+        <span style="font-size: 10px;"><i class="bi bi-clock-history"></i> Сегодня в {{news.created_at|time:"H:i"}} </span>
+        {% else %}
+        <span style="font-size: 10px;">{{news.created_at}}</span></a>
+        {% endif %}
+    </div>
+    </div>
+    {% endfor %}

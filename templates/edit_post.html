@@ -2,38 +2,215 @@
 
 {% block content %}
 {% if author.id == author.id %}
-<center>
-      <!-- Main content START -->
-      <div class="col-lg-6 vstack gap-4">
-        <!-- Setting Tab content START -->
-        <div class="tab-content py-0 mb-0">
-
-          <!-- Account setting tab START -->
-          <div class="tab-pane show active fade" id="nav-setting-tab-1">
-            <!-- Account settings START -->
-            <div class="card-profile mb-4" style="margin-top: 8px;box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a;">
-              
-              <!-- Title START -->
-              <div class="card-profile-header border-0 pb-0">
-                <h1 class="h5 card-title" style="font-weight: 700;">Изменить данные объявления</h1>
-                <p class="mb-0"></p>
-              </div>
-              <hr style="color:#e3e0e0;">
-              <!-- Card header START -->
-              <!-- Card body START -->
-            <div class="card-body">
-
-                <form method="post" enctype="multipart/form-data">
-                    {{form.as_p}}
-                    {% for all_images in get_post.all_images.all %}
-                    <img src="{{ all_images.image_data_link.url }}" class="rounded" style="width: 200px; height: 150px;"alt="продукт" >
-                    {% endfor %}  
-                    {% csrf_token %}
-                    <p style="text-align: center;margin-top: 30px;">
-                    <input type="submit" class="btn btn-success" value="Сохранить изминения"></p>
-                </form>
-
+{% if user.is_authenticated %}
+<div class="post-add-new-title"><h3 style="font-size: 20px;
+  margin-bottom: 0 !important;
+  margin-left: 10px;">Добавить объявление</h3></div>
+<form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      <div class="form-floating">
+      <!-- статус сделки-->
+      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="basic-info">
+        <h2 class="h4 mb-4"><i class="fi fi-rr-briefcase"></i> Информация о сделке</h2>
+        <div class="row">
+          <div class="col-sm-6 mb-3">
+            <label class="form-label" for="ap-category">Тип сделки <span class="text-danger">*</span></label>
+            <ul id="id_status" class="payment-methods" style="padding-left: 0rem;">
+            {% for radio in form.status %}
+            {{ radio.tag }}
+            <label for="{{ radio.id_for_label }}"> {{ radio.choice_label }} </label>
+            {% endfor %}
+            </ul>
+          </div>
+          <!-- статус сделки-->
+          <div class="col-sm-6 mb-3">
+            <label class="form-label" for="ap-type">Тип объекта <span class="text-danger">*</span></label>
+            <ul id="id_type_object" class="payment-methods" style="padding-left: 0rem;">
+            {% for radio in form.type_object %}
+            {{ radio.tag }}
+            <label for="{{ radio.id_for_label }}"> {{ radio.choice_label }} </label>
+            {% endfor %}
+            </ul>
             </div>
-</center>
+        </div>
+      </section>
+      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="adress-info">
+        <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+          <i class="fi fi-rr-marker"></i> Адрес</h2>
+        <div class="row">
+          <div class="form-floating col-sm-6 mb-3">
+            {{ form.adress }} 
+            <label for="id_adress" class="label-text-add-post">Адрес объекта</label>
+          </div>
+          <div class="form-floating col-sm-6 mb-3">
+            {{ form.district }} <!-- адрес-->
+            <label for="id_district" class="label-text-add-post">Район</label>
+          </div>
+        </div>
+      </section>
+      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="object-info">
+        <h2 class="h4 mb-4"><i class="fi fi-rr-list"></i>  Информация об объекте</h2>
+        <div class="row">
+
+          <div class="form-floating col-sm-6 mb-3">
+            {{ form.land_area }} <!-- площадь участка-->
+            <label for="id_land_area" class="label-text-add-post">Площадь участка, сот.</label>
+          </div>
+
+
+          <div class="form-floating col-sm-6 mb-3">
+            {{ form.land_status }} <!-- статус земли-->
+            <label for="id_land_status" class="label-text-add-post">Статус участка</label>
+          </div>
+
+          <div id="div_square" class="form-floating col-sm-6 mb-3">
+            {{ form.square }} <!-- площадь дома-->
+            <label for="id_square" class="label-text-add-post">Площадь дома, м²</label>
+          </div>
+
+          <div id="div_house_material" class="form-floating col-sm-6 mb-3">
+            {{ form.house_material }} <!-- материал дома-->
+            <label for="id_house_material" class="label-text-add-post">Материал дома</label>
+          </div>
+
+          <div id="div_year_of_construction" class="form-floating col-sm-6 mb-3">
+            {{ form.year_of_construction }} <!-- год постройки-->
+            <label for="id_year_of_construction" class="label-text-add-post">Год постройки</label>
+          </div>
+
+          <div id="div_floors" class="form-floating col-sm-6 mb-3">
+            {{ form.floors }} <!-- этажей в дома-->
+            <label for="id_floors" class="label-text-add-post">Кол-во этажей </label>
+          </div>
+
+          <div id="div_ceiling_height" class="form-floating ceiling_height col-sm-6 mb-3">
+            {{ form.ceiling_height }} <!-- высота потолков-->
+            <label for="id_ceiling_height" class="label-text-add-post">Высота потолков </label>
+          </div>
+
+          <div class="form-floating col-sm-6 mb-3">
+            {{ form.water }} <!-- водоснабжение-->
+            <label for="id_water" class="label-text-add-post">Водоснабжение</label>
+          </div>
+
+          <div class="form-floating col-sm-6 mb-3">
+            {{ form.heating }} <!-- какое отопление в доме--> 
+            <label for="id_heating" class="label-text-add-post">Отопление</label>
+          </div>
+          
+          <div class="col-sm-6 mb-3">
+            <label class="form-label" for="ap-type">Благоустройство <span class="text-danger">*</span></label>
+            {{ form.houseAdditional }} <!-- Благоустройство-->
+          </div>
+          <div class="col-sm-6 mb-3">
+            <label class="form-label" for="ap-type">Удобства <span class="text-danger">*</span></label>
+            {{ form.rent_amenities }} <!-- удобвства аренды-->
+          </div>
+        </div>
+      </section>
+      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="body-info">
+        <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+          <i class="fi fi-rr-comment-alt"></i> Описание</h2>
+        <div class="row">
+          <div class="col-sm-10 mb-3">
+            <label class="form-label" for="body-info">Описание <span class="text-danger">*</span></label>
+            {{ form.body }} <!-- описание-->      
+          </div>
+        </div>
+      </section>
+      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="photo-info">
+        <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+          <i class="fi fi-rr-picture"></i> Фотографии </h2>
+        <div class="row">
+          <div class="col-sm-3 mb-3" style="width:100%;">
+            <label class="form-label" for="photo-info">Фотографии <span class="text-danger">*</span>
+              <div class="alert alert-warning" role="alert" style="width: 800px;">
+                Для загрузки нескольких фотографий, их необходимо выделить при помощи ctrl!
+              </div>
+
+          </label>
+          <div class="example-1">
+            <div class="form-group">
+              <label class="label">
+                <i class="fi-rr-add-document"></i>
+                <span class="title">Добавить фотографии</span>
+                {{ form.all_images }}
+              </label>
+              {% for all_images in get_post.all_images.all %}
+                  <img src="{{ all_images.image_data_link.url }}" class="rounded" style="width: 200px; height: 150px;"alt="продукт" >
+                  {% endfor %}  
+            </div>
+            <div class="row">
+              <span class="photo-add" id="output"></span>
+          </div>
+          </div>       
+          </div>
+        </div>
+      </section>
+      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="price-info">
+        <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+          <i class="fi fi-rr-coins"></i> Цена</h2>
+        <div class="row">
+          <div id="div_id_price" class="form-floating col-sm-4 mb-3">
+            {{ form.price }}<!-- цена-->
+            <label for="id_price" class="label-text-add-post">Цена, руб.</label>
+          </div>
+          <div class="col-sm-3 mb-3">
+            <div class="form-check form-switch" > 
+              {{ form.urgent_sales }} <label class="form-check-label" for="flexSwitchCheckDefault">Срочная продажа <img src="/media/static/flash-sale.png" width="20" height="20"></label>
+            </div>        
+          </div>
+        </div>
+      </section>
+      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="rent-info">
+        <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+          <i class="fi fi-rr-coins"></i> Стоимость аренды</h2>
+        <div class="row">
+          <div id="div_id_rent_price" class="form-floating col-sm-4 mb-3">
+            {{ form.rent_price }} <!-- стоимость аренды-->
+            <label for="id_rent_price" class="label-text-add-post">Стоимость аренды, руб.</label>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <ul id="id_rent_period" class="payment-methods" style="padding-left: 0rem;">
+            {% for radio in form.rent_period %}
+            {{ radio.tag }}
+            <label for="{{ radio.id_for_label }}"> {{ radio.choice_label }} </label>
+            {% endfor %}
+            </ul>
+            </div>
+        </div>
+      </section>
+      <section class="card-add-post card-body border-0 shadow-sm p-4 mb-4" id="phone-info">
+        <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i> 
+          <i class="fi fi-rr-phone-call"></i> Телефон</h2>
+        <div class="row">
+          <div class="form-floating col-sm-4 mb-3">
+            {{ form.phone }}  <!-- номер продавца-->
+            <label for="id_phone" class="label-text-add-post">Мобильный телефон</label>
+            
+          </div>
+        </div>
+      </section>
+    </div>
+<input class="btn btn-success" style="margin: 0 auto;display: block;font-size: 19px;" type="submit" value="Разместить объявление" />
+</form>
+
+{% else %}
+<button type="button" class="btn btn-outline-secondary" onclick="window.location.href = '{% url 'login' %}';">Войти</button>
 {% endif %}
+{% endif %}
+<script>
+  if(document.getElementById('id_status_1').checked) {
+    $('#rent-info').show();
+    $('#price-info').hide();
+}else 
+if(document.getElementById('id_status_0').checked) {
+  $('#price-info').show();
+  $('#rent-info').hide();
+}
+
+
+</script>
 {% endblock content %}
+
