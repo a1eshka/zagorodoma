@@ -1,0 +1,45 @@
+<div class="main-blocks">
+    <div class="min-card-main-info">
+      <div class="min-card-main-text"><a style="color:#5e5d5d" href="{% url 'sales' %}"> Продажа</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+      </svg><img class="svg-img-main-min-icon" src="media/static/deal.png"></div>
+      <div class="min-card-all-sale"> Всего объявлений:
+      <b style="font-size: 15px;
+      color: #5e5d5d;
+      margin-left: 3px;">{{ sale_status_post }}</b>
+      </div>
+    </div>
+
+    <div class="min-card-main-info-rent">
+      <div class="min-card-main-text"><a style="color:#5e5d5d" href="{% url 'rent' %}"> Аренда</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+      </svg><img class="svg-img-main-min-icon" src="media/static/main-rentv2.png"></div>
+      <div class="min-card-all-sale"> Всего объявлений:
+      <b style="font-size: 15px;
+      color: #5e5d5d;
+      margin-left: 3px;">{{ rent_status_post }}</b>
+      </div>
+    </div>
+
+    <div class="min-card-main-info-cottage-postcards">
+      <div class="min-card-main-text"><a style="color:#5e5d5d" href="{% url 'village' %}">Коттеджные поселки</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+      </svg><img class="svg-img-main-min-icon" src="media/static/village.png"></div>
+      <div class="min-card-all-sale"> Всего поселков:
+      <b style="font-size: 15px;
+      color: #5e5d5d;
+      margin-left: 3px;">{{ col_village }}</b>
+      </div>
+    </div>
+
+    <div class="min-card-main-info-company">
+      <div class="min-card-main-text"><a style="color:#5e5d5d" href="{% url 'catalog' %}"> Строительные компании</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+      </svg><img class="svg-img-main-min-icon" src="media/static/business.png"></div>
+      <div class="min-card-all-sale"> Всего компаний:
+      <b style="font-size: 15px;
+      color: #5e5d5d;
+      margin-left: 3px;">{{ companies_post }}</b>
+      </div>
+    </div>
+</div>

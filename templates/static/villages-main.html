@@ -1,0 +1,18 @@
+  
+  <div class="main-text-title" style="margin-top:20px">Коттеджные поселки: <div style="float: right;"><a href="{% url 'village' %}" style="border-bottom: 1px dashed;    border-bottom: 1px dashed #5143d6;
+    color: #5143d6;">Посмотреть все <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
+  </svg></a></div></div>
+  <div class="slider multiple-items block-slider-cotvill" role="toolbar" style="margin-top: 30px;">
+    {% for village in villages %}
+    <div style="text-align: center;">
+      {%  if village.img %}
+      <a href="{% url 'village_detail' village.slug %}"><img src="{{ village.img.url }}" class="img-fluid rounded" style="margin-left: auto;margin-right: auto;" alt="{{village.title}} - zagorodoma.ru" width="124"></a>
+      {% else %}
+      <a href="{% url 'village_detail' village.slug %}"><img src="media/villages/default.png" class="img-fluid rounded" style="margin-left: auto;margin-right: auto;" alt="{{village.title}} - zagorodoma.ru" width="124"></a>
+      {% endif %}
+      <a href="{% url 'village_detail' village.slug %}" style="color:#3A4454"><div style="font-weight: bold;margin-top: 5px;">{{ village.title }}</div></a>
+    <a href="{% url 'village_detail' village.slug %}"style="color:#3A4454"></a><div>{{ village.adress }}</div></a>
+  </div>
+    {% endfor %}
+  </div>

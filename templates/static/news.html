@@ -1,0 +1,24 @@
+<div class="main-text-title">Новости: <div style="float: right;"><a href="{% url 'news' %}" style="border-bottom: 1px dashed;    border-bottom: 1px dashed #5143d6;
+    color: #5143d6;">Посмотреть все <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
+  </svg></a></div></div>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="filteredProducts" style="max-width: 1000px;margin: 15px;" >
+   
+      {% for new in news %}
+      <div style="position: relative;display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;" class="post-box-news">
+      <a href="{% url 'detail_news' new.slug %}"><img src="{{ new.img.url }}" class="img-fluid rounded" style="filter: brightness(50%);height:250px;border-radius: 1rem !important;" width="400" alt="{{new.title}} - zagorodoma.ru"></a>
+      <div class="news-views-main"><i class="fi-rr-eye" style="font-size: 12px;"></i> {{new.views}}</div>
+      <div class="news-title-main">
+          <span style="font-weight: bold;">{{new.title}}</span><br>
+          {% if new.todaytime %}
+          <span style="font-size: 10px;"><i class="bi bi-clock-history"></i> Сегодня в {{new.created_at|time:"H:i"}} </span>
+          {% else %}
+          <span style="font-size: 10px;">{{new.created_at}}</span>
+          {% endif %}
+      </div>
+      </div>
+      {% endfor %}
+  </div>

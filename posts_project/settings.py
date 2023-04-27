@@ -146,14 +146,15 @@ USE_TZ = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = env('EMAIL_HOST')
-EMAIL_PORT = env('EMAIL_PORT')
-EMAIL_USE_TLS = int(env('EMAIL_USE_TLS', default=1))
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = '465'
+EMAIL_USE_SSL = True
 
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'info@zagorodoma.ru'
+EMAIL_HOST_PASSWORD = 'XhMAJV36GGtpdTiH90hs'
 
 EMAIL_SERVER = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = 'ZAGORODOMA.RU <info@zagorodoma.ru>'
 EMAIL_ADMIN = ['admin@zagorodoma.ru']
 

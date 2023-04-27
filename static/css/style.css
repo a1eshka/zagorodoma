@@ -374,6 +374,14 @@ li {
   background-color: #83c3ff;
   padding: 50px;
 }
+.main-block-svg{
+  margin-left: 20px;
+    font-size: 18px;
+    max-width: 990px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #ffffff;
+}
 .reset-password-card{
   width: 100%;
     max-width: 900px;

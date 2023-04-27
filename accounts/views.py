@@ -17,7 +17,7 @@ from .models import Profile
 from .forms import UserEditForm, ProfileEditForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
-from django.views.generic import CreateView, View, TemplateView
+from django.views.generic import View, TemplateView
 from django.contrib import messages
 from posts.models import Post_sale
 from .forms import UserRegistrationForm
