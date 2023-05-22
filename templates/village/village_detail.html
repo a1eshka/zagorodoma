@@ -1,11 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}
-{{ post.status }} {{village.title}} - Zagorodoma.ru
-{% endblock %}
-{% block description %}
-{% endblock %}
-{% block keywords %}
-{% endblock %}
+{{ post.status }} {{village.title}} - Zagorodoma.ru {% endblock %}
+{% block description %} {{village.body}} - Zagorodoma.ru{% endblock %}
+{% block keywords %} {% endblock %}
 {% block content %}
 {% load mathfilters %}
 <style>#map {

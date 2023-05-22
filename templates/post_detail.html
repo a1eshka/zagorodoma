@@ -1,11 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}
-{{ post.status }} {{ post.type_object}}а, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}} по адресу: {{ post.adress }} - Zagorodoma.ru
-{% endblock %}
-{% block description %}
-{% endblock %}
-{% block keywords %}
-{% endblock %}
+{% block title %}{{ post.status }} {{ post.type_object}}а, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}} по адресу: {{ post.adress }} - Zagorodoma.ru {% endblock %}
+{% block description %}{{ post.status }} {{ post.type_object}}а, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}} по адресу: {{ post.adress }} - Zagorodoma.ru {% endblock %}
+{% block keywords %}Купить дом, дом в аренду, загородная недвижимость, сотка, участок, земельный участок, коттедж, коттеджный поселок, загородный дом с бассейном, загородный дом с сауной, купить, продать, в аренду{% endblock %}
 {% block content %}
 {% load mathfilters %}
 <style>#map {
@@ -57,7 +53,7 @@
     <div class="post-adress" id="post-adress">{{ post.adress }}</div>
     <div class="slider" style="max-width: 800px;">
       {% for all_images in post.all_images.all %}
-        <img src="{{ all_images.image_data_link.url }}" class="rounded"  alt="продукт" >
+        <img src="{{ all_images.image_data_link.url }}" class="rounded"  alt="{{ post.status }} {{ post.type_object}}а, {% if post.square %} {{post.square|default_if_none:""}} м² ,{% endif %} {{post.land_area }} сот., {{post.land_status}} по адресу: {{ post.adress }} - Zagorodoma.ru " >
       {% endfor %}     
     </div>
     <div id="body"> <div style="font-size: 18px;font-weight: bold;margin-bottom: 16px;">Описание</div>
@@ -197,6 +193,7 @@
   </div>
 
 </div>
+{% if post.author.id == user.id %}
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -214,6 +211,7 @@
     </div>
   </div>
 </div>
+{% endif %}
 <script type="text/javascript">
 
   $('.price-card').text((i, text) => {

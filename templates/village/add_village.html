@@ -124,11 +124,8 @@
         <input class="btn btn-success" style="margin: 0 auto;display: block;font-size: 19px;" type="submit" value="Разместить объявление" />
         </form>
       {% else %}
-<button type="button" class="btn btn-outline-secondary" onclick="window.location.href = '{% url 'login' %}';">Войти</button>
+<button type="button" class="btn btn-outline-secondary" onclick="window.location.href = '{% url 'login' %}'">Войти</button>
 {% endif %}
-<script>
-  
-</script>
 
 <script>
   $("#id_adress").suggestions({

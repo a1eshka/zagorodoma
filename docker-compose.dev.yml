@@ -20,9 +20,9 @@ services:
       - static:/app/static
       - media:/app/media
     depends_on:
-#      - postgres
+      - postgres
       - redis
-    command: sh -c "
+    command: sh -c "python manage.py collectstatic --no-input &&
                     python manage.py makemigrations &&
                     python manage.py migrate &&
                     python manage.py runserver 0.0.0.0:8000"
@@ -43,14 +43,17 @@ services:
     depends_on:
       - django
 
-#  postgres:
-#    image: postgres:alpine
-#    container_name: postgres
-#    restart: always
-#    env_file:
-#      - docker/env/.env.dev
-#    volumes:
-#      - pgdata:/var/lib/postgresql/data/
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    restart: always
+    env_file:
+      - docker/env/.env.dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_HOST: postgres
   
   redis:
     image: redis:alpine

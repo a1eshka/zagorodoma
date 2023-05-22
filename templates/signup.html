@@ -1,41 +1,48 @@
 {% extends 'base.html' %}
 {% block content %}
-{% if user_form.errors %}
-<p>
-  {{ user_form.errors }}
-</p>
-{% endif %}
 {% if request.user.is_authenticated %}
 <div class="info-registration">
   <h4 class="alert-heading">Вы уже авторизованы. Вы не можете посетить эту страницу.</h4>
 </div>
 {% else %}
+<!--{% if user_form.errors %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert" >
+  {% for field in user_form %}
+  {{ field.errors }}
+  {% endfor %}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}!-->
 <main class="form-signin">
-    <form method="post">
+    <form method="post" action="{% url 'signup' %}" class="needs-validation">
       {% csrf_token %}
       <img class="mb-4" src="/media/static/logo-v2.png" alt="zagorodoma.ru" width="220" height="100" style="display: block;
       margin: 0 auto;">
       <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
-  
+      <!--{{ field.errors }}!-->
       <div class="form-floating">
-        <input type="login" class="form-control" id="id_username" placeholder="Логин" name="username" required> 
-        <label for="floatingInput" class="label-text-add-post">Логин</label>
+        <input type="text" class="form-control" id="id_username" placeholder="Логин" name="username" value="{{user_form.username.value|default_if_none:""}}" required> 
+        <label for="id_username" class="label-text-add-post">Логин</label>
+        <div class="error-reg">{{ user_form.errors.username }}</div>
       </div>
       <div class="form-floating">
-        <input type="login" class="form-control" id="id_first_name" placeholder="Имя" name="first_name" required> 
-        <label for="floatingInput" class="label-text-add-post">Имя</label>
+        <input type="text" class="form-control" id="id_first_name" placeholder="Имя" name="first_name" value="{{user_form.first_name.value|default_if_none:""}}" required> 
+        <label for="id_first_name" class="label-text-add-post">Имя</label>
       </div>
       <div class="form-floating">
-        <input type="login" class="form-control" id="id_email" placeholder="email@mail.ru" name="email" required> 
-        <label for="floatingInput" class="label-text-add-post">Почта</label>
+        <input type="email" class="form-control" id="id_email" placeholder="email@mail.ru" name="email" value="{{user_form.email.value|default_if_none:""}}" required> 
+        <label for="id_email" class="label-text-add-post">Почта</label>
+        <div class="error-reg">{{ user_form.errors.email }}</div>
       </div>
       <div class="form-floating">
         <input type="password" class="form-control" id="id_password1" placeholder="Пароль" name="password" required>
-        <label for="floatingPassword" class="label-text-add-post">Пароль</label>
+        <label for="id_password1" class="label-text-add-post">Пароль</label>
+        <div class="error-reg">{{ user_form.errors.password1 }}</div>
       </div>
-      <div class="form-floating">
+      <div class="form-floating" style="margin-top: -5px;">
         <input type="password" class="form-control" id="id_password2" placeholder="Пароль" name="password2" required>
-        <label for="floatingPassword" class="label-text-add-post">Подтверждение пароля</label>
+        <label for="id_password2" class="label-text-add-post">Подтверждение пароля</label>
+        <div class="error-reg">{{ user_form.errors.password2 }}</div>
       </div>
       <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
       <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Войти</a>
@@ -43,4 +50,25 @@
     </form>
   </main>
   {% endif %}
+  <script>
+    (function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+  </script>
 {% endblock content %}

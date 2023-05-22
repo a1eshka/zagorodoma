@@ -11,6 +11,10 @@ sitemaps = {
     'News': NewsSitemap
 }
 
+handler403 = 'posts.views.tr_handler403'
+handler404 = 'posts.views.tr_handler404'
+handler500 = 'posts.views.tr_handler500'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),

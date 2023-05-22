@@ -382,6 +382,10 @@ li {
     border-radius: 10px;
     background: #ffffff;
 }
+.main-offer-block{
+  float: right;
+  margin-right: 20px;
+}
 .reset-password-card{
   width: 100%;
     max-width: 900px;
@@ -513,6 +517,12 @@ li {
   margin: 10px;
   max-width: 800px;
   box-shadow: 0 10px 20px #0000000a, 0 2px 6px #0000000a, 0 0 1px #0000000a !important;
+}
+.error-reg{
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: .875em;
+  color: #dc3545;
 }
 .main-text-title{
   margin-left: 20px;
@@ -1110,7 +1120,16 @@ footer .links a {
   margin-left: 10px;
   color: gray;
 }
-
+.main-block-svg-div{
+  margin-left: 20px;
+}
+.error-page{
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px;
+  text-align: center;
+}
 @media (max-width: 768px) {
   .main-blocks{
       max-width: 100%;
@@ -1326,8 +1345,21 @@ footer .links a {
 .payment-methods label {
   margin-top: 5px;
 }
-
-
-
+.main-offer-block{
+  float: none;
+  margin-right: 20px;
+}
+.main-arrow-block{
+  display: none;
+}
+.main-block-svg {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.main-block-svg-div{
+  margin: 0 auto;
+  width: 200px;
+  margin-left: none;
+}
 
   }

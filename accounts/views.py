@@ -31,7 +31,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
 from posts_project.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER
 from django.contrib.auth.views import PasswordChangeView
-
+from .services.tasks import send_activate_email_message_task
 
 @ login_required
 def favourite_list(request):
@@ -65,7 +65,7 @@ class SignUpView( generic.CreateView):
     template_name = 'signup.html'
     context_object_name = 'all_posts_list'
     
-def register(request):
+def register(request, *args, **kwargs):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
@@ -80,29 +80,11 @@ def register(request):
             password = user_form.cleaned_data.get('password')
             username = user_form.cleaned_data.get('username')
             messages.success(request, f'Поздравляем! Ваш аккаунт: {username} успешно зарегистрирован! Теперь его необходимо подтвердить. Письмо отправлено Вам на почту.')
-            token = default_token_generator.make_token(new_user)
-            uid = urlsafe_base64_encode(force_bytes(new_user.pk))
-            activation_url = reverse_lazy('confirm_email', kwargs={'uidb64': uid, 'token': token})
-            current_site = '127.0.0.1:8000'
-            html = '''Пожалуйста, перейдите по следующей ссылке, чтобы подтвердить свой адрес электронной почты: http://{}{}'''.format(current_site, activation_url)
-            email_from = EMAIL_HOST_USER
-            password = EMAIL_HOST_PASSWORD
-            email_to = new_user.email
-            email_message = MIMEMultipart()
-            email_message['From'] = DEFAULT_FROM_EMAIL
-            email_message['To'] = email_to
-            email_message['Subject'] = f'Подтверждение электронного адреса.'
-# Attach the html doc defined earlier, as a MIMEText html content type to the MIME message
-            email_message.attach(MIMEText(html, "html"))
-            email_string = email_message.as_string()
-            context = ssl.create_default_context()
-            with smtplib.SMTP_SSL("smtp.mail.ru", 465, context=context) as server:
-                server.login(email_from, password)
-                server.sendmail(email_from, email_to, email_string)
+            send_activate_email_message_task.delay(new_user.id)
             return redirect('/')
     else:
         user_form = UserRegistrationForm()
-    return render(request, 'signup.html', {'user_form': user_form})
+    return render(request, 'signup.html', {'user_form': user_form})    
 
 class UserConfirmEmailView(View):
     def get(self, request, uidb64, token):

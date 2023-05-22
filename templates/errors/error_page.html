@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="error-page">
+        <img src="/media/static/undraw_cancel_re_pkdm.svg" width="200"><br>
+        {{ error_message }} | <a href="{% url 'home' %}"><strong>Вернуться на главную</strong></a>
+    </div>
+{% endblock content %}

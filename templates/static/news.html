@@ -9,7 +9,8 @@
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-between;" class="post-box-news">
-      <a href="{% url 'detail_news' new.slug %}"><img src="{{ new.img.url }}" class="img-fluid rounded" style="filter: brightness(50%);height:250px;border-radius: 1rem !important;" width="400" alt="{{new.title}} - zagorodoma.ru"></a>
+      <a href="{% url 'detail_news' new.slug %}">
+        <img src="{{ new.img.url }}" class="img-fluid rounded" style="filter: brightness(50%);height:250px;border-radius: 1rem !important;" width="400" alt="{{new.title}} - zagorodoma.ru"></a>
       <div class="news-views-main"><i class="fi-rr-eye" style="font-size: 12px;"></i> {{new.views}}</div>
       <div class="news-title-main">
           <span style="font-weight: bold;">{{new.title}}</span><br>

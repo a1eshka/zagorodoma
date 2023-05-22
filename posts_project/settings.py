@@ -17,7 +17,7 @@ import environ
 
 env = environ.Env()
 
-environ.Env.read_env(env_file=Path('./docker/env/.env.dev'))
+environ.Env.read_env(env_file=Path('./docker/env/.env.prod'))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -29,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(env('DEBUG', default=1))
+DEBUG = True
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split()
 CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS').split()
@@ -37,7 +37,7 @@ CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS').split()
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': env('REDIS_LOCATION'),
+        'LOCATION': 'redis://localhost:6379',
     }
 }
 CELERY_BROKER_URL = env('CELERY_BROKER_URL')
@@ -101,13 +101,17 @@ WSGI_APPLICATION = 'posts_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('POSTGRES_DB'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('POSTGRES_HOST'),
+        'PORT': env('POSTGRES_PORT'),
     }
 }
+
 
 
 # Password validation
@@ -140,7 +144,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Email settings
 
@@ -150,8 +154,8 @@ EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = '465'
 EMAIL_USE_SSL = True
 
-EMAIL_HOST_USER = 'info@zagorodoma.ru'
-EMAIL_HOST_PASSWORD = 'XhMAJV36GGtpdTiH90hs'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 EMAIL_SERVER = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -163,6 +167,7 @@ EMAIL_ADMIN = ['admin@zagorodoma.ru']
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
